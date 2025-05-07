@@ -1,73 +1,104 @@
-# Welcome to your Lovable project
 
-## Project info
+# Cura Agent - Medical Dashboard
 
-**URL**: https://lovable.dev/projects/53cd302f-2315-4940-9a77-f86cbbe956f0
+## Project Overview
 
-## How can I edit this code?
+Cura Agent is a modern medical dashboard application designed for healthcare professionals. Built with React and Tailwind CSS, it provides a comprehensive interface for doctors to manage their professional responsibilities.
 
-There are several ways of editing your application.
+**Live Demo**: [https://mahros-alqabasy.github.io/cura-agent/](https://mahros-alqabasy.github.io/cura-agent/)
 
-**Use Lovable**
+## Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/53cd302f-2315-4940-9a77-f86cbbe956f0) and start prompting.
+- **Authentication System**: Secure login and registration with JWT token management
+- **Doctor Dashboard**: Overview of appointments, patient activity, and tasks
+- **AI Assistant**: Text-based interaction with an intelligent medical assistant
+- **Responsive Design**: Works seamlessly across desktop and mobile devices
+- **Protected Routes**: Secure access to authorized areas only
+- **Professional UI**: Clean, modern interface designed specifically for healthcare contexts
 
-Changes made via Lovable will be committed automatically to this repo.
+## Technology Stack
 
-**Use your preferred IDE**
+- **Frontend Framework**: React with TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: ShadCN UI
+- **Routing**: React Router v6
+- **State Management**: React Context API
+- **API Communication**: Axios
+- **Data Management**: TanStack Query (React Query)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Getting Started
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Prerequisites
 
-Follow these steps:
+- Node.js (v16+)
+- NPM or Yarn package manager
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Installation
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+1. Clone the repository:
+   ```
+   git clone https://github.com/mahros-alqabasy/cura-agent.git
+   cd cura-agent
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+2. Install dependencies:
+   ```
+   npm install
+   ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+3. Start the development server:
+   ```
+   npm run dev
+   ```
+
+4. Open [http://localhost:8080](http://localhost:8080) to view it in your browser.
+
+## Project Structure
+
+```
+cura-agent/
+├── public/
+├── src/
+│   ├── components/        # Reusable UI components
+│   │   ├── layouts/       # Layout components
+│   │   └── ui/            # Basic UI elements from ShadCN
+│   ├── contexts/          # React contexts for state management
+│   ├── hooks/             # Custom React hooks
+│   ├── lib/               # Utility functions and constants
+│   ├── pages/             # Page components
+│   ├── services/          # API service layer
+│   ├── App.tsx            # Main application component with routing
+│   └── main.tsx           # Application entry point
+├── tailwind.config.ts     # Tailwind CSS configuration
+└── README.md
 ```
 
-**Edit a file directly in GitHub**
+## Backend Integration
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+The application connects to a Django REST API backend hosted at `https://gu-his.up.railway.app/`. The API provides endpoints for:
 
-**Use GitHub Codespaces**
+- Authentication (login, registration, token refresh)
+- Chat interactions with the AI assistant
+- (Additional endpoints for future features)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Deployment
 
-## What technologies are used for this project?
+This project is configured for deployment to GitHub Pages. The router uses a basename of `/cura-agent/` to ensure correct path resolution.
 
-This project is built with:
+```
+npm run build
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## License
 
-## How can I deploy this project?
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-Simply open [Lovable](https://lovable.dev/projects/53cd302f-2315-4940-9a77-f86cbbe956f0) and click on Share -> Publish.
+## Authors
 
-## Can I connect a custom domain to my Lovable project?
+- **Mahros AL-Qabasy** - *Project Lead & Developer*
 
-Yes, you can!
+## Acknowledgments
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- Design inspiration from modern healthcare applications
+- ShadCN UI for the component library
+- TanStack Query for efficient API data management
