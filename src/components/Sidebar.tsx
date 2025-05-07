@@ -8,8 +8,8 @@ import {
   Calendar,
   Users,
   FileText,
-  Flask,
-  Pill,
+  Beaker,
+  PillIcon,
   Bot,
   Settings,
   HelpCircle,
@@ -27,8 +27,8 @@ const Sidebar = () => {
     { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
     { name: 'Patients', path: '/patients', icon: <Users className="h-5 w-5" /> },
     { name: 'Medical Records', path: '/medical-records', icon: <FileText className="h-5 w-5" /> },
-    { name: 'Lab Results', path: '/lab-results', icon: <Flask className="h-5 w-5" /> },
-    { name: 'Prescriptions', path: '/prescriptions', icon: <Pill className="h-5 w-5" /> },
+    { name: 'Lab Results', path: '/lab-results', icon: <Beaker className="h-5 w-5" /> },
+    { name: 'Prescriptions', path: '/prescriptions', icon: <PillIcon className="h-5 w-5" /> },
     { name: 'AI Assistant', path: '/ai-assistant', icon: <Bot className="h-5 w-5" /> },
   ];
 
