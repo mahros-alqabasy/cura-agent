@@ -1,6 +1,5 @@
 
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAuth } from '@/contexts/AuthContext';
@@ -11,7 +10,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { EyeIcon, EyeOffIcon, InfoIcon } from 'lucide-react';
 import AppIcon from '@/components/AppIcon';
 
 const Login = () => {
@@ -23,6 +22,15 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const isDev = import.meta.env.DEV;
+
+  // Prefill credentials based on selected role in development
+  useEffect(() => {
+    if (isDev && role) {
+      setEmail(`${role}@example.com`);
+      setPassword('password123');
+    }
+  }, [role, isDev]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,7 +50,7 @@ const Login = () => {
       setLoading(true);
       await login(email, password);
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to sign in. Please check your credentials.');
+      setError(err.response?.data?.message || err.message || 'Failed to sign in. Please check your credentials.');
     } finally {
       setLoading(false);
     }
@@ -53,7 +61,6 @@ const Login = () => {
       <div className="max-w-md w-full space-y-8">
         <div className="flex justify-center">
           <div className="cura-logo text-white text-2xl font-bold w-12 h-12 flex items-center justify-center">
-
             <AppIcon/>
           </div>
         </div>
@@ -75,6 +82,15 @@ const Login = () => {
               {error && (
                 <Alert variant="destructive" className="mb-4">
                   <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+              
+              {isDev && (
+                <Alert className="bg-blue-50 border-blue-200 mb-4">
+                  <InfoIcon className="h-4 w-4 text-blue-500 mr-2" />
+                  <AlertDescription className="text-blue-800">
+                    Development mode: Select a role to use demo credentials
+                  </AlertDescription>
                 </Alert>
               )}
 

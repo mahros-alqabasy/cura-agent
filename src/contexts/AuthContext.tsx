@@ -2,7 +2,11 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/api';
+import { mockAuthService } from '../services/mockAuthService';
 import { toast } from '@/components/ui/sonner';
+
+// Use mock service in development, real service in production
+const authProvider = import.meta.env.PROD ? authService : mockAuthService;
 
 interface User {
   id: string;
@@ -41,10 +45,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       
       try {
         // Validate token
-        await authService.verifyToken(token);
+        await authProvider.verifyToken(token);
         
         // Get current user info
-        const userData = await authService.getCurrentUser();
+        const userData = await authProvider.getCurrentUser();
         setUser(userData);
         setIsAuthenticated(true);
       } catch (error) {
@@ -63,10 +67,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string, password: string) => {
     try {
       setLoading(true);
-      const response = await authService.login(email, password);
+      const response = await authProvider.login(email, password);
       
       // Get user data after successful login
-      const userData = await authService.getCurrentUser();
+      const userData = await authProvider.getCurrentUser();
       setUser(userData);
       setIsAuthenticated(true);
       
@@ -74,7 +78,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       navigate('/dashboard');
     } catch (error: any) {
       console.error('Login error:', error);
-      toast.error(error.response?.data?.message || 'Login failed. Please check your credentials.');
+      toast.error(error.response?.data?.message || error.message || 'Login failed. Please check your credentials.');
       throw error;
     } finally {
       setLoading(false);
@@ -84,12 +88,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const register = async (userData: any) => {
     try {
       setLoading(true);
-      await authService.register(userData);
+      await authProvider.register(userData);
       toast.success('Registration successful! Please sign in.');
       navigate('/login');
     } catch (error: any) {
       console.error('Registration error:', error);
-      toast.error(error.response?.data?.message || 'Registration failed. Please try again.');
+      toast.error(error.response?.data?.message || error.message || 'Registration failed. Please try again.');
       throw error;
     } finally {
       setLoading(false);
@@ -99,7 +103,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = async () => {
     try {
       setLoading(true);
-      await authService.logout();
+      await authProvider.logout();
       setUser(null);
       setIsAuthenticated(false);
       toast.success('Signed out successfully');
