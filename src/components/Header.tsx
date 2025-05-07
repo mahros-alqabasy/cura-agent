@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Bell, Settings } from 'lucide-react';
@@ -31,14 +30,14 @@ const Header = () => {
     {
       id: '1',
       title: 'New lab results',
-      message: 'Lab results for Sarah Johnson have arrived',
+      message: 'Lab results for John Smith have arrived',
       time: '10 min ago',
       read: false,
     },
     {
       id: '2',
       title: 'Appointment reminder',
-      message: 'You have a meeting with Dr. Chen in 30 minutes',
+      message: 'You have a meeting with Dr. Anderson in 30 minutes',
       time: '30 min ago',
       read: false,
     }
