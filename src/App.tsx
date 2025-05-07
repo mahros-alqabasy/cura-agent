@@ -23,7 +23,7 @@ const queryClient = new QueryClient();
 
 const App = () => {
   // GitHub Pages basename configuration
-  const basename = import.meta.env.MODE === 'production' ? "/cura-agent" : "";
+  const basename = import.meta.env.MODE === 'production' ? "/cura-agent/" : "";
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -37,10 +37,10 @@ const App = () => {
               <Route path="/" element={<Landing />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              
+
               {/* Protected routes using MainLayout */}
-              <Route 
-                path="/" 
+              <Route
+                path="/"
                 element={
                   <ProtectedRoute>
                     <MainLayout />
@@ -59,13 +59,13 @@ const App = () => {
                 <Route path="/help" element={<div className="p-6">Help Page (Coming Soon)</div>} />
                 <Route path="/profile" element={<div className="p-6">Profile Page (Coming Soon)</div>} />
               </Route>
-              
+
               {/* Index route for redirection logic */}
               <Route path="/index" element={<Index />} />
-              
+
               {/* Redirect /home to / */}
               <Route path="/home" element={<Navigate to="/" replace />} />
-              
+
               {/* 404 route */}
               <Route path="*" element={<NotFound />} />
             </Routes>

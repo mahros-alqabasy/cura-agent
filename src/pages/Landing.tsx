@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Bot } from 'lucide-react';
 
+import AppIcon from '@/components/AppIcon';
 const Landing = () => {
   return (
     <div className="min-h-screen flex flex-col">
@@ -11,7 +12,7 @@ const Landing = () => {
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center">
             <div className="cura-logo text-white text-lg font-bold mr-2">
-              <span>CA</span>
+              <AppIcon />
             </div>
             <span className="text-xl font-semibold">Cura Agent</span>
           </div>
@@ -57,7 +58,7 @@ const Landing = () => {
               <div className="mt-8 flex items-center">
                 <div className="flex -space-x-2 mr-4">
                   <img className="w-8 h-8 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" />
-                  <img className="w-8 h-8 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" />
+                  <img className="w-8 h-8 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/44.jpg" alt="User" />
                   <img className="w-8 h-8 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/91.jpg" alt="User" />
                 </div>
                 <div className="text-sm">
@@ -68,7 +69,7 @@ const Landing = () => {
             </div>
             <div className="hidden md:block">
               <img
-                src="public/lovable-uploads/4bd34475-5b10-4931-b67d-055fc45cfb0c.png"
+                src="/lovable-uploads/4bd34475-5b10-4931-b67d-055fc45cfb0c.png"
                 alt="Cura Agent Dashboard"
                 className="rounded-lg shadow-xl"
               />
@@ -82,7 +83,7 @@ const Landing = () => {
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold text-center mb-12">Intelligent Healthcare Management</h2>
           <p className="text-center text-gray-600 mb-16 max-w-3xl mx-auto">Streamline your operations with our comprehensive suite of AI-powered tools and features</p>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="border rounded-lg p-6 text-center hover:shadow-md transition-shadow">
               <div className="w-16 h-16 bg-primary-50 rounded-lg flex items-center justify-center mx-auto mb-4">
@@ -91,7 +92,7 @@ const Landing = () => {
               <h3 className="text-xl font-semibold mb-3">AI Assistant</h3>
               <p className="text-gray-600">24/7 intelligent support for all healthcare professionals. Automate routine tasks and get instant insights.</p>
             </div>
-            
+
             <div className="border rounded-lg p-6 text-center hover:shadow-md transition-shadow">
               <div className="w-16 h-16 bg-primary-50 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -101,7 +102,7 @@ const Landing = () => {
               <h3 className="text-xl font-semibold mb-3">Smart Analytics</h3>
               <p className="text-gray-600">Real-time insights and predictive analytics to improve patient care and operational efficiency.</p>
             </div>
-            
+
             <div className="border rounded-lg p-6 text-center hover:shadow-md transition-shadow">
               <div className="w-16 h-16 bg-primary-50 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -125,7 +126,7 @@ const Landing = () => {
               <p className="text-gray-700 mb-6 leading-relaxed">
                 Experience the power of AI in healthcare. Our intelligent assistant helps you manage appointments, access patient records, and make informed decisions - all through natural conversation.
               </p>
-              
+
               <div className="space-y-4">
                 <div className="flex items-center">
                   <svg className="w-5 h-5 text-primary mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -149,7 +150,7 @@ const Landing = () => {
             </div>
             <div>
               <img
-                src="public/lovable-uploads/ed714da9-8a46-465a-b959-38edef80c14f.png"
+                src="/lovable-uploads/ed714da9-8a46-465a-b959-38edef80c14f.png"
                 alt="AI Assistant Interface"
                 className="rounded-lg shadow-xl"
               />
@@ -165,11 +166,11 @@ const Landing = () => {
           <div className="text-center mb-12">
             <p className="text-gray-600">See what healthcare professionals say about Cura Agent</p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-gray-50 p-6 rounded-lg">
               <div className="flex items-center mb-4">
-                <img className="w-12 h-12 rounded-full mr-4" src="https://randomuser.me/api/portraits/women/32.jpg" alt="Dr. Emily Clark" />
+                <img className="w-12 h-12 rounded-full mr-4" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. Emily Clark" />
                 <div>
                   <h4 className="font-semibold">Dr. Emily Clark</h4>
                   <p className="text-sm text-gray-500">Cardiologist</p>
@@ -179,7 +180,7 @@ const Landing = () => {
                 "Cura Agent has revolutionized how I manage patient care. The AI assistant saves me hours every week by automating routine tasks."
               </p>
             </div>
-            
+
             <div className="bg-gray-50 p-6 rounded-lg">
               <div className="flex items-center mb-4">
                 <img className="w-12 h-12 rounded-full mr-4" src="https://randomuser.me/api/portraits/men/54.jpg" alt="Dr. Marcus Johnson" />
@@ -192,10 +193,10 @@ const Landing = () => {
                 "The analytics and reporting features have given us unprecedented insights into our hospital operations and helped us improve patient outcomes."
               </p>
             </div>
-            
+
             <div className="bg-gray-50 p-6 rounded-lg">
               <div className="flex items-center mb-4">
-                <img className="w-12 h-12 rounded-full mr-4" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Sarah Thompson" />
+                <img className="w-12 h-12 rounded-full mr-4" src="https://randomuser.me/api/portraits/men/68.jpg" alt="Sarah Thompson" />
                 <div>
                   <h4 className="font-semibold">Sarah Thompson</h4>
                   <p className="text-sm text-gray-500">Hospital Administrator</p>
@@ -206,7 +207,7 @@ const Landing = () => {
               </p>
             </div>
           </div>
-          
+
           <div className="text-center mt-12">
             <Button variant="outline" size="lg">
               Read More Success Stories
@@ -237,7 +238,7 @@ const Landing = () => {
             <div>
               <div className="flex items-center mb-4">
                 <div className="cura-logo text-white text-lg font-bold mr-2">
-                  <span>CA</span>
+                  <AppIcon />
                 </div>
                 <span className="text-xl font-semibold">Cura Agent</span>
               </div>
@@ -254,7 +255,7 @@ const Landing = () => {
                 <a href="#" className="text-gray-400 hover:text-gray-500">
                   <span className="sr-only">LinkedIn</span>
                   <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                   </svg>
                 </a>
                 <a href="#" className="text-gray-400 hover:text-gray-500">

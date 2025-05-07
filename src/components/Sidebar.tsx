@@ -1,8 +1,9 @@
-
+import AppIcon from '@/components/AppIcon'
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
+
 import {
   LayoutDashboard,
   Calendar,
@@ -52,7 +53,7 @@ const Sidebar = () => {
       )}>
         <NavLink to="/dashboard" className="flex items-center">
           <div className="cura-logo text-white text-lg font-bold">
-            <span>CA</span>
+            <AppIcon />
           </div>
           {expanded && (
             <span className="ml-2 text-lg font-semibold">Cura Agent</span>
@@ -133,7 +134,7 @@ const Sidebar = () => {
             </li>
           ))}
         </ul>
-        
+
         <div className="px-2 mt-6 space-y-1">
           <NavLink
             to="/settings"
@@ -148,7 +149,7 @@ const Sidebar = () => {
             <Settings className="h-5 w-5" />
             {expanded && <span className="ml-3">Settings</span>}
           </NavLink>
-          
+
           <NavLink
             to="/help"
             className={({ isActive }) =>

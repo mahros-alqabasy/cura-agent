@@ -1,6 +1,8 @@
 
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +12,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import AppIcon from '@/components/AppIcon';
 
 const Login = () => {
   const { login } = useAuth();
@@ -24,17 +27,17 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-    
+
     if (!email || !password) {
       setError('Email and password are required');
       return;
     }
-    
+
     if (!role) {
       setError('Please select your role');
       return;
     }
-    
+
     try {
       setLoading(true);
       await login(email, password);
@@ -50,15 +53,16 @@ const Login = () => {
       <div className="max-w-md w-full space-y-8">
         <div className="flex justify-center">
           <div className="cura-logo text-white text-2xl font-bold w-12 h-12 flex items-center justify-center">
-            <span>CA</span>
+
+            <AppIcon/>
           </div>
         </div>
-        
+
         <div className="text-center">
           <h1 className="text-3xl font-bold">Welcome to Cura Agent</h1>
           <p className="text-gray-500 mt-2">Sign in to access your dashboard</p>
         </div>
-        
+
         <Card className="w-full">
           <CardHeader>
             <CardTitle>Sign In</CardTitle>
@@ -73,7 +77,7 @@ const Login = () => {
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
-              
+
               <div className="space-y-2">
                 <Label htmlFor="role">I am a</Label>
                 <Select value={role} onValueChange={setRole} required>
@@ -88,7 +92,7 @@ const Login = () => {
                   </SelectContent>
                 </Select>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
                 <Input
@@ -101,7 +105,7 @@ const Login = () => {
                   autoComplete="email"
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
@@ -138,7 +142,7 @@ const Login = () => {
                   </Button>
                 </div>
               </div>
-              
+
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="remember"
@@ -153,7 +157,7 @@ const Login = () => {
                 </label>
               </div>
             </CardContent>
-            
+
             <CardFooter className="flex flex-col space-y-4">
               <Button
                 type="submit"
@@ -162,7 +166,7 @@ const Login = () => {
               >
                 {loading ? "Signing in..." : "Sign In"}
               </Button>
-              
+
               <div className="text-center">
                 <span className="text-sm text-gray-500">
                   Don't have an account?{" "}
@@ -174,7 +178,7 @@ const Login = () => {
             </CardFooter>
           </form>
         </Card>
-        
+
         <div className="text-center">
           <Button
             variant="link"

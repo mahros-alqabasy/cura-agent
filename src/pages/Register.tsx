@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
+import AppIcon from '@/components/AppIcon';
 
 const Register = () => {
   const { register } = useAuth();
@@ -46,23 +48,23 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-    
+
     // Basic validation
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
       setError('Please fill in all required fields');
       return;
     }
-    
+
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-    
+
     if (!formData.agreeToTerms) {
       setError('You must agree to the Terms of Service and Privacy Policy');
       return;
     }
-    
+
     try {
       setLoading(true);
       await register({
@@ -88,15 +90,16 @@ const Register = () => {
       <div className="max-w-lg w-full space-y-8">
         <div className="flex justify-center">
           <div className="cura-logo text-white text-2xl font-bold w-12 h-12 flex items-center justify-center">
-            <span>CA</span>
+
+            <AppIcon />
           </div>
         </div>
-        
+
         <div className="text-center">
           <h1 className="text-3xl font-bold">Create Your Account</h1>
           <p className="text-gray-500 mt-2">Join Cura Agent for better healthcare management</p>
         </div>
-        
+
         <Card className="w-full">
           <CardHeader>
             <CardTitle>Register</CardTitle>
@@ -111,7 +114,7 @@ const Register = () => {
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">First Name</Label>
@@ -123,7 +126,7 @@ const Register = () => {
                     required
                   />
                 </div>
-                
+
                 <div className="space-y-2">
                   <Label htmlFor="lastName">Last Name</Label>
                   <Input
@@ -135,7 +138,7 @@ const Register = () => {
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
                 <Input
@@ -148,7 +151,7 @@ const Register = () => {
                   autoComplete="email"
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="phoneNumber">Phone Number</Label>
                 <Input
@@ -160,7 +163,7 @@ const Register = () => {
                   autoComplete="tel"
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
@@ -192,7 +195,7 @@ const Register = () => {
                   </Button>
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">Confirm Password</Label>
                 <div className="relative">
@@ -224,7 +227,7 @@ const Register = () => {
                   </Button>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="dateOfBirth">Date of Birth</Label>
@@ -236,7 +239,7 @@ const Register = () => {
                     onChange={handleChange}
                   />
                 </div>
-                
+
                 <div className="space-y-2">
                   <Label htmlFor="gender">Gender</Label>
                   <Select value={formData.gender} onValueChange={(value) => handleSelectChange('gender', value)}>
@@ -252,7 +255,7 @@ const Register = () => {
                   </Select>
                 </div>
               </div>
-              
+
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="agreeToTerms"
@@ -270,7 +273,7 @@ const Register = () => {
                 </label>
               </div>
             </CardContent>
-            
+
             <CardFooter className="flex flex-col space-y-4">
               <Button
                 type="submit"
@@ -279,7 +282,7 @@ const Register = () => {
               >
                 {loading ? "Creating Account..." : "Create Account"}
               </Button>
-              
+
               <div className="text-center">
                 <span className="text-sm text-gray-500">
                   Already have an account?{" "}
@@ -291,7 +294,7 @@ const Register = () => {
             </CardFooter>
           </form>
         </Card>
-        
+
         <div className="text-center">
           <div className="flex justify-center items-center">
             <svg
