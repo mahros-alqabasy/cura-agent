@@ -13,6 +13,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
+import Index from "./pages/Index";
 
 // Protected pages
 import Dashboard from "./pages/Dashboard";
@@ -22,7 +23,7 @@ const queryClient = new QueryClient();
 
 const App = () => {
   // GitHub Pages basename configuration
-  const basename = "/cura-agent";
+  const basename = import.meta.env.MODE === 'production' ? "/cura-agent" : "";
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -58,6 +59,9 @@ const App = () => {
                 <Route path="/help" element={<div className="p-6">Help Page (Coming Soon)</div>} />
                 <Route path="/profile" element={<div className="p-6">Profile Page (Coming Soon)</div>} />
               </Route>
+              
+              {/* Index route for redirection logic */}
+              <Route path="/index" element={<Index />} />
               
               {/* Redirect /home to / */}
               <Route path="/home" element={<Navigate to="/" replace />} />
