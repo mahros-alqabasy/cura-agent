@@ -107,6 +107,7 @@ const Login = () => {
                     <SelectItem value="nurse">Nurse</SelectItem>
                     <SelectItem value="admin">Administrator</SelectItem>
                     <SelectItem value="receptionist">Receptionist</SelectItem>
+                    <SelectItem value="patient">Patient</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
