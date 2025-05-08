@@ -53,7 +53,7 @@ const Landing = () => {
                   <Link to="/register">Get Started</Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <Link to="/ai-assistant">Try LLM?</Link>
+                  <Link to="/chat-bot">Try LLM?</Link>
 
                 </Button>
               </div>

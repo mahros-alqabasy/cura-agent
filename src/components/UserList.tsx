@@ -94,12 +94,12 @@ const UserList = ({
         <h2 className="text-xl font-semibold">
           {capitalizeFirstLetter(userType)} List
         </h2>
-        <Button onClick={() => setFormOpen(true)}>
+        {/* <Button onClick={() => setFormOpen(true)}>
           <Plus className="h-4 w-4 mr-2" />
           Create {capitalizeFirstLetter(userType)}
-        </Button>
+        </Button> */}
       </div>
-      
+
       <div className="bg-white rounded-md border">
         <Table>
           <TableHeader>
