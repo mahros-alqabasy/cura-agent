@@ -11,6 +11,18 @@ import NotFound from "@/pages/NotFound";
 import Register from "@/pages/Register";
 import Authors from "@/pages/Authors";
 import { Navigate, Route, Routes } from "react-router-dom";
+import Appointments from "@/pages/Appointments";
+import MedicalRecords from "@/pages/MedicalRecords";
+import LabResults from "@/pages/LabResults";
+import Prescriptions from "@/pages/Prescriptions";
+import Settings from "@/pages/Settings";
+import Help from "@/pages/Help";
+import Profile from "@/pages/Profile";
+import Doctors from "@/pages/users/Doctors";
+import Patients from "@/pages/users/Patients";
+import Nurses from "@/pages/users/Nurses";
+import Receptionists from "@/pages/users/Receptionists";
+import Logs from "@/pages/Logs";
 
 function AppRoutes() {
   return <Routes>
@@ -34,16 +46,23 @@ function AppRoutes() {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/ai-assistant" element={<AIAssistant />} />
 
+      {/* User management routes */}
+      <Route path="/doctors" element={<Doctors />} />
+      <Route path="/patients" element={<Patients />} />
+      <Route path="/nurses" element={<Nurses />} />
+      <Route path="/receptionists" element={<Receptionists />} />
 
-      {/* Add more protected routes here */}
-      <Route path="/appointments" element={<div className="p-6">Appointments Page (Coming Soon)</div>} />
-      <Route path="/patients" element={<div className="p-6">Patients Page (Coming Soon)</div>} />
-      <Route path="/medical-records" element={<div className="p-6">Medical Records Page (Coming Soon)</div>} />
-      <Route path="/lab-results" element={<div className="p-6">Lab Results Page (Coming Soon)</div>} />
-      <Route path="/prescriptions" element={<div className="p-6">Prescriptions Page (Coming Soon)</div>} />
-      <Route path="/settings" element={<div className="p-6">Settings Page (Coming Soon)</div>} />
-      <Route path="/help" element={<div className="p-6">Help Page (Coming Soon)</div>} />
-      <Route path="/profile" element={<div className="p-6">Profile Page (Coming Soon)</div>} />
+      {/* System logs */}
+      <Route path="/logs" element={<Logs />} />
+
+      {/* Main feature routes */}
+      <Route path="/appointments" element={<Appointments />} />
+      <Route path="/medical-records" element={<MedicalRecords />} />
+      <Route path="/lab-results" element={<LabResults />} />
+      <Route path="/prescriptions" element={<Prescriptions />} />
+      <Route path="/settings" element={<Settings />} />
+      <Route path="/help" element={<Help />} />
+      <Route path="/profile" element={<Profile />} />
     </Route>
 
     {/* Index route for redirection logic */}
@@ -59,7 +78,5 @@ function AppRoutes() {
     <Route path="*" element={<NotFound />} />
   </Routes>
 }
-
-
 
 export default AppRoutes;

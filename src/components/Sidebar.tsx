@@ -1,3 +1,4 @@
+
 import AppIcon from '@/components/AppIcon'
 import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -14,24 +15,76 @@ import {
   Bot,
   Settings,
   HelpCircle,
-  LogOut
+  LogOut,
+  User,
+  ClipboardList
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+
+// Main navigation items grouped by category
+const getNavItems = (role) => {
+  // Base items all roles can access
+  const baseItems = [
+    { name: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard className="h-5 w-5" /> }
+  ];
+
+  // Role-specific items
+  const roleItems = {
+    doctor: [
+      { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
+      { name: 'Patients', path: '/patients', icon: <Users className="h-5 w-5" /> },
+      { name: 'Medical Records', path: '/medical-records', icon: <FileText className="h-5 w-5" /> },
+      { name: 'Lab Results', path: '/lab-results', icon: <Beaker className="h-5 w-5" /> },
+      { name: 'Prescriptions', path: '/prescriptions', icon: <PillIcon className="h-5 w-5" /> },
+      { name: 'AI Assistant', path: '/ai-assistant', icon: <Bot className="h-5 w-5" /> }
+    ],
+    admin: [
+      { 
+        name: 'Users', 
+        path: null, 
+        icon: <Users className="h-5 w-5" />,
+        submenu: [
+          { name: 'Doctors', path: '/doctors' },
+          { name: 'Patients', path: '/patients' },
+          { name: 'Nurses', path: '/nurses' },
+          { name: 'Receptionists', path: '/receptionists' }
+        ]
+      },
+      { name: 'Logs', path: '/logs', icon: <ClipboardList className="h-5 w-5" /> },
+      { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
+      { name: 'Medical Records', path: '/medical-records', icon: <FileText className="h-5 w-5" /> },
+      { name: 'Lab Results', path: '/lab-results', icon: <Beaker className="h-5 w-5" /> },
+      { name: 'Prescriptions', path: '/prescriptions', icon: <PillIcon className="h-5 w-5" /> },
+      { name: 'AI Assistant', path: '/ai-assistant', icon: <Bot className="h-5 w-5" /> }
+    ],
+    nurse: [
+      { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
+      { name: 'Patients', path: '/patients', icon: <Users className="h-5 w-5" /> },
+      { name: 'Medical Records', path: '/medical-records', icon: <FileText className="h-5 w-5" /> },
+      { name: 'Lab Results', path: '/lab-results', icon: <Beaker className="h-5 w-5" /> }
+    ],
+    receptionist: [
+      { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
+      { name: 'Patients', path: '/patients', icon: <Users className="h-5 w-5" /> }
+    ],
+    patient: [
+      { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
+      { name: 'Medical Records', path: '/medical-records', icon: <FileText className="h-5 w-5" /> },
+      { name: 'Lab Results', path: '/lab-results', icon: <Beaker className="h-5 w-5" /> },
+      { name: 'Prescriptions', path: '/prescriptions', icon: <PillIcon className="h-5 w-5" /> }
+    ]
+  };
+
+  return [...baseItems, ...(roleItems[role.toLowerCase()] || [])];
+};
 
 const Sidebar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(true);
+  const [openSubmenus, setOpenSubmenus] = useState({});
 
-  const navItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard className="h-5 w-5" /> },
-    { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
-    { name: 'Patients', path: '/patients', icon: <Users className="h-5 w-5" /> },
-    { name: 'Medical Records', path: '/medical-records', icon: <FileText className="h-5 w-5" /> },
-    { name: 'Lab Results', path: '/lab-results', icon: <Beaker className="h-5 w-5" /> },
-    { name: 'Prescriptions', path: '/prescriptions', icon: <PillIcon className="h-5 w-5" /> },
-    { name: 'AI Assistant', path: '/ai-assistant', icon: <Bot className="h-5 w-5" /> },
-  ];
+  const navItems = getNavItems(user?.role || 'patient');
 
   const handleLogout = async () => {
     try {
@@ -39,6 +92,13 @@ const Sidebar = () => {
     } catch (error) {
       console.error('Logout failed', error);
     }
+  };
+
+  const toggleSubmenu = (name) => {
+    setOpenSubmenus(prev => ({
+      ...prev,
+      [name]: !prev[name]
+    }));
   };
 
   // Collapse sidebar on mobile/tablet screen sizes
@@ -119,10 +179,12 @@ const Sidebar = () => {
               )}
             </div>
             <div className="ml-3">
-              <p className="text-sm font-medium text-gray-800">Dr. {user?.firstName} {user?.lastName}</p>
+              <p className="text-sm font-medium text-gray-800">
+                {user?.role === 'doctor' ? 'Dr. ' : ''}{user?.firstName} {user?.lastName}
+              </p>
               <p className="text-xs text-gray-500 mt-0.5 flex items-center">
                 <span className="w-2 h-2 bg-green-500 rounded-full mr-1.5"></span>
-                Doctor
+                {user?.role || 'User'}
               </p>
             </div>
           </div>
@@ -133,22 +195,78 @@ const Sidebar = () => {
       <nav className="flex-1 overflow-y-auto py-4">
         <ul className="space-y-1 px-2">
           {navItems.map((item) => (
-            <li key={item.path}>
-              <NavLink
-                to={item.path}
-                className={({ isActive }) =>
-                  cn(
-                    "flex items-center px-2 py-2 text-sm font-medium rounded-md",
-                    isActive
-                      ? "bg-primary-50 text-primary"
-                      : "text-gray-700 hover:bg-gray-100",
-                    !expanded && "justify-center"
-                  )
-                }
-              >
-                {item.icon}
-                {expanded && <span className="ml-3">{item.name}</span>}
-              </NavLink>
+            <li key={item.path || item.name}>
+              {item.submenu ? (
+                <div className="space-y-1">
+                  <button
+                    onClick={() => toggleSubmenu(item.name)}
+                    className={cn(
+                      "flex items-center w-full px-2 py-2 text-sm font-medium rounded-md",
+                      "text-gray-700 hover:bg-gray-100",
+                      !expanded && "justify-center"
+                    )}
+                  >
+                    {item.icon}
+                    {expanded && (
+                      <>
+                        <span className="ml-3">{item.name}</span>
+                        <svg 
+                          className={cn(
+                            "ml-auto h-5 w-5 transition-transform",
+                            openSubmenus[item.name] ? "rotate-90" : ""
+                          )}
+                          xmlns="http://www.w3.org/2000/svg" 
+                          viewBox="0 0 20 20" 
+                          fill="currentColor"
+                        >
+                          <path 
+                            fillRule="evenodd" 
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" 
+                            clipRule="evenodd" 
+                          />
+                        </svg>
+                      </>
+                    )}
+                  </button>
+                  {expanded && openSubmenus[item.name] && (
+                    <ul className="mt-1 pl-8 space-y-1">
+                      {item.submenu.map((subitem) => (
+                        <li key={subitem.path}>
+                          <NavLink
+                            to={subitem.path}
+                            className={({ isActive }) =>
+                              cn(
+                                "flex items-center px-2 py-1.5 text-sm rounded-md",
+                                isActive
+                                  ? "bg-primary-50 text-primary"
+                                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                              )
+                            }
+                          >
+                            {subitem.name}
+                          </NavLink>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ) : (
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    cn(
+                      "flex items-center px-2 py-2 text-sm font-medium rounded-md",
+                      isActive
+                        ? "bg-primary-50 text-primary"
+                        : "text-gray-700 hover:bg-gray-100",
+                      !expanded && "justify-center"
+                    )
+                  }
+                >
+                  {item.icon}
+                  {expanded && <span className="ml-3">{item.name}</span>}
+                </NavLink>
+              )}
             </li>
           ))}
         </ul>
@@ -180,6 +298,20 @@ const Sidebar = () => {
           >
             <HelpCircle className="h-5 w-5" />
             {expanded && <span className="ml-3">Help</span>}
+          </NavLink>
+
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              cn(
+                "flex items-center px-2 py-2 text-sm font-medium rounded-md",
+                isActive ? "bg-primary-50 text-primary" : "text-gray-700 hover:bg-gray-100",
+                !expanded && "justify-center"
+              )
+            }
+          >
+            <User className="h-5 w-5" />
+            {expanded && <span className="ml-3">Profile</span>}
           </NavLink>
         </div>
       </nav>
