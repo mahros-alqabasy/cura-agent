@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { Bell, Settings } from 'lucide-react';
+import { Bell, User, Settings, ShieldCheck, UserSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -24,7 +24,7 @@ interface Notification {
 const Header = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  
+
   // Mock notifications - would come from API in real app
   const [notifications, setNotifications] = useState<Notification[]>([
     {
@@ -42,25 +42,32 @@ const Header = () => {
       read: false,
     }
   ]);
-  
+
   const unreadCount = notifications.filter(n => !n.read).length;
-  
+
   const markAllAsRead = () => {
     setNotifications(notifications.map(n => ({ ...n, read: true })));
   };
-  
+
   const markAsRead = (id: string) => {
-    setNotifications(notifications.map(n => 
+    setNotifications(notifications.map(n =>
       n.id === id ? { ...n, read: true } : n
     ));
   };
 
+
+
+
   return (
     <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6 sticky top-0 z-10">
       <div className="flex items-center">
-        {/* Page path could go here in a real app */}
+        <div className="p-2 h-7 rounded-md bg-primary/25 text-primary flex justify-center items-center gap-1 text-center">
+          {/* <ShieldUser size={20} /> */}
+          <ShieldCheck size={16} />
+          <span className='font-medium'>{user?.role?.replace(/\b\w/g, char => char.toUpperCase())} Portal</span>
+        </div>
       </div>
-      
+
       <div className="flex items-center space-x-4">
         {/* Notifications */}
         <DropdownMenu>
@@ -103,12 +110,12 @@ const Header = () => {
             </div>
           </DropdownMenuContent>
         </DropdownMenu>
-        
+
         {/* Settings */}
         <Button variant="ghost" size="icon" onClick={() => navigate('/settings')}>
           <Settings className="h-5 w-5" />
         </Button>
-        
+
         {/* User Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

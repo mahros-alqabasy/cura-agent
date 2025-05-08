@@ -45,14 +45,14 @@ const AIAssistant = () => {
 
   const handleSendMessage = async (content: string = inputMessage) => {
     if (!content.trim()) return;
-    
+
     const newUserMessage: Message = {
       id: Date.now().toString(),
       sender: 'user',
       content,
       timestamp: new Date(),
     };
-    
+
     const tempBotMessage: Message = {
       id: (Date.now() + 1).toString(),
       sender: 'assistant',
@@ -60,35 +60,35 @@ const AIAssistant = () => {
       timestamp: new Date(),
       loading: true,
     };
-    
+
     setMessages(prev => [...prev, newUserMessage, tempBotMessage]);
     setInputMessage('');
-    
+
     try {
       setIsLoading(true);
       const response = await chatService.sendMessage(content);
-      
-      setMessages(prev => 
-        prev.map(msg => 
+
+      setMessages(prev =>
+        prev.map(msg =>
           msg.id === tempBotMessage.id
             ? {
-                ...msg,
-                content: response.reply || "I'm sorry, I couldn't process that request.",
-                loading: false,
-              }
+              ...msg,
+              content: response.reply || "I'm sorry, I couldn't process that request.",
+              loading: false,
+            }
             : msg
         )
       );
     } catch (error) {
       console.error('Error sending message to AI assistant:', error);
-      setMessages(prev => 
-        prev.map(msg => 
+      setMessages(prev =>
+        prev.map(msg =>
           msg.id === tempBotMessage.id
             ? {
-                ...msg,
-                content: "I'm sorry, there was an error processing your request. Please try again.",
-                loading: false,
-              }
+              ...msg,
+              content: "I'm sorry, there was an error processing your request. Please try again.",
+              loading: false,
+            }
             : msg
         )
       );
@@ -107,7 +107,8 @@ const AIAssistant = () => {
 
   return (
     <div className="h-[calc(100vh-8rem)] flex flex-col">
-      <div className="flex items-center justify-between mb-4">
+      {/* <div className="flex items-center justify-between mb-4"> */}
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-3">
         <div>
           <h1 className="text-2xl font-bold">Doctor Assistant</h1>
           <p className="text-gray-500">Your AI-powered medical assistant</p>
@@ -150,7 +151,7 @@ const AIAssistant = () => {
             </svg>
             <span className="ml-2">Settings</span>
           </Button>
-          <Button size="sm">
+          <Button size="sm" onClick={() => document.documentElement.requestFullscreen()}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -248,7 +249,7 @@ const AIAssistant = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="flex-1 flex flex-col pl-4">
           <div className="flex-1 overflow-y-auto p-4 space-y-6">
             {messages.map((message) => (
@@ -258,8 +259,8 @@ const AIAssistant = () => {
               >
                 <div className={`
                   max-w-[80%] rounded-lg p-4 
-                  ${message.sender === 'user' 
-                    ? 'bg-primary text-white' 
+                  ${message.sender === 'user'
+                    ? 'bg-primary text-white'
                     : 'bg-primary-50 text-gray-800'}
                 `}>
                   {message.loading ? (

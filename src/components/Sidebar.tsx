@@ -1,5 +1,5 @@
 import AppIcon from '@/components/AppIcon'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
@@ -40,6 +40,24 @@ const Sidebar = () => {
       console.error('Logout failed', error);
     }
   };
+
+  // Collapse sidebar on mobile/tablet screen sizes
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 768px)'); // Tailwind md breakpoint
+
+    const handleResize = () => {
+      if (mediaQuery.matches) {
+        setExpanded(false);
+      } else {
+        setExpanded(true);
+      }
+    };
+
+    handleResize(); // set initial state
+    mediaQuery.addEventListener('change', handleResize);
+
+    return () => mediaQuery.removeEventListener('change', handleResize);
+  }, []);
 
   return (
     <div className={cn(

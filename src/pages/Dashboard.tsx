@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Checkbox } from '@/components/ui/checkbox';
 
-// Mock data for appointments
+
 // Mock data for appointments
 const appointments = [
   {
@@ -159,7 +159,8 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Doctor Dashboard</h1>
           <p className="text-gray-500">Welcome back, Dr. {user?.lastName}. You have 8 appointments today.</p>
