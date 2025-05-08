@@ -53,7 +53,8 @@ const Landing = () => {
                   <Link to="/register">Get Started</Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <Link to="/learn-more">Learn More</Link>
+                  <Link to="/ai-assistant">Try LLM?</Link>
+
                 </Button>
               </div>
               <div className="mt-8 flex items-center">

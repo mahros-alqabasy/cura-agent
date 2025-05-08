@@ -2,13 +2,14 @@
 import MainLayout from "@/components/layouts/MainLayout";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import AIAssistant from "@/pages/AIAssistant";
+import ChatBot from "@/pages/ChatBot";
 import Dashboard from "@/pages/Dashboard";
 import Index from "@/pages/Index";
 import Landing from "@/pages/Landing";
 import Login from "@/pages/Login";
 import NotFound from "@/pages/NotFound";
 import Register from "@/pages/Register";
-import Authors from "@/pages/TeamMembers";
+import Authors from "@/pages/Authors";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 function AppRoutes() {
@@ -17,6 +18,9 @@ function AppRoutes() {
     <Route path="/" element={<Landing />} />
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
+
+    {/* any one can access this public chat bot */}
+    <Route path="/chat-bot" element={<ChatBot />} />
 
     {/* Protected routes using MainLayout */}
     <Route
@@ -29,6 +33,7 @@ function AppRoutes() {
     >
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/ai-assistant" element={<AIAssistant />} />
+
 
       {/* Add more protected routes here */}
       <Route path="/appointments" element={<div className="p-6">Appointments Page (Coming Soon)</div>} />
