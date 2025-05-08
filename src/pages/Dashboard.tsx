@@ -270,7 +270,7 @@ const patientMessages = [
     id: '2',
     from: 'Dr. Sara Mohamed',
     subject: 'Your recent test results',
-    preview: 'I've reviewed your recent neurological assessment and would like to discuss...',
+    preview: "I've reviewed your recent neurological assessment and would like to discuss...",
     date: 'May 12, 2025',
     read: true
   },
