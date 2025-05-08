@@ -23,7 +23,7 @@ const queryClient = new QueryClient();
 
 const App = () => {
   // GitHub Pages basename configuration
-  const basename = import.meta.env.MODE === 'production' ? "/cura-agent/" : "";
+  const basename = "/cura-agent/";
 
   return (
     <QueryClientProvider client={queryClient}>

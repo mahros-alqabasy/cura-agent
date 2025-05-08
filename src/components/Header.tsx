@@ -37,7 +37,7 @@ const Header = () => {
     {
       id: '2',
       title: 'Appointment reminder',
-      message: 'You have a meeting with Dr. Anderson in 30 minutes',
+      message: 'You have a meeting with Dr. Ali in 30 minutes',
       time: '30 min ago',
       read: false,
     }

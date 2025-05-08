@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { 
+import {
   ArrowRight,
   RefreshCw,
   MoreVertical,
@@ -25,31 +25,32 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 
 // Mock data for appointments
+// Mock data for appointments
 const appointments = [
   {
     id: '1',
-    patientName: 'Sarah Johnson',
+    patientName: 'Mahros Mohamed',
     appointmentType: 'Follow-up',
     department: 'Cardiology',
     time: '09:30 AM'
   },
   {
     id: '2',
-    patientName: 'Michael Brown',
+    patientName: 'Karim Atwa',
     appointmentType: 'Initial Consultation',
     department: 'Neurology',
     time: '10:45 AM'
   },
   {
     id: '3',
-    patientName: 'Emily Wilson',
+    patientName: 'Esmail Ali',
     appointmentType: 'Medication Review',
     department: 'General',
     time: '01:15 PM'
   },
   {
     id: '4',
-    patientName: 'David Thompson',
+    patientName: 'Ahmed Mahros',
     appointmentType: 'Test Results',
     department: 'Oncology',
     time: '03:30 PM'
@@ -60,7 +61,7 @@ const appointments = [
 const patientActivities = [
   {
     id: '1',
-    patientName: 'Lisa Anderson',
+    patientName: 'Ahmed Yaser',
     avatarUrl: '',
     action: 'Lab results uploaded:',
     detail: 'Blood Work Panel',
@@ -68,7 +69,7 @@ const patientActivities = [
   },
   {
     id: '2',
-    patientName: 'Robert Chen',
+    patientName: 'Mohamed Samir',
     avatarUrl: '',
     action: 'Prescription refill requested:',
     detail: 'Atorvastatin 20mg',
@@ -76,7 +77,7 @@ const patientActivities = [
   },
   {
     id: '3',
-    patientName: 'Jessica Taylor',
+    patientName: 'Shaker Mohamed',
     avatarUrl: '',
     action: 'Sent message:',
     detail: '"I\'ve been experiencing increased pain in my right knee..."',
@@ -88,7 +89,7 @@ const patientActivities = [
 const tasks = [
   {
     id: '1',
-    title: 'Review lab results for Michael Brown',
+    title: 'Review lab results for Mahros Mohamed',
     dueDate: 'Due today',
     priority: 'High Priority',
     completed: false,
@@ -115,7 +116,6 @@ const tasks = [
     completed: true,
   },
 ];
-
 interface StatsCardProps {
   title: string;
   value: string | number;
@@ -152,7 +152,7 @@ const Dashboard = () => {
   const [taskList, setTaskList] = useState(tasks);
 
   const toggleTaskCompletion = (taskId: string) => {
-    setTaskList(taskList.map(task => 
+    setTaskList(taskList.map(task =>
       task.id === taskId ? { ...task, completed: !task.completed } : task
     ));
   };
@@ -315,10 +315,10 @@ const Dashboard = () => {
                       <div className="mr-4">
                         <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100">
                           {activity.avatarUrl ? (
-                            <img 
-                              src={activity.avatarUrl} 
-                              alt={activity.patientName} 
-                              className="w-full h-full object-cover" 
+                            <img
+                              src={activity.avatarUrl}
+                              alt={activity.patientName}
+                              className="w-full h-full object-cover"
                             />
                           ) : (
                             <div className="flex items-center justify-center w-full h-full text-gray-500">
@@ -442,11 +442,10 @@ const Dashboard = () => {
                       <div className="flex items-center mt-1">
                         <span className="text-xs text-gray-500">{task.dueDate}</span>
                         {!task.completed && task.priority && (
-                          <span className={`ml-2 text-xs px-1.5 py-0.5 rounded ${
-                            task.priority === 'High Priority' ? 'bg-red-50 text-red-700' :
+                          <span className={`ml-2 text-xs px-1.5 py-0.5 rounded ${task.priority === 'High Priority' ? 'bg-red-50 text-red-700' :
                             task.priority === 'Medium Priority' ? 'bg-orange-50 text-orange-700' :
-                            'bg-blue-50 text-blue-700'
-                          }`}>
+                              'bg-blue-50 text-blue-700'
+                            }`}>
                             {task.priority}
                           </span>
                         )}
@@ -488,13 +487,13 @@ const Dashboard = () => {
                 <div className="text-gray-500 py-1">T</div>
                 <div className="text-gray-500 py-1">F</div>
                 <div className="text-gray-500 py-1">S</div>
-                
+
                 {/* Previous month days - grayed out */}
                 <div className="text-gray-300 py-1">27</div>
                 <div className="text-gray-300 py-1">28</div>
                 <div className="text-gray-300 py-1">29</div>
                 <div className="text-gray-300 py-1">30</div>
-                
+
                 {/* Current month days */}
                 <div className="py-1">1</div>
                 <div className="py-1">2</div>

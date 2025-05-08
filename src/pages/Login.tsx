@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { EyeIcon, EyeOffIcon, InfoIcon } from 'lucide-react';
 import AppIcon from '@/components/AppIcon';
+import isDevelopment from '@/conf/Conf';
 
 const Login = () => {
   const { login } = useAuth();
@@ -22,7 +23,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
-  const isDev = import.meta.env.DEV;
+
+  const isDev = isDevelopment;
 
   // Prefill credentials based on selected role in development
   useEffect(() => {
@@ -61,7 +63,7 @@ const Login = () => {
       <div className="max-w-md w-full space-y-8">
         <div className="flex justify-center">
           <div className="cura-logo text-white text-2xl font-bold w-12 h-12 flex items-center justify-center">
-            <AppIcon/>
+            <AppIcon />
           </div>
         </div>
 
@@ -84,7 +86,7 @@ const Login = () => {
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
-              
+
               {isDev && (
                 <Alert className="bg-blue-50 border-blue-200 mb-4">
                   <InfoIcon className="h-4 w-4 text-blue-500 mr-2" />

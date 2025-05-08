@@ -1,4 +1,5 @@
-
+import assistantSectionImage from '/ed714da9-8a46-465a-b959-38edef80c14f.png'
+import heroSectionImage from '/4bd34475-5b10-4931-b67d-055fc45cfb0c.png'
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Bot } from 'lucide-react';
@@ -69,7 +70,7 @@ const Landing = () => {
             </div>
             <div className="hidden md:block">
               <img
-                src="/lovable-uploads/4bd34475-5b10-4931-b67d-055fc45cfb0c.png"
+                src={heroSectionImage}
                 alt="Cura Agent Dashboard"
                 className="rounded-lg shadow-xl"
               />
@@ -150,7 +151,7 @@ const Landing = () => {
             </div>
             <div>
               <img
-                src="/lovable-uploads/ed714da9-8a46-465a-b959-38edef80c14f.png"
+                src={assistantSectionImage}
                 alt="AI Assistant Interface"
                 className="rounded-lg shadow-xl"
               />

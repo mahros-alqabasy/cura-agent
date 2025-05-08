@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/api';
 import { mockAuthService } from '../services/mockAuthService';
 import { toast } from '@/components/ui/sonner';
+import isDevelopment from '@/conf/Conf';
 
 // Use mock service in development, real service in production
-const authProvider = import.meta.env.PROD ? authService : mockAuthService;
+const authProvider = !isDevelopment ? authService : mockAuthService;
 
 interface User {
   id: string;
@@ -37,16 +38,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const initAuth = async () => {
       const token = localStorage.getItem('token');
-      
+
       if (!token) {
         setLoading(false);
         return;
       }
-      
+
       try {
         // Validate token
         await authProvider.verifyToken(token);
-        
+
         // Get current user info
         const userData = await authProvider.getCurrentUser();
         setUser(userData);
@@ -60,7 +61,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setLoading(false);
       }
     };
-    
+
     initAuth();
   }, []);
 
@@ -68,12 +69,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       setLoading(true);
       const response = await authProvider.login(email, password);
-      
+
       // Get user data after successful login
       const userData = await authProvider.getCurrentUser();
       setUser(userData);
       setIsAuthenticated(true);
-      
+
       toast.success('Signed in successfully');
       navigate('/dashboard');
     } catch (error: any) {
