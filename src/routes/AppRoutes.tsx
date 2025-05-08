@@ -23,6 +23,7 @@ import Patients from "@/pages/users/Patients";
 import Nurses from "@/pages/users/Nurses";
 import Receptionists from "@/pages/users/Receptionists";
 import Logs from "@/pages/Logs";
+import Messages from "@/pages/Messages";
 
 function AppRoutes() {
   return <Routes>
@@ -60,6 +61,7 @@ function AppRoutes() {
       <Route path="/medical-records" element={<MedicalRecords />} />
       <Route path="/lab-results" element={<LabResults />} />
       <Route path="/prescriptions" element={<Prescriptions />} />
+      <Route path="/messages" element={<Messages />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/help" element={<Help />} />
       <Route path="/profile" element={<Profile />} />

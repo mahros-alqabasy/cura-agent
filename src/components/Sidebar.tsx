@@ -17,7 +17,8 @@ import {
   HelpCircle,
   LogOut,
   User,
-  ClipboardList
+  ClipboardList,
+  MessageSquare
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -71,7 +72,8 @@ const getNavItems = (role) => {
       { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
       { name: 'Medical Records', path: '/medical-records', icon: <FileText className="h-5 w-5" /> },
       { name: 'Lab Results', path: '/lab-results', icon: <Beaker className="h-5 w-5" /> },
-      { name: 'Prescriptions', path: '/prescriptions', icon: <PillIcon className="h-5 w-5" /> }
+      { name: 'Prescriptions', path: '/prescriptions', icon: <PillIcon className="h-5 w-5" /> },
+      { name: 'Messages', path: '/messages', icon: <MessageSquare className="h-5 w-5" /> }
     ]
   };
 
@@ -83,8 +85,18 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(true);
   const [openSubmenus, setOpenSubmenus] = useState({});
+  const [unreadMessageCount, setUnreadMessageCount] = useState(0);
 
   const navItems = getNavItems(user?.role || 'patient');
+
+  // Add the unread message count for patient users
+  useEffect(() => {
+    if (user?.role?.toLowerCase() === 'patient') {
+      // In a real app, this would be fetched from an API
+      // For now, let's simulate 3 unread messages
+      setUnreadMessageCount(3);
+    }
+  }, [user?.role]);
 
   const handleLogout = async () => {
     try {
@@ -264,7 +276,23 @@ const Sidebar = () => {
                   }
                 >
                   {item.icon}
-                  {expanded && <span className="ml-3">{item.name}</span>}
+                  {expanded && (
+                    <span className="ml-3 flex items-center">
+                      {item.name}
+                      {/* Display unread message badge for patient */}
+                      {user?.role === 'patient' && item.name === 'Messages' && unreadMessageCount > 0 && (
+                        <span className="ml-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                          {unreadMessageCount}
+                        </span>
+                      )}
+                    </span>
+                  )}
+                  {/* Show badge on icon-only view */}
+                  {!expanded && user?.role === 'patient' && item.name === 'Messages' && unreadMessageCount > 0 && (
+                    <span className="absolute top-0 right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                      {unreadMessageCount}
+                    </span>
+                  )}
                 </NavLink>
               )}
             </li>
