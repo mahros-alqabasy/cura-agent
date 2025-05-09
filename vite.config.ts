@@ -14,6 +14,9 @@ export default defineConfig(({ mode }) => ({
     watch: isDev ? { usePolling: true } : undefined,
     host: "::",
     port: 8080,
+    allowedHosts: [
+      "53cd302f-2315-4940-9a77-f86cbbe956f0.lovableproject.com"
+    ]
   },
   plugins: [
     react(),
