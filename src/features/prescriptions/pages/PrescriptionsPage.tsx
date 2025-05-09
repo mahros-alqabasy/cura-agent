@@ -1,6 +1,6 @@
 
 import { PillIcon, Plus } from "lucide-react";
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/shared/components/PageLayout";
 
 const Prescriptions = () => {
   return (
