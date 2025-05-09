@@ -10,7 +10,7 @@ const MainLayout = () => {
   const { user, isAuthenticated, loading } = useAuth();
   const navigate = useNavigate();
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
-  
+
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       navigate('/login');
@@ -24,7 +24,7 @@ const MainLayout = () => {
 
   // Initialize keyboard shortcuts
   useKeyboardShortcuts(toggleSidebar);
-  
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -35,21 +35,32 @@ const MainLayout = () => {
       </div>
     );
   }
-  
+
   if (!isAuthenticated || !user) {
     return null;
   }
-  
+
   return (
-    <div className="flex min-h-screen bg-background">
-      <Sidebar expanded={sidebarExpanded} setExpanded={setSidebarExpanded} />
-      <div className="flex flex-col flex-1 overflow-hidden">
-        <Header />
-        <main className="flex-1 overflow-y-auto p-6">
+    <div className="flex h-screen">
+      {/* Sidebar: Fixed to the left, full height */}
+      <div className="sticky top-0 left-0 h-screen z-40">
+        <Sidebar expanded={sidebarExpanded} setExpanded={setSidebarExpanded} />
+      </div>
+
+      {/* Content area: margin-left to make room for the fixed sidebar */}
+      <div className="flex flex-col flex-1 ml-[<SIDEBAR_WIDTH>]">
+        {/* Header: Fixed to the top */}
+        <div className="sticky top-0 left-[<SIDEBAR_WIDTH>] right-0 z-30">
+          <Header />
+        </div>
+
+        {/* Scrollable content: padding-top to offset fixed header */}
+        <main className="flex-1 overflow-y-auto p-6 pt-[<HEADER_HEIGHT>]">
           <Outlet />
         </main>
       </div>
     </div>
+
   );
 };
 

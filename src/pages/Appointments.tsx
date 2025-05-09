@@ -213,13 +213,12 @@ const Appointments = () => {
                   <TableCell>{appointment.time}</TableCell>
                   <TableCell>
                     <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        appointment.status === "Scheduled"
-                          ? "bg-blue-100 text-blue-800"
-                          : appointment.status === "Confirmed"
+                      className={`px-2 py-1 rounded-full text-xs ${appointment.status === "Scheduled"
+                        ? "bg-blue-100 text-blue-800"
+                        : appointment.status === "Confirmed"
                           ? "bg-green-100 text-green-800"
                           : "bg-yellow-100 text-yellow-800"
-                      }`}
+                        }`}
                     >
                       {appointment.status}
                     </span>
@@ -396,13 +395,12 @@ const Appointments = () => {
                 <p className="text-sm font-medium text-gray-500">Status</p>
                 <p>
                   <span
-                    className={`px-2 py-1 rounded-full text-xs ${
-                      currentAppointment.status === "Scheduled"
-                        ? "bg-blue-100 text-blue-800"
-                        : currentAppointment.status === "Confirmed"
+                    className={`px-2 py-1 rounded-full text-xs ${currentAppointment.status === "Scheduled"
+                      ? "bg-blue-100 text-blue-800"
+                      : currentAppointment.status === "Confirmed"
                         ? "bg-green-100 text-green-800"
                         : "bg-yellow-100 text-yellow-800"
-                    }`}
+                      }`}
                   >
                     {currentAppointment.status}
                   </span>

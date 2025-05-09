@@ -32,12 +32,12 @@ const getNavItems = (role) => {
   // Role-specific items
   const roleItems = {
     doctor: [
-      { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
       { name: 'Patients', path: '/patients', icon: <Users className="h-5 w-5" /> },
-      { name: 'Medical Records', path: '/medical-records', icon: <FileText className="h-5 w-5" /> },
       { name: 'Lab Results', path: '/lab-results', icon: <Beaker className="h-5 w-5" /> },
+      { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
+      { name: 'AI Assistant', path: '/ai-assistant', icon: <Bot className="h-5 w-5" /> },
       { name: 'Prescriptions', path: '/prescriptions', icon: <PillIcon className="h-5 w-5" /> },
-      { name: 'AI Assistant', path: '/ai-assistant', icon: <Bot className="h-5 w-5" /> }
+      { name: 'Medical Records', path: '/medical-records', icon: <FileText className="h-5 w-5" /> },
     ],
     admin: [
       {
@@ -45,36 +45,36 @@ const getNavItems = (role) => {
         path: null,
         icon: <Users className="h-5 w-5" />,
         submenu: [
+          { name: 'Nurses', path: '/nurses' },
           { name: 'Doctors', path: '/doctors' },
           { name: 'Patients', path: '/patients' },
-          { name: 'Nurses', path: '/nurses' },
-          { name: 'Receptionists', path: '/receptionists' }
+          { name: 'Receptionists', path: '/receptionists' },
         ]
       },
       { name: 'Logs', path: '/logs', icon: <ClipboardList className="h-5 w-5" /> },
-      { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
-      { name: 'Medical Records', path: '/medical-records', icon: <FileText className="h-5 w-5" /> },
       { name: 'Lab Results', path: '/lab-results', icon: <Beaker className="h-5 w-5" /> },
-      { name: 'Prescriptions', path: '/prescriptions', icon: <PillIcon className="h-5 w-5" /> },
+      { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
       { name: 'Departments', path: '/departments', icon: <PiIcon className="h-5 w-5" /> },
-      { name: 'AI Assistant', path: '/ai-assistant', icon: <Bot className="h-5 w-5" /> }
+      { name: 'AI Assistant', path: '/ai-assistant', icon: <Bot className="h-5 w-5" /> },
+      { name: 'Prescriptions', path: '/prescriptions', icon: <PillIcon className="h-5 w-5" /> },
+      { name: 'Medical Records', path: '/medical-records', icon: <FileText className="h-5 w-5" /> },
     ],
     nurse: [
-      { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
       { name: 'Patients', path: '/patients', icon: <Users className="h-5 w-5" /> },
+      { name: 'Lab Results', path: '/lab-results', icon: <Beaker className="h-5 w-5" /> },
+      { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
       { name: 'Medical Records', path: '/medical-records', icon: <FileText className="h-5 w-5" /> },
-      { name: 'Lab Results', path: '/lab-results', icon: <Beaker className="h-5 w-5" /> }
     ],
     receptionist: [
+      { name: 'Patients', path: '/patients', icon: <Users className="h-5 w-5" /> },
       { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
-      { name: 'Patients', path: '/patients', icon: <Users className="h-5 w-5" /> }
     ],
     patient: [
-      { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
-      { name: 'Medical Records', path: '/medical-records', icon: <FileText className="h-5 w-5" /> },
+      { name: 'Messages', path: '/messages', icon: <MessageSquare className="h-5 w-5" /> },
       { name: 'Lab Results', path: '/lab-results', icon: <Beaker className="h-5 w-5" /> },
+      { name: 'Appointments', path: '/appointments', icon: <Calendar className="h-5 w-5" /> },
       { name: 'Prescriptions', path: '/prescriptions', icon: <PillIcon className="h-5 w-5" /> },
-      { name: 'Messages', path: '/messages', icon: <MessageSquare className="h-5 w-5" /> }
+      { name: 'Medical Records', path: '/medical-records', icon: <FileText className="h-5 w-5" /> },
     ]
   };
 
@@ -133,7 +133,7 @@ const Sidebar = ({ expanded, setExpanded }) => {
 
   return (
     <div className={cn(
-      "bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ease-in-out",
+      "bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ease-in-out h-screen",
       expanded ? "w-64" : "w-[70px]"
     )}>
       {/* Logo and App Name */}
@@ -240,6 +240,7 @@ const Sidebar = ({ expanded, setExpanded }) => {
                       </>
                     )}
                   </button>
+
                   {expanded && openSubmenus[item.name] && (
                     <ul className="mt-1 pl-8 space-y-1">
                       {item.submenu.map((subitem) => (
@@ -299,21 +300,14 @@ const Sidebar = ({ expanded, setExpanded }) => {
           ))}
         </ul>
 
-        <div className="px-2 mt-6 space-y-1">
-          <NavLink
-            to="/settings"
-            className={({ isActive }) =>
-              cn(
-                "flex items-center px-2 py-2 text-sm font-medium rounded-md",
-                isActive ? "bg-primary-50 text-primary" : "text-gray-700 hover:bg-gray-100",
-                !expanded && "justify-center"
-              )
-            }
-          >
-            <Settings className="h-5 w-5" />
-            {expanded && <span className="ml-3">Settings</span>}
-          </NavLink>
 
+      </nav>
+
+      <div className="px-2 border-t border-gray-200 pt-4">
+        <div className="space-y-1">
+
+
+          {/* Help */}
           <NavLink
             to="/help"
             className={({ isActive }) =>
@@ -328,6 +322,7 @@ const Sidebar = ({ expanded, setExpanded }) => {
             {expanded && <span className="ml-3">Help</span>}
           </NavLink>
 
+          {/* Profile */}
           <NavLink
             to="/profile"
             className={({ isActive }) =>
@@ -341,22 +336,41 @@ const Sidebar = ({ expanded, setExpanded }) => {
             <User className="h-5 w-5" />
             {expanded && <span className="ml-3">Profile</span>}
           </NavLink>
-        </div>
-      </nav>
 
-      {/* Sign Out Button */}
-      <div className="p-4 border-t border-gray-200">
-        <Button
-          variant="ghost"
-          onClick={handleLogout}
-          className={cn(
-            "flex items-center text-red-500 hover:bg-red-50 hover:text-red-600 w-full justify-start",
-            !expanded && "justify-center"
-          )}
-        >
-          <LogOut className="h-5 w-5" />
-          {expanded && <span className="ml-2">Sign Out</span>}
-        </Button>
+
+          {/* Settings */}
+          <NavLink
+            to="/settings"
+            className={({ isActive }) =>
+              cn(
+                "flex items-center px-2 py-2 text-sm font-medium rounded-md",
+                isActive ? "bg-primary-50 text-primary" : "text-gray-700 hover:bg-gray-100",
+                !expanded && "justify-center"
+              )
+            }
+          >
+            <Settings className="h-5 w-5" />
+            {expanded && <span className="ml-3">Settings</span>}
+          </NavLink>
+
+        </div>
+
+
+        {expanded && <hr className="my-4 border-t border-gray-200" />}
+        {/* Logout button */}
+        <div className="mt-4 pb-4">
+          <Button
+            variant="ghost"
+            onClick={handleLogout}
+            className={cn(
+              "flex items-center text-red-500 hover:bg-red-50 hover:text-red-600 w-full justify-start",
+              !expanded && "justify-center"
+            )}
+          >
+            <LogOut className="h-5 w-5" />
+            {expanded && <span className="ml-2">Sign Out</span>}
+          </Button>
+        </div>
       </div>
     </div>
   );

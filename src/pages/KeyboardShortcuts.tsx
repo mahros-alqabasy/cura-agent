@@ -10,9 +10,9 @@ import { useAuth } from '@/contexts/AuthContext';
 const KeyboardShortcuts = () => {
   const [pressedKeys, setPressedKeys] = useState<string[]>([]);
   const { user } = useAuth();
-  
+
   // This is just for the toggleSidebar parameter; in this component we don't actually use it
-  const { shortcuts } = useKeyboardShortcuts(() => {});
+  const { shortcuts } = useKeyboardShortcuts(() => { });
 
   // Group shortcuts by scope
   const groupedShortcuts = shortcuts.reduce((acc, shortcut) => {
@@ -32,21 +32,21 @@ const KeyboardShortcuts = () => {
       ) {
         return;
       }
-      
+
       const keysList: string[] = [];
       if (e.ctrlKey) keysList.push('Ctrl');
       if (e.shiftKey) keysList.push('Shift');
       if (e.altKey) keysList.push('Alt');
-      
+
       // Add the actual key if it's not a modifier
       if (!['Control', 'Shift', 'Alt'].includes(e.key)) {
         keysList.push(e.key);
       }
-      
+
       setPressedKeys(keysList);
-      
+
       // Clear the pressed keys after a short delay
-      setTimeout(() => setPressedKeys([]), 2000);
+      // setTimeout(() => setPressedKeys([]), 2000);
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -104,8 +104,8 @@ const KeyboardShortcuts = () => {
                         <TableCell>{shortcut.description}</TableCell>
                         {user?.role === 'admin' && (
                           <TableCell>
-                            {shortcut.roles ? 
-                              shortcut.roles.join(', ') : 
+                            {shortcut.roles ?
+                              shortcut.roles.join(', ') :
                               <span className="text-gray-400">All roles</span>
                             }
                           </TableCell>
@@ -118,7 +118,7 @@ const KeyboardShortcuts = () => {
             ))}
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader>
             <CardTitle>Tips for Using Shortcuts</CardTitle>

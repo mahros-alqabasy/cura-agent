@@ -73,6 +73,7 @@ const UserForm = ({ open, onOpenChange, onSubmit, editData, userType }: UserForm
                 value={formData.firstName}
                 onChange={handleChange}
                 required
+                placeholder="First Name"
               />
             </div>
 
@@ -84,6 +85,7 @@ const UserForm = ({ open, onOpenChange, onSubmit, editData, userType }: UserForm
                 value={formData.lastName}
                 onChange={handleChange}
                 required
+                placeholder="Last Name"
               />
             </div>
           </div>
@@ -96,6 +98,7 @@ const UserForm = ({ open, onOpenChange, onSubmit, editData, userType }: UserForm
               value={formData.nationalId}
               onChange={handleChange}
               required
+              placeholder="National ID"
             />
           </div>
 
@@ -108,6 +111,7 @@ const UserForm = ({ open, onOpenChange, onSubmit, editData, userType }: UserForm
               value={formData.email}
               onChange={handleChange}
               required
+              placeholder="Email Address"
             />
           </div>
 
@@ -120,13 +124,14 @@ const UserForm = ({ open, onOpenChange, onSubmit, editData, userType }: UserForm
               value={formData.mobile}
               onChange={handleChange}
               required
+              placeholder="+20 10-15-888-272"
             />
           </div>
 
           {userType === "doctor" && (
             <div className="space-y-2">
               <Label htmlFor="specialty">Specialty</Label>
-              <Select 
+              <Select
                 name="specialty"
                 defaultValue={formData.specialty || "general"}
                 onValueChange={(value) => setFormData(prev => ({ ...prev, specialty: value }))}
