@@ -8,7 +8,7 @@ import { toast } from "sonner";
 export interface Shortcut {
   key: string;
   description: string;
-  action: () => void;
+  action: () => void | boolean;
   scope: 'global' | 'sidebar' | 'form' | 'modal';
   roles?: string[]; // Optional: Only specific roles can use this shortcut
 }
@@ -171,6 +171,7 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
         
         // Execute action and prevent default if needed
         const result = shortcut.action();
+        // Fix for the TS2367 error - check if result is explicitly false
         if (result !== false) {
           e.preventDefault();
         }
