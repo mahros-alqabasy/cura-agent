@@ -1,216 +1,219 @@
-
-import { useState } from "react";
-import { useAuth } from "@/shared/contexts/AuthContext";
-import PageLayout from "@/shared/components/PageLayout";
-import { Button } from "@/shared/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/shared/ui/card";
-import { Input } from "@/shared/ui/input";
-import { Label } from "@/shared/ui/label";
-import { Separator } from "@/shared/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
+import { useState } from 'react';
+import { useAuth } from '@/shared/contexts/AuthContext';
+import PageLayout from '@/shared/components/PageLayout';
+import { Button } from '@/shared/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/shared/ui/card';
+import { Input } from '@/shared/ui/input';
+import { Label } from '@/shared/ui/label';
+import { Separator } from '@/shared/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
+import { toast } from 'sonner';
 
 const Profile = () => {
-  const { user } = useAuth();
-  const [profileData, setProfileData] = useState({
-    firstName: user?.firstName || "",
-    lastName: user?.lastName || "",
-    email: user?.email || "",
-    mobile: "+201123456789", // Example data
-    address: "123 Main St, Cairo, Egypt", // Example data
-    specialty: user?.role === "doctor" ? "Cardiology" : "", // Example data for doctors
-    nationalId: "2910284714", // Example data
+  const { user, updateUserProfile } = useAuth();
+  const [activeTab, setActiveTab] = useState('personal');
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
+    email: user?.email || '',
+    mobile: user?.mobile || '',
+    address: user?.address || '',
+    city: user?.city || '',
+    country: user?.country || '',
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: ''
   });
 
-  const handleInputChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setProfileData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSaveProfile = () => {
-    // In a real app, you would call an API to update the user's profile
-    alert("Profile updated successfully!");
-  };
-
-  const handleChangePassword = () => {
-    // In a real app, you would call an API to change the user's password
-    alert("Password changed successfully!");
+  const handlePersonalInfoSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      // In real app, this would call an API
+      await updateUserProfile({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        mobile: formData.mobile,
+        address: formData.address,
+        city: formData.city,
+        country: formData.country
+      });
+      toast.success('Profile updated successfully');
+    } catch (error) {
+      toast.error('Failed to update profile');
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <PageLayout title="My Profile" actionButton={null} showSearch={false}>
-      <div className="space-y-6">
-        <Tabs defaultValue="personal">
-          <TabsList className="grid w-full md:w-[400px] grid-cols-2">
-            <TabsTrigger value="personal">Personal Information</TabsTrigger>
-            <TabsTrigger value="security">Security</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="personal" className="space-y-6 mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Profile Information</CardTitle>
-                <CardDescription>
-                  Update your personal information and contact details
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="flex flex-col md:flex-row gap-6">
-                  <div className="w-full md:w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                    {user?.profileImage ? (
-                      <img
-                        src={user.profileImage}
-                        alt={`${user.firstName} ${user.lastName}`}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <span className="text-gray-500 text-2xl font-medium">
-                        {profileData.firstName.charAt(0)}{profileData.lastName.charAt(0)}
-                      </span>
-                    )}
-                  </div>
-                  
-                  <div className="flex-1 space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="firstName">First Name</Label>
-                        <Input 
-                          id="firstName" 
-                          name="firstName" 
-                          value={profileData.firstName}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="lastName">Last Name</Label>
-                        <Input 
-                          id="lastName" 
-                          name="lastName" 
-                          value={profileData.lastName}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input 
-                        id="email" 
-                        name="email" 
-                        type="email" 
-                        value={profileData.email}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="mobile">Mobile Number</Label>
-                        <Input 
-                          id="mobile" 
-                          name="mobile" 
-                          type="tel" 
-                          value={profileData.mobile}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="nationalId">National ID</Label>
-                        <Input 
-                          id="nationalId" 
-                          name="nationalId" 
-                          value={profileData.nationalId}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="address">Address</Label>
-                      <Input 
-                        id="address" 
-                        name="address" 
-                        value={profileData.address}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    
-                    {user?.role === "doctor" && (
-                      <div className="space-y-2">
-                        <Label htmlFor="specialty">Specialty</Label>
-                        <Input 
-                          id="specialty" 
-                          name="specialty" 
-                          value={profileData.specialty}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button onClick={handleSaveProfile}>Save Changes</Button>
-              </CardFooter>
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="security" className="space-y-6 mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Password</CardTitle>
-                <CardDescription>
-                  Change your password to keep your account secure
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="currentPassword">Current Password</Label>
-                  <Input id="currentPassword" type="password" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="newPassword">New Password</Label>
-                  <Input id="newPassword" type="password" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Confirm New Password</Label>
-                  <Input id="confirmPassword" type="password" />
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button onClick={handleChangePassword}>Change Password</Button>
-              </CardFooter>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle>Two-Factor Authentication</CardTitle>
-                <CardDescription>
-                  Add an extra layer of security to your account
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm text-gray-500">
-                  Two-factor authentication adds an additional layer of security to your
-                  account by requiring more than just a password to sign in.
-                </p>
-                <Separator />
-                <div className="flex items-center justify-between">
+    <PageLayout
+      title="My Profile"
+      actionButton={null}
+    >
+      <Tabs defaultValue="personal" className="space-y-4" onValueChange={setActiveTab}>
+        <TabsList>
+          <TabsTrigger value="personal">Personal Information</TabsTrigger>
+          <TabsTrigger value="security">Security</TabsTrigger>
+          <TabsTrigger value="notifications">Notifications</TabsList>
+        
+        <TabsContent value="personal" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Personal Information</CardTitle>
+              <CardDescription>Update your personal details</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handlePersonalInfoSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <p className="font-medium">Status: <span className="text-red-500">Not Enabled</span></p>
-                    <p className="text-sm text-gray-500">
-                      Enable two-factor authentication for enhanced account security
-                    </p>
+                    <Label htmlFor="firstName">First Name</Label>
+                    <Input
+                      id="firstName"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
-                  <Button variant="outline">Enable</Button>
+                  <div>
+                    <Label htmlFor="lastName">Last Name</Label>
+                    <Input
+                      id="lastName"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
+                <div>
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="mobile">Mobile Number</Label>
+                  <Input
+                    id="mobile"
+                    name="mobile"
+                    type="tel"
+                    value={formData.mobile}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="address">Address</Label>
+                  <Input
+                    id="address"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="city">City</Label>
+                    <Input
+                      id="city"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="country">Country</Label>
+                    <Input
+                      id="country"
+                      name="country"
+                      value={formData.country}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <Button type="submit" disabled={loading}>
+                  {loading ? 'Updating...' : 'Update Profile'}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="security" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Change Password</CardTitle>
+              <CardDescription>Update your password</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form className="space-y-4">
+                <div>
+                  <Label htmlFor="oldPassword">Old Password</Label>
+                  <Input
+                    id="oldPassword"
+                    name="oldPassword"
+                    type="password"
+                    value={formData.oldPassword}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="newPassword">New Password</Label>
+                  <Input
+                    id="newPassword"
+                    name="newPassword"
+                    type="password"
+                    value={formData.newPassword}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="confirmPassword">Confirm New Password</Label>
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <Button type="submit">Change Password</Button>
+              </form>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="notifications" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Notification Preferences</CardTitle>
+              <CardDescription>Customize your notification settings</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p>Coming Soon!</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </PageLayout>
   );
 };

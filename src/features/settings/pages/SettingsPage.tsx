@@ -1,4 +1,3 @@
-
 import PageLayout from "@/shared/components/PageLayout";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card";
@@ -8,7 +7,6 @@ const Settings = () => {
     <PageLayout
       title="Settings"
       actionButton={null}
-      showSearch={false}
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
