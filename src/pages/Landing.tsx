@@ -44,17 +44,17 @@ const appointmentFormSchema = z.object({
   firstName: z.string().min(2, { message: 'First name must be at least 2 characters.' }),
   lastName: z.string().min(2, { message: 'Last name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email address.' }),
-  phoneNumber: z.string().regex(/^01\d{9}$/, { 
-    message: 'Please enter a valid Egyptian phone number (e.g., 01xxxxxxxxx).' 
+  phoneNumber: z.string().regex(/^01\d{9}$/, {
+    message: 'Please enter a valid Egyptian phone number (e.g., 01xxxxxxxxx).'
   }),
   dateOfBirth: z.date({
     required_error: 'Please select a date of birth.',
   }),
-  nationalId: z.string().regex(/^\d{14}$/, { 
-    message: 'National ID must be 14 digits.' 
+  nationalId: z.string().regex(/^\d{14}$/, {
+    message: 'National ID must be 14 digits.'
   }),
-  details: z.string().min(10, { 
-    message: 'Please provide details about your appointment (minimum 10 characters).' 
+  details: z.string().min(10, {
+    message: 'Please provide details about your appointment (minimum 10 characters).'
   }),
 });
 
@@ -90,7 +90,7 @@ const Landing = () => {
         // In production, use the real API
         await appointmentService.createPublicAppointment(data);
       }
-      
+
       setIsSuccess(true);
       toast.success('Your appointment request has been received!');
       // Reset form after successful submission
@@ -133,7 +133,7 @@ const Landing = () => {
               <Link to="/login">Sign In</Link>
             </Button>
             <Button asChild>
-              <Link to="/register">Register</Link>
+              <Link to="/chat-bot">Try Chat Bot!</Link>
             </Button>
           </div>
         </div>
@@ -157,9 +157,9 @@ const Landing = () => {
                 <Button size="lg" asChild>
                   <Link to="/register">Get Started</Link>
                 </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
+                <Button
+                  size="lg"
+                  variant="outline"
                   onClick={() => setIsDialogOpen(true)}
                 >
                   Book an Appointment
@@ -194,12 +194,12 @@ const Landing = () => {
           <DialogHeader>
             <DialogTitle>{isSuccess ? 'Thank You!' : 'Book an Appointment'}</DialogTitle>
             <DialogDescription>
-              {isSuccess 
-                ? 'Your appointment request has been received. We will contact you shortly.' 
+              {isSuccess
+                ? 'Your appointment request has been received. We will contact you shortly.'
                 : 'Fill out the form below to request an appointment with our healthcare providers.'}
             </DialogDescription>
           </DialogHeader>
-          
+
           {!isSuccess ? (
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -231,7 +231,7 @@ const Landing = () => {
                     )}
                   />
                 </div>
-                
+
                 <FormField
                   control={form.control}
                   name="email"
@@ -245,7 +245,7 @@ const Landing = () => {
                     </FormItem>
                   )}
                 />
-                
+
                 <FormField
                   control={form.control}
                   name="phoneNumber"
@@ -259,7 +259,7 @@ const Landing = () => {
                     </FormItem>
                   )}
                 />
-                
+
                 <FormField
                   control={form.control}
                   name="nationalId"
@@ -273,7 +273,7 @@ const Landing = () => {
                     </FormItem>
                   )}
                 />
-                
+
                 <FormField
                   control={form.control}
                   name="dateOfBirth"
@@ -316,7 +316,7 @@ const Landing = () => {
                     </FormItem>
                   )}
                 />
-                
+
                 <FormField
                   control={form.control}
                   name="details"
@@ -324,7 +324,7 @@ const Landing = () => {
                     <FormItem>
                       <FormLabel>Appointment Details</FormLabel>
                       <FormControl>
-                        <Textarea 
+                        <Textarea
                           placeholder="Please describe your symptoms or reason for appointment"
                           className="resize-none"
                           rows={4}
@@ -335,17 +335,17 @@ const Landing = () => {
                     </FormItem>
                   )}
                 />
-                
+
                 <DialogFooter>
-                  <Button 
-                    type="button" 
-                    variant="outline" 
+                  <Button
+                    type="button"
+                    variant="outline"
                     onClick={handleDialogClose}
                   >
                     Cancel
                   </Button>
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? "Submitting..." : "Submit"}
@@ -357,11 +357,11 @@ const Landing = () => {
             <div className="flex flex-col items-center justify-center py-8">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                 <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth="2" 
-                    d="M5 13l4 4L19 7" 
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5 13l4 4L19 7"
                   />
                 </svg>
               </div>

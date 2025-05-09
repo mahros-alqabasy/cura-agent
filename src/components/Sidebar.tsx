@@ -18,7 +18,8 @@ import {
   LogOut,
   User,
   ClipboardList,
-  MessageSquare
+  MessageSquare,
+  PiIcon
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -40,9 +41,9 @@ const getNavItems = (role) => {
       { name: 'AI Assistant', path: '/ai-assistant', icon: <Bot className="h-5 w-5" /> }
     ],
     admin: [
-      { 
-        name: 'Users', 
-        path: null, 
+      {
+        name: 'Users',
+        path: null,
         icon: <Users className="h-5 w-5" />,
         submenu: [
           { name: 'Doctors', path: '/doctors' },
@@ -56,6 +57,7 @@ const getNavItems = (role) => {
       { name: 'Medical Records', path: '/medical-records', icon: <FileText className="h-5 w-5" /> },
       { name: 'Lab Results', path: '/lab-results', icon: <Beaker className="h-5 w-5" /> },
       { name: 'Prescriptions', path: '/prescriptions', icon: <PillIcon className="h-5 w-5" /> },
+      { name: 'Departments', path: '/departments', icon: <PiIcon className="h-5 w-5" /> },
       { name: 'AI Assistant', path: '/ai-assistant', icon: <Bot className="h-5 w-5" /> }
     ],
     nurse: [
@@ -222,19 +224,19 @@ const Sidebar = () => {
                     {expanded && (
                       <>
                         <span className="ml-3">{item.name}</span>
-                        <svg 
+                        <svg
                           className={cn(
                             "ml-auto h-5 w-5 transition-transform",
                             openSubmenus[item.name] ? "rotate-90" : ""
                           )}
-                          xmlns="http://www.w3.org/2000/svg" 
-                          viewBox="0 0 20 20" 
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
                           fill="currentColor"
                         >
-                          <path 
-                            fillRule="evenodd" 
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" 
-                            clipRule="evenodd" 
+                          <path
+                            fillRule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clipRule="evenodd"
                           />
                         </svg>
                       </>

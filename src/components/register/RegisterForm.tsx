@@ -20,6 +20,7 @@ export interface RegisterFormData {
   lastName: string;
   email: string;
   phoneNumber: string;
+  nid: string;
   password: string;
   confirmPassword: string;
   dateOfBirth: string;
@@ -33,6 +34,7 @@ const RegisterForm = ({ onSubmit, error, loading }: RegisterFormProps) => {
     lastName: '',
     email: '',
     phoneNumber: '',
+    nid: '',
     password: '',
     confirmPassword: '',
     dateOfBirth: '',
@@ -58,14 +60,14 @@ const RegisterForm = ({ onSubmit, error, loading }: RegisterFormProps) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     // Validate form
     const validationResult = validateRegisterForm(formData);
     if (validationResult) {
       setValidationError(validationResult);
       return;
     }
-    
+
     setValidationError(null);
     onSubmit(formData);
   };
@@ -86,14 +88,14 @@ const RegisterForm = ({ onSubmit, error, loading }: RegisterFormProps) => {
             </Alert>
           )}
 
-          <PersonalInfoFields 
-            formData={formData} 
-            handleChange={handleChange} 
-            handleSelectChange={handleSelectChange} 
+          <PersonalInfoFields
+            formData={formData}
+            handleChange={handleChange}
+            handleSelectChange={handleSelectChange}
           />
 
-          <PasswordFields 
-            formData={formData} 
+          <PasswordFields
+            formData={formData}
             handleChange={handleChange}
             showPassword={showPassword}
             showConfirmPassword={showConfirmPassword}
@@ -101,7 +103,7 @@ const RegisterForm = ({ onSubmit, error, loading }: RegisterFormProps) => {
             setShowConfirmPassword={setShowConfirmPassword}
           />
 
-          <TermsAgreement 
+          <TermsAgreement
             checked={formData.agreeToTerms}
             onCheckedChange={handleCheckboxChange}
           />

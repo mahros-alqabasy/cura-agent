@@ -17,13 +17,13 @@ interface PasswordFieldsProps {
   setShowConfirmPassword: (show: boolean) => void;
 }
 
-const PasswordFields = ({ 
-  formData, 
-  handleChange, 
-  showPassword, 
-  showConfirmPassword, 
-  setShowPassword, 
-  setShowConfirmPassword 
+const PasswordFields = ({
+  formData,
+  handleChange,
+  showPassword,
+  showConfirmPassword,
+  setShowPassword,
+  setShowConfirmPassword
 }: PasswordFieldsProps) => {
   return (
     <>
@@ -39,6 +39,7 @@ const PasswordFields = ({
             required
             autoComplete="new-password"
             className="pr-10"
+            placeholder='Password'
           />
           <Button
             type="button"
@@ -71,6 +72,7 @@ const PasswordFields = ({
             required
             autoComplete="new-password"
             className="pr-10"
+            placeholder='Confirm Password'
           />
           <Button
             type="button"

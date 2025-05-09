@@ -9,6 +9,7 @@ interface PersonalInfoFieldsProps {
     firstName: string;
     lastName: string;
     email: string;
+    nid: string;
     phoneNumber: string;
     dateOfBirth: string;
     gender: string;
@@ -29,6 +30,7 @@ const PersonalInfoFields = ({ formData, handleChange, handleSelectChange }: Pers
             value={formData.firstName}
             onChange={handleChange}
             required
+            placeholder='First Name'
           />
         </div>
 
@@ -40,10 +42,24 @@ const PersonalInfoFields = ({ formData, handleChange, handleSelectChange }: Pers
             value={formData.lastName}
             onChange={handleChange}
             required
+            placeholder='Last Name'
           />
         </div>
       </div>
 
+      <div className="space-y-2">
+        <Label htmlFor="nid">National ID</Label>
+        <Input
+          id="nid"
+          name="nid"
+          type="text"
+          value={formData.nid}
+          onChange={handleChange}
+          required
+          autoComplete="email"
+          placeholder='National ID'
+        />
+      </div>
       <div className="space-y-2">
         <Label htmlFor="email">Email Address</Label>
         <Input
@@ -54,6 +70,7 @@ const PersonalInfoFields = ({ formData, handleChange, handleSelectChange }: Pers
           onChange={handleChange}
           required
           autoComplete="email"
+          placeholder='Email Address'
         />
       </div>
 
@@ -66,6 +83,7 @@ const PersonalInfoFields = ({ formData, handleChange, handleSelectChange }: Pers
           value={formData.phoneNumber}
           onChange={handleChange}
           autoComplete="tel"
+          placeholder='Phone Number'
         />
       </div>
 
