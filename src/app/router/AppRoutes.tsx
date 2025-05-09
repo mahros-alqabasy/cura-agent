@@ -1,33 +1,34 @@
 
-import MainLayout from "@/shared/components/layouts/MainLayout";
-import ProtectedRoute from "@/shared/components/ProtectedRoute";
-
-import AIAssistant from "@/features/aiAssistant/pages/AIAssistantPage";
-import ChatBot from "@/features/chat/pages/ChatBotPage";
-import Dashboard from "@/features/dashboard/pages/DashboardPage";
-import Index from "@/features/core/pages/IndexPage";
-import Landing from "@/features/core/pages/LandingPage";
-import Login from "@/features/auth/pages/LoginPage";
-import NotFound from "@/features/core/pages/NotFoundPage";
-import Register from "@/features/auth/pages/RegisterPage";
-import Authors from "@/features/core/pages/AuthorsPage";
-import Appointments from "@/features/appointments/pages/AppointmentsPage";
-import MedicalRecords from "@/features/medicalRecords/pages/MedicalRecordsPage";
-import LabResults from "@/features/labResults/pages/LabResultsPage";
-import Prescriptions from "@/features/prescriptions/pages/PrescriptionsPage";
-import Settings from "@/features/settings/pages/SettingsPage";
-import Help from "@/features/help/pages/HelpPage";
-import KeyboardShortcuts from "@/features/help/pages/KeyboardShortcutsPage";
-import Profile from "@/features/users/pages/ProfilePage";
-import Doctors from "@/features/users/pages/DoctorsPage";
-import Patients from "@/features/users/pages/PatientsPage";
-import Nurses from "@/features/users/pages/NursesPage";
-import Receptionists from "@/features/users/pages/ReceptionistsPage";
-import Logs from "@/features/logs/pages/LogsPage";
-import Messages from "@/features/messages/pages/MessagesPage";
-import Departments from "@/features/departments/pages/DepartmentsPage";
+import MainLayout from "../../shared/components/layouts/MainLayout";
+import ProtectedRoute from "../../shared/components/ProtectedRoute";
 
 import { Navigate, Route, Routes } from "react-router-dom";
+
+// Import pages from existing locations instead of new feature structure
+import AIAssistant from "../../pages/AIAssistant";
+import ChatBot from "../../pages/ChatBot";
+import Dashboard from "../../pages/Dashboard";
+import Index from "../../pages/Index";
+import Landing from "../../pages/Landing";
+import Login from "../../pages/Login";
+import NotFound from "../../pages/NotFound";
+import Register from "../../pages/Register";
+import Authors from "../../pages/Authors";
+import Appointments from "../../pages/Appointments";
+import MedicalRecords from "../../pages/MedicalRecords";
+import LabResults from "../../pages/LabResults";
+import Prescriptions from "../../pages/Prescriptions";
+import Settings from "../../pages/Settings";
+import Help from "../../pages/Help";
+import KeyboardShortcuts from "../../pages/KeyboardShortcuts";
+import Profile from "../../pages/Profile";
+import Doctors from "../../pages/users/Doctors";
+import Patients from "../../pages/users/Patients";
+import Nurses from "../../pages/users/Nurses";
+import Receptionists from "../../pages/users/Receptionists";
+import Logs from "../../pages/Logs";
+import Messages from "../../pages/Messages";
+import Departments from "../../pages/Departments";
 
 function AppRoutes() {
   return <Routes>

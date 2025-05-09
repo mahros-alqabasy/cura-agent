@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Checkbox } from '@/shared/ui/checkbox';
+import { Checkbox } from '../../../components/ui/checkbox';
 
 interface TermsAgreementProps {
   checked: boolean;

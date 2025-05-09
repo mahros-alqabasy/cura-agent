@@ -1,14 +1,14 @@
 
 import { Link } from 'react-router-dom';
-import { Button } from '@/shared/ui/button';
+import { Button } from '../../../components/ui/button';
 
-import AppIcon from '@/shared/components/AppIcon';
+import AppIcon from '../../../components/AppIcon';
+
 const NotFound = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-6 py-8">
       <div className="max-w-md w-full text-center">
         <div className="cura-logo text-white text-2xl font-bold w-16 h-16 flex items-center justify-center mx-auto mb-6">
-
           <AppIcon/>
         </div>
 
