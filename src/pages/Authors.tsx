@@ -5,32 +5,54 @@ import { Mail, Linkedin, Github } from "lucide-react";
 
 const teamMembers = [
   {
-    name: "Sarah Ali",
+    name: "Mahros Mohamed",
     role: "Frontend Developer",
-    email: "sarah@curaagent.app",
-    avatar: "/images/team/sarah.jpg",
+    email: "mahros@curaagent.app",
+    avatar: "/images/team/mahros.jpg",
     bio: "Passionate about accessible and scalable user interfaces.",
     linkedin: "https://linkedin.com/in/sarahali",
     github: "https://github.com/sarahali"
   },
   {
-    name: "Omar Khaled",
+    name: "Mahros Mohamed",
     role: "Backend Engineer",
-    email: "omar@curaagent.app",
+    email: "mahros@curaagent.app",
     avatar: "/images/team/omar.jpg",
     bio: "Focused on microservices and scalable backend solutions.",
     linkedin: "https://linkedin.com/in/omarkhaled",
     github: "https://github.com/omarkhaled"
   },
+
   {
-    name: "Layla Nabil",
-    role: "Product Manager",
-    email: "layla@curaagent.app",
-    avatar: "/images/team/layla.jpg",
-    bio: "Dedicated to delivering user-centered features efficiently.",
-    linkedin: "https://linkedin.com/in/laylanabil",
-    github: ""
+    name: "Mahros Mohamed",
+    role: "Backend Engineer",
+    email: "mahros@curaagent.app",
+    avatar: "/images/team/omar.jpg",
+    bio: "Focused on microservices and scalable backend solutions.",
+    linkedin: "https://linkedin.com/in/omarkhaled",
+    github: "https://github.com/omarkhaled"
   },
+
+  {
+    name: "Mahros Mohamed",
+    role: "Backend Engineer",
+    email: "mahros@curaagent.app",
+    avatar: "/images/team/omar.jpg",
+    bio: "Focused on microservices and scalable backend solutions.",
+    linkedin: "https://linkedin.com/in/omarkhaled",
+    github: "https://github.com/omarkhaled"
+  },
+
+  {
+    name: "Mahros Mohamed",
+    role: "Backend Engineer",
+    email: "mahros@curaagent.app",
+    avatar: "/images/team/omar.jpg",
+    bio: "Focused on microservices and scalable backend solutions.",
+    linkedin: "https://linkedin.com/in/omarkhaled",
+    github: "https://github.com/omarkhaled"
+  },
+
 ];
 
 export default function Authors() {
