@@ -17,6 +17,7 @@ import LabResults from "@/pages/LabResults";
 import Prescriptions from "@/pages/Prescriptions";
 import Settings from "@/pages/Settings";
 import Help from "@/pages/Help";
+import KeyboardShortcuts from "@/pages/KeyboardShortcuts";
 import Profile from "@/pages/Profile";
 import Doctors from "@/pages/users/Doctors";
 import Patients from "@/pages/users/Patients";
@@ -68,6 +69,7 @@ function AppRoutes() {
       <Route path="/messages" element={<Messages />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/help" element={<Help />} />
+      <Route path="/help/keyboard-shortcuts" element={<KeyboardShortcuts />} /> {/* New route for keyboard shortcuts */}
       <Route path="/profile" element={<Profile />} />
     </Route>
 

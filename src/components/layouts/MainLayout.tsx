@@ -1,19 +1,29 @@
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
+import { useKeyboardShortcuts } from '@/utils/keyboardShortcuts';
 
 const MainLayout = () => {
   const { user, isAuthenticated, loading } = useAuth();
   const navigate = useNavigate();
+  const [sidebarExpanded, setSidebarExpanded] = useState(true);
   
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       navigate('/login');
     }
   }, [isAuthenticated, loading, navigate]);
+
+  // Toggle sidebar function for shortcut
+  const toggleSidebar = () => {
+    setSidebarExpanded(prev => !prev);
+  };
+
+  // Initialize keyboard shortcuts
+  useKeyboardShortcuts(toggleSidebar);
   
   if (loading) {
     return (
@@ -32,7 +42,7 @@ const MainLayout = () => {
   
   return (
     <div className="flex min-h-screen bg-background">
-      <Sidebar />
+      <Sidebar expanded={sidebarExpanded} setExpanded={setSidebarExpanded} />
       <div className="flex flex-col flex-1 overflow-hidden">
         <Header />
         <main className="flex-1 overflow-y-auto p-6">

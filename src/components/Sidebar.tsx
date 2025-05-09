@@ -1,4 +1,3 @@
-
 import AppIcon from '@/components/AppIcon'
 import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -82,10 +81,9 @@ const getNavItems = (role) => {
   return [...baseItems, ...(roleItems[role.toLowerCase()] || [])];
 };
 
-const Sidebar = () => {
+const Sidebar = ({ expanded, setExpanded }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [expanded, setExpanded] = useState(true);
   const [openSubmenus, setOpenSubmenus] = useState({});
   const [unreadMessageCount, setUnreadMessageCount] = useState(0);
 
@@ -131,7 +129,7 @@ const Sidebar = () => {
     mediaQuery.addEventListener('change', handleResize);
 
     return () => mediaQuery.removeEventListener('change', handleResize);
-  }, []);
+  }, [setExpanded]);
 
   return (
     <div className={cn(

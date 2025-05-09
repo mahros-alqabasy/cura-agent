@@ -2,6 +2,8 @@
 import PageLayout from "@/components/PageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Link } from "react-router-dom";
+import { Keyboard } from "lucide-react";
 
 const Help = () => {
   return (
@@ -36,6 +38,12 @@ const Help = () => {
                 <AccordionTrigger>How can I update my profile information?</AccordionTrigger>
                 <AccordionContent>
                   To update your profile information, click on your profile picture in the sidebar, then select "Profile" or go to Settings and select "Edit Profile" to modify your personal details.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-5">
+                <AccordionTrigger>Are there keyboard shortcuts available?</AccordionTrigger>
+                <AccordionContent>
+                  Yes! Cura Agent provides various keyboard shortcuts to enhance your workflow. You can view all available shortcuts by pressing <kbd className="px-2 py-0.5 bg-gray-100 rounded border">Ctrl + /</kbd> or by visiting our <Link to="/help/keyboard-shortcuts" className="text-primary hover:underline">Keyboard Shortcuts Guide</Link>.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -74,6 +82,12 @@ const Help = () => {
                 </li>
                 <li>
                   <a href="#" className="hover:underline">Video Tutorials</a>
+                </li>
+                <li>
+                  <Link to="/help/keyboard-shortcuts" className="hover:underline flex items-center">
+                    <Keyboard className="h-4 w-4 mr-1" />
+                    Keyboard Shortcuts
+                  </Link>
                 </li>
                 <li>
                   <a href="#" className="hover:underline">Feature Guides</a>
