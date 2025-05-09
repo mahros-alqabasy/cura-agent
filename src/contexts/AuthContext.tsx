@@ -9,6 +9,8 @@ import isDevelopment from '@/conf/Conf';
 // Use mock service in development, real service in production
 const authProvider = !isDevelopment ? authService : mockAuthService;
 
+type LoginMethod = 'email' | 'nationalId' | 'phone';
+
 interface User {
   id: string;
   email: string;
@@ -16,12 +18,14 @@ interface User {
   lastName: string;
   role: string;
   profileImage?: string;
+  phone?: string;
+  nationalId?: string;
 }
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (credential: string, password: string, method?: LoginMethod) => Promise<void>;
   register: (userData: any) => Promise<void>;
   logout: () => Promise<void>;
   isAuthenticated: boolean;
@@ -65,10 +69,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     initAuth();
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (credential: string, password: string, method: LoginMethod = 'email') => {
     try {
       setLoading(true);
-      const response = await authProvider.login(email, password);
+      const response = await authProvider.login(credential, password, method);
 
       // Get user data after successful login
       const userData = await authProvider.getCurrentUser();

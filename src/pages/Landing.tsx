@@ -1,11 +1,116 @@
 import assistantSectionImage from '/ed714da9-8a46-465a-b959-38edef80c14f.png'
 import heroSectionImage from '/4bd34475-5b10-4931-b67d-055fc45cfb0c.png'
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Bot } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Calendar } from '@/components/ui/calendar';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { format } from 'date-fns';
+import { CalendarIcon, Bot } from 'lucide-react';
+import { toast } from '@/components/ui/sonner';
+import { appointmentService } from '@/services/api';
+import isDevelopment from '@/conf/Conf';
+import { cn } from '@/lib/utils';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
 import AppIcon from '@/components/AppIcon';
+
+// Define the form schema with Zod
+const appointmentFormSchema = z.object({
+  firstName: z.string().min(2, { message: 'First name must be at least 2 characters.' }),
+  lastName: z.string().min(2, { message: 'Last name must be at least 2 characters.' }),
+  email: z.string().email({ message: 'Please enter a valid email address.' }),
+  phoneNumber: z.string().regex(/^01\d{9}$/, { 
+    message: 'Please enter a valid Egyptian phone number (e.g., 01xxxxxxxxx).' 
+  }),
+  dateOfBirth: z.date({
+    required_error: 'Please select a date of birth.',
+  }),
+  nationalId: z.string().regex(/^\d{14}$/, { 
+    message: 'National ID must be 14 digits.' 
+  }),
+  details: z.string().min(10, { 
+    message: 'Please provide details about your appointment (minimum 10 characters).' 
+  }),
+});
+
+type AppointmentFormValues = z.infer<typeof appointmentFormSchema>;
+
 const Landing = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  // Initialize the form with react-hook-form
+  const form = useForm<AppointmentFormValues>({
+    resolver: zodResolver(appointmentFormSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+      nationalId: '',
+      details: '',
+    },
+  });
+
+  const onSubmit = async (data: AppointmentFormValues) => {
+    setIsSubmitting(true);
+    try {
+      // In development, we use the mock service
+      if (isDevelopment) {
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        console.log('Appointment data submitted:', data);
+      } else {
+        // In production, use the real API
+        await appointmentService.createPublicAppointment(data);
+      }
+      
+      setIsSuccess(true);
+      toast.success('Your appointment request has been received!');
+      // Reset form after successful submission
+      form.reset();
+    } catch (error) {
+      console.error('Error submitting appointment:', error);
+      toast.error('Failed to submit appointment request. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // When dialog is closed, reset success state
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+    if (isSuccess) {
+      setIsSuccess(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -28,7 +133,7 @@ const Landing = () => {
               <Link to="/login">Sign In</Link>
             </Button>
             <Button asChild>
-              <Link to="/register">Request Demo</Link>
+              <Link to="/register">Register</Link>
             </Button>
           </div>
         </div>
@@ -52,9 +157,12 @@ const Landing = () => {
                 <Button size="lg" asChild>
                   <Link to="/register">Get Started</Link>
                 </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <Link to="/chat-bot">Try LLM?</Link>
-
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  onClick={() => setIsDialogOpen(true)}
+                >
+                  Book an Appointment
                 </Button>
               </div>
               <div className="mt-8 flex items-center">
@@ -79,6 +187,193 @@ const Landing = () => {
           </div>
         </div>
       </section>
+
+      {/* Appointment Booking Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{isSuccess ? 'Thank You!' : 'Book an Appointment'}</DialogTitle>
+            <DialogDescription>
+              {isSuccess 
+                ? 'Your appointment request has been received. We will contact you shortly.' 
+                : 'Fill out the form below to request an appointment with our healthcare providers.'}
+            </DialogDescription>
+          </DialogHeader>
+          
+          {!isSuccess ? (
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="firstName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>First Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="First name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Last Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Last name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="your@email.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="phoneNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number</FormLabel>
+                      <FormControl>
+                        <Input placeholder="01xxxxxxxxx" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="nationalId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>National ID</FormLabel>
+                      <FormControl>
+                        <Input placeholder="14-digit national ID" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="dateOfBirth"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Date of Birth</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date("1900-01-01")
+                            }
+                            initialFocus
+                            className="pointer-events-auto"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="details"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Appointment Details</FormLabel>
+                      <FormControl>
+                        <Textarea 
+                          placeholder="Please describe your symptoms or reason for appointment"
+                          className="resize-none"
+                          rows={4}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <DialogFooter>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={handleDialogClose}
+                  >
+                    Cancel
+                  </Button>
+                  <Button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit"}
+                  </Button>
+                </DialogFooter>
+              </form>
+            </Form>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-8">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth="2" 
+                    d="M5 13l4 4L19 7" 
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-medium mb-2">Appointment Request Received</h3>
+              <p className="text-gray-600 text-center mb-6">
+                We will review your request and get back to you shortly with confirmation details.
+              </p>
+              <Button onClick={handleDialogClose}>Close</Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
       {/* Features Section */}
       <section className="py-16 bg-white">
@@ -248,12 +543,6 @@ const Landing = () => {
                 Transforming healthcare with intelligent AI solutions.
               </p>
               <div className="flex space-x-4">
-                {/* <a href="#" className="text-gray-400 hover:text-gray-500">
-                  <span className="sr-only">Twitter</span>
-                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
-                  </svg>
-                </a> */}
                 <a href="https://linkedin.com/in/ma7ros" className="text-gray-400 hover:text-gray-500" target='_blank'>
                   <span className="sr-only">LinkedIn</span>
                   <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">

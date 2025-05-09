@@ -14,11 +14,13 @@ import { EyeIcon, EyeOffIcon, InfoIcon } from 'lucide-react';
 import AppIcon from '@/components/AppIcon';
 import isDevelopment from '@/conf/Conf';
 
+type LoginMethod = 'email' | 'nationalId' | 'phone';
+
 const Login = () => {
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
+  const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('');
+  const [method, setMethod] = useState<LoginMethod>('email');
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,31 +28,112 @@ const Login = () => {
 
   const isDev = isDevelopment;
 
-  // Prefill credentials based on selected role in development
+  // Prefill credentials in development mode
   useEffect(() => {
-    if (isDev && role) {
-      setEmail(`${role}@example.com`);
+    if (isDev && method) {
+      switch (method) {
+        case 'email':
+          setCredential('doctor@example.com');
+          break;
+        case 'nationalId':
+          setCredential('29001010123456');
+          break;
+        case 'phone':
+          setCredential('01000000000');
+          break;
+        default:
+          setCredential('');
+      }
       setPassword('password123');
     }
-  }, [role, isDev]);
+  }, [method, isDev]);
+
+  const validateCredential = (): boolean => {
+    if (!credential) {
+      setError(`${getMethodLabel(method)} is required`);
+      return false;
+    }
+
+    // Basic validation for each method
+    switch (method) {
+      case 'email':
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credential)) {
+          setError('Please enter a valid email address');
+          return false;
+        }
+        break;
+      case 'nationalId':
+        if (!/^\d{14}$/.test(credential)) {
+          setError('National ID must be 14 digits');
+          return false;
+        }
+        break;
+      case 'phone':
+        if (!/^01\d{9}$/.test(credential)) {
+          setError('Please enter a valid Egyptian phone number (e.g., 01xxxxxxxxx)');
+          return false;
+        }
+        break;
+    }
+
+    return true;
+  };
+
+  const getMethodLabel = (method: LoginMethod): string => {
+    switch (method) {
+      case 'email':
+        return 'Email Address';
+      case 'nationalId':
+        return 'National ID';
+      case 'phone':
+        return 'Phone Number';
+      default:
+        return 'Credential';
+    }
+  };
+
+  const getMethodPlaceholder = (method: LoginMethod): string => {
+    switch (method) {
+      case 'email':
+        return 'Enter your email address';
+      case 'nationalId':
+        return 'Enter your 14-digit national ID';
+      case 'phone':
+        return 'Enter your phone number (e.g., 01xxxxxxxxx)';
+      default:
+        return 'Enter your credential';
+    }
+  };
+
+  const getInputType = (method: LoginMethod): string => {
+    switch (method) {
+      case 'email':
+        return 'email';
+      case 'nationalId':
+      case 'phone':
+        return 'tel';
+      default:
+        return 'text';
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
 
-    if (!email || !password) {
-      setError('Email and password are required');
+    if (!password) {
+      setError('Password is required');
       return;
     }
 
-    if (!role) {
-      setError('Please select your role');
+    if (!validateCredential()) {
       return;
     }
 
     try {
       setLoading(true);
-      await login(email, password);
+      // Send both the method and credential to the authentication service
+      await login(credential, password, method);
     } catch (err: any) {
       setError(err.response?.data?.message || err.message || 'Failed to sign in. Please check your credentials.');
     } finally {
@@ -91,37 +174,42 @@ const Login = () => {
                 <Alert className="bg-blue-50 border-blue-200 mb-4">
                   <InfoIcon className="h-4 w-4 text-blue-500 mr-2" />
                   <AlertDescription className="text-blue-800">
-                    Development mode: Select a role to use demo credentials
+                    Development mode: Sample credentials will be provided
                   </AlertDescription>
                 </Alert>
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="role">I am a</Label>
-                <Select value={role} onValueChange={setRole} required>
-                  <SelectTrigger id="role" className="w-full">
-                    <SelectValue placeholder="Select your role" />
+                <Label htmlFor="method">Login Method</Label>
+                <Select 
+                  value={method} 
+                  onValueChange={(value) => {
+                    setMethod(value as LoginMethod);
+                    setCredential(''); // Clear credential when changing method
+                  }}
+                  required
+                >
+                  <SelectTrigger id="method" className="w-full">
+                    <SelectValue placeholder="Select login method" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="doctor">Doctor</SelectItem>
-                    <SelectItem value="nurse">Nurse</SelectItem>
-                    <SelectItem value="admin">Administrator</SelectItem>
-                    <SelectItem value="receptionist">Receptionist</SelectItem>
-                    <SelectItem value="patient">Patient</SelectItem>
+                    <SelectItem value="email">Email Address</SelectItem>
+                    <SelectItem value="nationalId">National ID</SelectItem>
+                    <SelectItem value="phone">Phone Number</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
+                <Label htmlFor="credential">{getMethodLabel(method)}</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  id="credential"
+                  type={getInputType(method)}
+                  value={credential}
+                  onChange={(e) => setCredential(e.target.value)}
+                  placeholder={getMethodPlaceholder(method)}
                   required
-                  autoComplete="email"
+                  autoComplete={method === 'email' ? 'email' : 'off'}
                 />
               </div>
 

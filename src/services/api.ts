@@ -5,6 +5,8 @@ import { toast } from '@/components/ui/sonner';
 const BASE_URL = 'https://gu-his.up.railway.app';
 const API_URL = `${BASE_URL}/api`;
 
+type LoginMethod = 'email' | 'nationalId' | 'phone';
+
 // Create an axios instance with baseURL
 const api = axios.create({
   baseURL: API_URL,
@@ -33,7 +35,7 @@ api.interceptors.response.use(
     const originalRequest = error.config;
     
     // If the error is 401 and we haven't retried yet
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       
       try {
@@ -68,9 +70,18 @@ api.interceptors.response.use(
 
 // Auth services
 export const authService = {
-  login: async (email: string, password: string) => {
+  login: async (credential: string, password: string, method: LoginMethod = 'email') => {
     try {
-      const response = await api.post('/auth/login/', { email, password });
+      // Construct the request payload based on the login method
+      const payload: Record<string, string> = {
+        password,
+        method
+      };
+      
+      // Add the appropriate credential field based on the method
+      payload[method] = credential;
+      
+      const response = await api.post('/auth/login/', payload);
       localStorage.setItem('token', response.data.access);
       localStorage.setItem('refreshToken', response.data.refresh);
       return response.data;
@@ -136,6 +147,84 @@ export const chatService = {
   getHistory: async () => {
     try {
       const response = await api.get('/chat/history/');
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+};
+
+// Appointment services
+export const appointmentService = {
+  createPublicAppointment: async (appointmentData: any) => {
+    try {
+      const response = await api.post('/appointments/public/', appointmentData);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  
+  getAllAppointments: async () => {
+    try {
+      const response = await api.get('/appointments/');
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  
+  getAppointmentById: async (id: string) => {
+    try {
+      const response = await api.get(`/appointments/${id}/`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+};
+
+// Department services
+export const departmentService = {
+  getAllDepartments: async () => {
+    try {
+      const response = await api.get('/departments/');
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  
+  getDepartmentById: async (id: string) => {
+    try {
+      const response = await api.get(`/departments/${id}/`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  
+  createDepartment: async (departmentData: any) => {
+    try {
+      const response = await api.post('/departments/', departmentData);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  
+  updateDepartment: async (id: string, departmentData: any) => {
+    try {
+      const response = await api.put(`/departments/${id}/`, departmentData);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  
+  deleteDepartment: async (id: string) => {
+    try {
+      const response = await api.delete(`/departments/${id}/`);
       return response.data;
     } catch (error) {
       throw error;

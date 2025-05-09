@@ -24,6 +24,7 @@ import Nurses from "@/pages/users/Nurses";
 import Receptionists from "@/pages/users/Receptionists";
 import Logs from "@/pages/Logs";
 import Messages from "@/pages/Messages";
+import Departments from "@/pages/Departments";
 
 function AppRoutes() {
   return <Routes>
@@ -52,6 +53,9 @@ function AppRoutes() {
       <Route path="/patients" element={<Patients />} />
       <Route path="/nurses" element={<Nurses />} />
       <Route path="/receptionists" element={<Receptionists />} />
+
+      {/* Department management (admin only) */}
+      <Route path="/departments" element={<Departments />} />
 
       {/* System logs */}
       <Route path="/logs" element={<Logs />} />

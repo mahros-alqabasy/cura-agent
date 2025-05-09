@@ -1,5 +1,7 @@
 
 // Mock user data
+type LoginMethod = 'email' | 'nationalId' | 'phone';
+
 const MOCK_USERS = [
   {
     id: "1",
@@ -8,7 +10,9 @@ const MOCK_USERS = [
     lastName: "Yasser",
     role: "doctor",
     password: "password123", // In a real app, passwords would be hashed
-    profileImage: "https://randomuser.me/api/portraits/men/32.jpg"
+    profileImage: "https://randomuser.me/api/portraits/men/32.jpg",
+    phone: "01000000000",
+    nationalId: "29001010123456"
   },
   {
     id: "2",
@@ -17,7 +21,9 @@ const MOCK_USERS = [
     lastName: "Mohamed",
     role: "admin",
     password: "password123",
-    profileImage: "https://randomuser.me/api/portraits/men/44.jpg"
+    profileImage: "https://randomuser.me/api/portraits/men/44.jpg",
+    phone: "01111111111",
+    nationalId: "29001010123457"
   },
   {
     id: "3",
@@ -26,20 +32,48 @@ const MOCK_USERS = [
     lastName: "Atwa",
     role: "nurse",
     password: "password123",
-    profileImage: "https://randomuser.me/api/portraits/men/67.jpg"
+    profileImage: "https://randomuser.me/api/portraits/men/67.jpg",
+    phone: "01222222222",
+    nationalId: "29001010123458"
+  },
+  {
+    id: "4",
+    email: "patient@example.com",
+    firstName: "Sara",
+    lastName: "Ahmed",
+    role: "patient",
+    password: "password123",
+    profileImage: "https://randomuser.me/api/portraits/women/32.jpg",
+    phone: "01333333333",
+    nationalId: "29001010123459"
   }
 ];
 
 // Mock auth service
 export const mockAuthService = {
-  login: async (email: string, password: string) => {
+  login: async (credential: string, password: string, method: LoginMethod = 'email') => {
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 800));
 
-    const user = MOCK_USERS.find(u => u.email === email);
+    let user;
+
+    // Find user based on provided credential type
+    switch (method) {
+      case 'email':
+        user = MOCK_USERS.find(u => u.email === credential);
+        break;
+      case 'nationalId':
+        user = MOCK_USERS.find(u => u.nationalId === credential);
+        break;
+      case 'phone':
+        user = MOCK_USERS.find(u => u.phone === credential);
+        break;
+      default:
+        throw new Error("Invalid authentication method");
+    }
 
     if (!user || user.password !== password) {
-      throw new Error("Invalid email or password");
+      throw new Error("Invalid credentials");
     }
 
     // Remove password from returned user object
