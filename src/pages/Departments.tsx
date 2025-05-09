@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -38,6 +37,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Check, ChevronsUpDown } from "lucide-react"
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -49,6 +53,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { cn } from "@/lib/utils"
 
 import { departmentService } from '@/services/api';
 import isDevelopment from '@/conf/Conf';
@@ -151,6 +156,8 @@ const Departments = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentDepartment, setCurrentDepartment] = useState<Department | null>(null);
+  const [selectedDoctors, setSelectedDoctors] = useState<Doctor[]>([]);
+  const [openDoctorSelect, setOpenDoctorSelect] = useState(false);
   
   // Initialize the form with react-hook-form
   const form = useForm<DepartmentFormValues>({
@@ -240,6 +247,23 @@ const Departments = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const toggleDoctorSelection = (doctorId: string) => {
+    const currentValues = form.getValues('doctorIds');
+    const isSelected = currentValues.includes(doctorId);
+    
+    if (isSelected) {
+      form.setValue('doctorIds', currentValues.filter(id => id !== doctorId));
+    } else {
+      form.setValue('doctorIds', [...currentValues, doctorId]);
+    }
+    
+    // Update the UI
+    const updatedDoctors = doctors.filter(doc => 
+      form.getValues('doctorIds').includes(doc.id)
+    );
+    setSelectedDoctors(updatedDoctors);
   };
 
   const onSubmit = async (data: DepartmentFormValues) => {
@@ -487,28 +511,46 @@ const Departments = () => {
                   <FormItem>
                     <FormLabel>Assign Doctors</FormLabel>
                     <FormControl>
-                      <Select
-                        onValueChange={(value) => {
-                          const selectedValues = value.split(',');
-                          field.onChange(selectedValues);
-                        }}
-                        value={field.value.join(',')}
-                        multiple
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select doctors" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>Doctors</SelectLabel>
+                      <Popover open={openDoctorSelect} onOpenChange={setOpenDoctorSelect}>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={openDoctorSelect}
+                            className="w-full justify-between"
+                          >
+                            {field.value.length > 0
+                              ? `${field.value.length} doctor${field.value.length > 1 ? 's' : ''} selected`
+                              : "Select doctors"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-full p-0" align="start">
+                          <div className="max-h-[300px] overflow-y-auto p-1">
                             {doctors.map((doctor) => (
-                              <SelectItem key={doctor.id} value={doctor.id}>
-                                {doctor.name} - {doctor.specialty || doctor.role}
-                              </SelectItem>
+                              <div
+                                key={doctor.id}
+                                className={cn(
+                                  "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground",
+                                  field.value.includes(doctor.id) ? "bg-accent text-accent-foreground" : ""
+                                )}
+                                onClick={() => toggleDoctorSelection(doctor.id)}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    field.value.includes(doctor.id) ? "opacity-100" : "opacity-0"
+                                  )}
+                                />
+                                <div>
+                                  <p>{doctor.name}</p>
+                                  <p className="text-xs text-muted-foreground">{doctor.specialty || doctor.role}</p>
+                                </div>
+                              </div>
                             ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
+                          </div>
+                        </PopoverContent>
+                      </Popover>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
