@@ -11,7 +11,7 @@ const MainLayout = () => {
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const sidebarWidth = sidebarExpanded ? '240px' : '80px';
   const headerHeight = '64px';
-  
+
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       navigate('/login');
@@ -43,29 +43,21 @@ const MainLayout = () => {
 
   return (
     <div className="flex h-screen">
+
       {/* Sidebar: Fixed to the left, full height */}
       <div className="sticky top-0 left-0 h-screen z-40 transition-all duration-300 ease-in-out">
         <Sidebar expanded={sidebarExpanded} setExpanded={setSidebarExpanded} />
       </div>
 
       {/* Content area: margin-left to make room for the fixed sidebar */}
-      <div 
-        className="flex flex-col flex-1 transition-all duration-300 ease-in-out"
-        style={{ marginLeft: sidebarWidth }}
-      >
+      <div className="flex flex-col flex-1 ml-[<SIDEBAR_WIDTH>]">
         {/* Header: Fixed to the top */}
-        <div 
-          className="sticky top-0 z-30 transition-all duration-300 ease-in-out"
-          style={{ left: sidebarWidth }}
-        >
+        <div className="sticky top-0 left-[<SIDEBAR_WIDTH>] right-0 z-30">
           <Header />
         </div>
 
         {/* Scrollable content: padding-top to offset fixed header */}
-        <main 
-          className="flex-1 overflow-y-auto p-6 animate-fade-in transition-all duration-300 ease-in-out"
-          style={{ paddingTop: headerHeight }}
-        >
+        <main className="flex-1 overflow-y-auto p-6 pt-[<HEADER_HEIGHT>]">
           <Outlet />
         </main>
       </div>
