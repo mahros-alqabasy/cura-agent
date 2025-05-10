@@ -1,19 +1,26 @@
 
-
 import { useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/features/auth/AuthContext';
 import { toast } from "sonner";
 
+export type ShortcutScope = 'global' | 'navigation' | 'form' | 'modal' | 'sidebar' | 'page';
+
 export interface Shortcut {
   key: string;
   description: string;
   action: () => void | boolean;
-  scope: 'global' | 'sidebar' | 'form' | 'modal';
+  scope: ShortcutScope;
   roles?: string[];
 }
 
-const parseKeyCombination = (combination: string): { key: string; ctrl: boolean; shift: boolean; alt: boolean } => {
+// Parse key combination strings like "Ctrl+A" into component parts
+const parseKeyCombination = (combination: string): { 
+  key: string; 
+  ctrl: boolean; 
+  shift: boolean; 
+  alt: boolean 
+} => {
   const parts = combination.split('+').map(part => part.trim().toLowerCase());
 
   return {
@@ -24,31 +31,61 @@ const parseKeyCombination = (combination: string): { key: string; ctrl: boolean;
   };
 };
 
+/**
+ * Central keyboard shortcuts registry
+ * All application shortcuts should be registered here
+ */
 export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const getShortcuts = useCallback((): Record<string, Shortcut> => {
-    return {
-      'Ctrl+B': {
-        key: 'Ctrl+B',
-        description: 'Toggle sidebar collapse/expand',
-        action: () => toggleSidebar(),
-        scope: 'global',
-      },
-      'Ctrl+1': {
+  const getShortcuts = useCallback((): Shortcut[] => {
+    return [
+      // Navigation shortcuts
+      {
         key: 'Ctrl+1',
         description: 'Open Dashboard',
         action: () => navigate('/dashboard'),
-        scope: 'sidebar',
+        scope: 'navigation',
       },
-      'Ctrl+2': {
+      {
         key: 'Ctrl+2',
         description: 'Open Appointments',
         action: () => navigate('/appointments'),
+        scope: 'navigation',
+      },
+      {
+        key: 'Ctrl+D',
+        description: 'Open Dashboard',
+        action: () => navigate('/dashboard'),
+        scope: 'global',
+      },
+      {
+        key: 'Ctrl+Shift+H',
+        description: 'Go to landing page',
+        action: () => navigate('/'),
+        scope: 'global',
+      },
+      {
+        key: 'Ctrl+U',
+        description: 'Open user profile',
+        action: () => {
+          navigate('/profile');
+          return true;
+        },
+        scope: 'global',
+      },
+      
+      // Sidebar shortcuts
+      {
+        key: 'Ctrl+B',
+        description: 'Toggle sidebar collapse/expand',
+        action: () => toggleSidebar(),
         scope: 'sidebar',
       },
-      'Ctrl+F': {
+      
+      // Search shortcuts
+      {
         key: 'Ctrl+F',
         description: 'Focus search bar',
         action: () => {
@@ -61,36 +98,9 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
         },
         scope: 'global',
       },
-      'Ctrl+N': {
-        key: 'Ctrl+N',
-        description: 'Create new appointment',
-        action: () => {
-          navigate('/appointments');
-          toast.info("New appointment shortcut triggered");
-          return true;
-        },
-        scope: 'global',
-      },
-      'Ctrl+Shift+D': {
-        key: 'Ctrl+Shift+D',
-        description: 'Open Doctor Assistant panel',
-        action: () => {
-          navigate('/ai-assistant');
-          return true;
-        },
-        scope: 'global',
-        roles: ['doctor', 'admin']
-      },
-      'Ctrl+/': {
-        key: 'Ctrl+/',
-        description: 'Open Help/Shortcut Guide',
-        action: () => {
-          navigate('/help/keyboard-shortcuts');
-          return true;
-        },
-        scope: 'global',
-      },
-      'Alt+S': {
+      
+      // Form shortcuts
+      {
         key: 'Alt+S',
         description: 'Submit current form',
         action: () => {
@@ -103,40 +113,9 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
         },
         scope: 'form',
       },
-      'Ctrl+U': {
-        key: 'Ctrl+U',
-        description: 'Open user profile',
-        action: () => {
-          navigate('/profile');
-          return true;
-        },
-        scope: 'global',
-      },
-      'Ctrl+Alt+L': {
-        key: 'Ctrl+Alt+L',
-        description: 'Log out',
-        action: () => {
-          toast.info("Logout shortcut triggered");
-          return true;
-        },
-        scope: 'global',
-      },
-      'Escape': {
-        key: 'Escape',
-        description: 'Close modals/popups',
-        action: () => {
-          const closeBtn = document.querySelector('[data-dialog-close="true"]') as HTMLButtonElement;
-          if (closeBtn) {
-            closeBtn.click();
-            return true;
-          }
-          return false;
-        },
-        scope: 'modal',
-      },
-      'Ctrl+Enter': {
+      {
         key: 'Ctrl+Enter',
-        description: 'Submit current form (global)',
+        description: 'Submit current form',
         action: () => {
           const active = document.activeElement as HTMLElement | null;
           const form = active?.closest?.('form');
@@ -152,31 +131,81 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
         },
         scope: 'form',
       },
-      'Ctrl+Shift+H': {
-        key: 'Ctrl+Shift+H',
-        description: 'Go to landing page',
-        action: () => navigate('/'),
+      
+      // Modal shortcuts
+      {
+        key: 'Escape',
+        description: 'Close modals/popups',
+        action: () => {
+          const closeBtn = document.querySelector('[data-dialog-close="true"]') as HTMLButtonElement;
+          if (closeBtn) {
+            closeBtn.click();
+            return true;
+          }
+          return false;
+        },
+        scope: 'modal',
+      },
+      
+      // Functionality shortcuts
+      {
+        key: 'Ctrl+N',
+        description: 'Create new appointment',
+        action: () => {
+          navigate('/appointments');
+          toast.info("New appointment shortcut triggered");
+          return true;
+        },
         scope: 'global',
       },
-      'Ctrl+D': {
-        key: 'Ctrl+D',
-        description: 'Open Dashboard',
-        action: () => navigate('/dashboard'),
+      {
+        key: 'Ctrl+Shift+D',
+        description: 'Open Doctor Assistant panel',
+        action: () => {
+          navigate('/ai-assistant');
+          return true;
+        },
+        scope: 'global',
+        roles: ['doctor', 'admin']
+      },
+      {
+        key: 'Ctrl+/',
+        description: 'Open Help/Shortcut Guide',
+        action: () => {
+          navigate('/help/keyboard-shortcuts');
+          return true;
+        },
         scope: 'global',
       },
-    };
-  }, [navigate, toggleSidebar]);
+      {
+        key: 'Ctrl+Alt+L',
+        description: 'Log out',
+        action: () => {
+          toast.info("Logout shortcut triggered");
+          return true;
+        },
+        scope: 'global',
+      },
+    ];
+  }, [navigate, toggleSidebar, user]);
 
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+  const handleKeyDown = useCallback((e: KeyboardEvent, activeScope?: ShortcutScope) => {
+    // Don't trigger shortcuts when typing in input fields (unless it's a read-only field)
     if (
       ['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as Element).tagName) &&
       !((e.target as HTMLInputElement).readOnly)
     ) {
       return;
     }
+    
     const shortcuts = getShortcuts();
 
-    for (const shortcut of Object.values(shortcuts)) {
+    for (const shortcut of shortcuts) {
+      // Skip shortcuts that don't match the active scope, unless they're global
+      if (activeScope && shortcut.scope !== activeScope && shortcut.scope !== 'global') {
+        continue;
+      }
+      
       const { key, ctrl, shift, alt } = parseKeyCombination(shortcut.key);
 
       if (
@@ -185,6 +214,7 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
         e.shiftKey === shift &&
         e.altKey === alt
       ) {
+        // Skip shortcuts that require specific roles the user doesn't have
         if (shortcut.roles && !shortcut.roles.includes(user?.role || '')) {
           continue;
         }
@@ -198,21 +228,24 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
     }
   }, [getShortcuts, user]);
 
-  const getAllShortcuts = useCallback(() => {
+  /**
+   * Gets all shortcuts filtered by user role and scope
+   * 
+   * @param scope Optional scope to filter shortcuts by
+   * @returns Filtered array of shortcuts
+   */
+  const getShortcutsByScope = useCallback((scope?: ShortcutScope): Shortcut[] => {
     const shortcuts = getShortcuts();
-
-    return Object.values(shortcuts).filter(shortcut =>
-      !shortcut.roles || shortcut.roles.includes(user?.role || '')
+    
+    return shortcuts.filter(shortcut => 
+      (!shortcut.roles || shortcut.roles.includes(user?.role || '')) &&
+      (!scope || shortcut.scope === scope || shortcut.scope === 'global')
     );
   }, [getShortcuts, user]);
 
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleKeyDown]);
-
-  return { shortcuts: getAllShortcuts() };
+  return { 
+    shortcuts: getShortcutsByScope(),
+    getShortcutsByScope,
+    handleKeyDown
+  };
 };

@@ -1,32 +1,31 @@
 
 import { useEffect } from "react";
+import { useKeyboardShortcuts } from "./keyboardShortcuts";
 
-interface KeyboardEvent {
-  ctrlKey: boolean;
-  key: string;
-  preventDefault: () => void;
-}
-
-interface HTMLFormElement extends HTMLElement {
-  requestSubmit?: () => void;
-  submit: () => void;
-}
-
+/**
+ * Global keyboard shortcuts handler component
+ * This component registers global keyboard event listeners to handle shortcuts
+ */
 const GlobalShortcuts = () => {
+    // Pass an empty function as toggleSidebar since this component doesn't actually toggle the sidebar
+    // The MainLayout component will handle that
+    const { handleKeyDown } = useKeyboardShortcuts(() => {});
+    
     useEffect(() => {
-        function handler(e: KeyboardEvent) {
-            if (e.ctrlKey && e.key === "Enter") {
-                const active = document.activeElement as HTMLElement | null;
-                const form = active && active.closest && active.closest("form") as HTMLFormElement | null;
-                if (form) {
-                    e.preventDefault();
-                    form.requestSubmit ? form.requestSubmit() : form.submit();
-                }
-            }
-        }
-        window.addEventListener("keydown", handler as any);
-        return () => window.removeEventListener("keydown", handler as any);
-    }, []);
+        // Setup global keyboard event handler
+        const keyboardHandler = (e: KeyboardEvent) => {
+            handleKeyDown(e);
+        };
+        
+        window.addEventListener("keydown", keyboardHandler);
+        
+        // Clean up event listeners on unmount
+        return () => {
+            window.removeEventListener("keydown", keyboardHandler);
+        };
+    }, [handleKeyDown]);
+    
+    // This component doesn't render anything
     return null;
 }
 

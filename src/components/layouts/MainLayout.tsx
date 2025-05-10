@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/features/auth/AuthContext';
@@ -23,8 +24,21 @@ const MainLayout = () => {
     setSidebarExpanded(prev => !prev);
   };
 
-  // Initialize keyboard shortcuts
-  useKeyboardShortcuts(toggleSidebar);
+  // Initialize keyboard shortcuts with sidebar scope
+  const { handleKeyDown } = useKeyboardShortcuts(toggleSidebar);
+
+  // Add keyboard event listener specifically for sidebar shortcuts
+  useEffect(() => {
+    const sidebarKeyHandler = (e: KeyboardEvent) => {
+      handleKeyDown(e, 'sidebar');
+    };
+    
+    window.addEventListener('keydown', sidebarKeyHandler);
+    
+    return () => {
+      window.removeEventListener('keydown', sidebarKeyHandler);
+    };
+  }, [handleKeyDown]);
 
   if (loading) {
     return (
