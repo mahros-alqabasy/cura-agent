@@ -1,10 +1,9 @@
-
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/features/auth/AuthContext';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
-import { useKeyboardShortcuts } from '@/utils/keyboardShortcuts';
+import { useKeyboardShortcuts } from '@/utils/shortcuts';
 
 const MainLayout = () => {
   const { user, isAuthenticated, loading } = useAuth();

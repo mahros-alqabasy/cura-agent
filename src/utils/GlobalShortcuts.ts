@@ -1,6 +1,6 @@
 
 import { useEffect } from "react";
-import { useKeyboardShortcuts } from "./keyboardShortcuts";
+import { useKeyboardShortcuts } from "./shortcuts";
 
 /**
  * Global keyboard shortcuts handler component
