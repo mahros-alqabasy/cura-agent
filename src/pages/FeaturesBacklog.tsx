@@ -7,6 +7,13 @@ import latestFeatures from "@/data/latestFeatures.json";
 import backlog from "@/data/backlog.json";
 import { Link } from "react-router-dom";
 
+
+import React, { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+
+
 const iconMap = {
     check: <CheckCircle className="text-green-500" />,
     lightbulb: <Lightbulb className="text-yellow-500" />,
@@ -15,6 +22,23 @@ const iconMap = {
 };
 
 export default function FeaturesBacklog() {
+    const [suggestedFeatures, setSuggestedFeatures] = useState<{ title: string; description: string }[]>([]);
+    const [newFeature, setNewFeature] = useState({ title: "", description: "" });
+
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setNewFeature((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (newFeature.title && newFeature.description) {
+            setSuggestedFeatures((prev) => [...prev, newFeature]);
+            setNewFeature({ title: "", description: "" });
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-white to-primary-50 flex flex-col items-center py-12 px-4">
             <div className="w-full max-w-3xl space-y-10">
@@ -88,6 +112,46 @@ export default function FeaturesBacklog() {
                         )}
                     </CardContent>
                 </Card>
+
+
+                {/* Suggest a Feature */}
+                <Card className="shadow-md">
+                    <CardHeader>
+                        <CardTitle>Suggest a New Feature</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <Input
+                                name="title"
+                                value={newFeature.title}
+                                onChange={handleInputChange}
+                                placeholder="Feature title"
+                                required
+                            />
+                            <Textarea
+                                name="description"
+                                value={newFeature.description}
+                                onChange={handleInputChange}
+                                placeholder="Describe the feature"
+                                required
+                            />
+                            <Button type="submit">Submit Suggestion</Button>
+                        </form>
+
+                        {suggestedFeatures.length > 0 && (
+                            <div className="mt-6 space-y-4">
+                                <h4 className="text-md font-semibold">Submitted Suggestions</h4>
+                                {suggestedFeatures.map((feature, idx) => (
+                                    <div key={idx} className="border p-3 rounded-md bg-primary-50">
+                                        <div className="font-medium">{feature.title}</div>
+                                        <div className="text-sm text-gray-600">{feature.description}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
+
             </div>
         </div>
     );
