@@ -59,6 +59,19 @@ const screenshots: Screenshot[] = [
 const ScreenshotGallery = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [api, setApi] = useState<CarouselApi | null>(null);
+  
+  // Set up auto-play functionality
+  useEffect(() => {
+    if (!api) return;
+    
+    // Set up an interval to automatically advance the carousel
+    const autoPlayInterval = setInterval(() => {
+      api.scrollNext();
+    }, 3000); // Change slide every 3 seconds
+    
+    // Clear interval on component unmount
+    return () => clearInterval(autoPlayInterval);
+  }, [api]);
 
   // Use the onSelect callback to update activeIndex
   const onSelect = useCallback(() => {
@@ -93,6 +106,7 @@ const ScreenshotGallery = () => {
             opts={{
               loop: true,
               align: "center",
+              dragFree: true,
             }}
             className="w-full"
             setApi={setApi}
