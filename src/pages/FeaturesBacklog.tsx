@@ -104,8 +104,12 @@ export default function FeaturesBacklog() {
 
                 {/* Backlog */}
                 <Card className="shadow-md">
-                    <CardHeader>
-                        <CardTitle>Backlog</CardTitle>
+                    <CardHeader className="flex flex-row items-baseline justify-between pb-2">
+                        <CardTitle className="text-lg font-semibold">Backlog</CardTitle>
+                        <Button variant="ghost" size="sm" className="text-primary" onClick={() => { alert("Adding a new feature.") }}>
+                            <span className="text-xl font-semibold">Add</span>
+                        </Button>
+
                     </CardHeader>
                     <CardContent>
                         {backlog.length === 0 ? (
@@ -131,7 +135,7 @@ export default function FeaturesBacklog() {
 
 
                 {/* Suggest a Feature */}
-                <Card className="shadow-md">
+                {/* <Card className="shadow-md">
                     <CardHeader>
 
                         <CardTitle className="flex justify-center justify-between">
@@ -181,7 +185,7 @@ export default function FeaturesBacklog() {
                             </div>
                         )}
                     </CardContent>
-                </Card>
+                </Card> */}
 
             </div>
         </div >

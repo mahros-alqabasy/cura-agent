@@ -59,16 +59,16 @@ const screenshots: Screenshot[] = [
 const ScreenshotGallery = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [api, setApi] = useState<CarouselApi | null>(null);
-  
+
   // Set up auto-play functionality
   useEffect(() => {
     if (!api) return;
-    
+
     // Set up an interval to automatically advance the carousel
     const autoPlayInterval = setInterval(() => {
       api.scrollNext();
     }, 3000); // Change slide every 3 seconds
-    
+
     // Clear interval on component unmount
     return () => clearInterval(autoPlayInterval);
   }, [api]);
@@ -83,26 +83,19 @@ const ScreenshotGallery = () => {
   // Setup the carousel API and event listeners
   useEffect(() => {
     if (!api) return;
-    
+
     api.on('select', onSelect);
-    
+
     return () => {
       api.off('select', onSelect);
     };
   }, [api, onSelect]);
 
   return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">System Overview</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Explore the key features and user interfaces of Cura Agent
-          </p>
-        </div>
-
+    <section className="py-1 bg-white">
+      <div className="container mx-auto px-0">
         <div className="relative">
-          <Carousel 
+          <Carousel
             opts={{
               loop: true,
               align: "center",
@@ -129,7 +122,7 @@ const ScreenshotGallery = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            
+
             <div className="absolute left-1/2 bottom-4 -translate-x-1/2 flex justify-center gap-2 mt-4">
               {screenshots.map((_, index) => (
                 <button
@@ -143,11 +136,11 @@ const ScreenshotGallery = () => {
                 />
               ))}
             </div>
-            
+
             <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 shadow h-10 w-10">
               <ChevronLeft className="h-6 w-6" />
             </CarouselPrevious>
-            
+
             <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 shadow h-10 w-10">
               <ChevronRight className="h-6 w-6" />
             </CarouselNext>
