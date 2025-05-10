@@ -1,21 +1,22 @@
 
-import { Suspense, lazy, ComponentType } from 'react';
-import { LucideIcon, LucideProps } from 'lucide-react';
+import { Suspense, lazy } from 'react';
+import { LucideProps } from 'lucide-react';
 
-interface DynamicIconProps {
+interface DynamicIconProps extends Omit<LucideProps, 'ref'> {
   iconName: string;
-  [key: string]: any;
 }
 
 function DynamicIcon({ iconName, ...rest }: DynamicIconProps) {
-    // Cast the dynamic import to the correct return type
-    const IconComponent = lazy<ComponentType<LucideProps>>(() =>
-        import('lucide-react').then(module => {
-            const Icon = module[iconName as keyof typeof module];
-            return {
-                default: Icon || (() => <span>Invalid icon</span>)
-            };
-        })
+    // Use a more direct approach that avoids type issues
+    const IconComponent = lazy(() =>
+        import('lucide-react')
+            .then(module => {
+                const Icon = module[iconName as keyof typeof module];
+                if (!Icon) {
+                    return { default: () => <span>Invalid icon</span> };
+                }
+                return { default: Icon };
+            })
     );
 
     return (
