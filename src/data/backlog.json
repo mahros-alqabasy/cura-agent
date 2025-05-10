@@ -12,9 +12,10 @@
         "icon": "clock"
     },
     {
-        "title": "Slide Show for System screens",
-        "description": "Create a modern slider section in Landing Page showing all the System Screens.",
+        "title": "App Screens Showcase Slider",
+        "description": "A responsive image slider section on the landing page that showcases app screens using Glide.js, enhancing user engagement by providing a visual preview of the application's interface.",
         "status": "Planned",
         "icon": "clock"
-    }
+    },
+    {}
 ]
