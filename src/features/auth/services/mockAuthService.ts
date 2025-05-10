@@ -38,11 +38,11 @@ const MOCK_USERS = [
     {
         id: "4",
         email: "patient@example.com",
-        firstName: "Sara",
+        firstName: "Ali",
         lastName: "Ahmed",
         role: "patient",
         password: "password123",
-        profileImage: "https://randomuser.me/api/portraits/women/32.jpg",
+        profileImage: "https://randomuser.me/api/portraits/men/32.jpg",
         phone: "01333333333",
         nationalId: "29001010123459"
     }
