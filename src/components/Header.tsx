@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/features/auth/AuthContext';
-import { Bell, Settings } from 'lucide-react';
+import { AtSign, Bell, Settings, Shield, ShieldHalf, StarHalf, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +14,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@/components/ui/sonner';
+import DynamicIcon from './DynamicIcon';
 
 interface Notification {
   id: string;
@@ -164,10 +166,18 @@ const Header = () => {
     }
   };
 
+
   return (
     <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6 sticky top-0 z-10">
       <div className="flex items-center">
-        <div className="p-2 h-7 rounded-md bg-primary/25 text-primary flex justify-center items-center gap-1 text-center">
+        <div className="p-2 h-8 rounded-md bg-primary/25 text-primary flex justify-center items-center gap-1 text-center">
+          {user.role == "admin" && (
+            <Shield fill='#4CB269' size={20} strokeWidth={0} />
+          )}
+          {user.role != "admin" && (
+            <AtSign size={20} strokeWidth={2} />
+          )}
+
           <span className='font-medium'>{user?.role?.replace(/\b\w/g, char => char.toUpperCase())} Portal</span>
         </div>
       </div>

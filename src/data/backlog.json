@@ -10,5 +10,11 @@
         "description": "Switch patient identification from a numeric ID to a unique code.",
         "status": "Planned",
         "icon": "clock"
+    },
+    {
+        "title": "Slide Show for System screens",
+        "description": "Create a modern slider section in Landing Page showing all the System Screens.",
+        "status": "Planned",
+        "icon": "clock"
     }
 ]

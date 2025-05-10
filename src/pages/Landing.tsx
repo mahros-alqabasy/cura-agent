@@ -38,6 +38,7 @@ import {
 } from '@/components/ui/form';
 
 import AppIcon from '@/components/AppIcon';
+import ScreenshotGallery from '@/components/ScreenshotGallery';
 
 // Define the form schema with Zod
 const appointmentFormSchema = z.object({
@@ -185,6 +186,19 @@ const Landing = () => {
               />
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Screenshot Gallery Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">System Overview</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Explore the key features and user interfaces of Cura Agent
+            </p>
+          </div>
+          <ScreenshotGallery />
         </div>
       </section>
 
