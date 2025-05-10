@@ -14,7 +14,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@/components/ui/sonner';
-import DynamicIcon from './DynamicIcon';
+
 
 interface Notification {
   id: string;
