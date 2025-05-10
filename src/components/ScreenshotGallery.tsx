@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import {
   Carousel,
@@ -7,6 +7,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from '@/components/ui/carousel';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -57,10 +58,25 @@ const screenshots: Screenshot[] = [
 
 const ScreenshotGallery = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [api, setApi] = useState<CarouselApi | null>(null);
 
-  const handleSlideChange = (index: number) => {
-    setActiveIndex(index);
-  };
+  // Use the onSelect callback to update activeIndex
+  const onSelect = useCallback(() => {
+    if (!api) return;
+    const currentSlide = api.selectedScrollSnap();
+    setActiveIndex(currentSlide);
+  }, [api]);
+
+  // Setup the carousel API and event listeners
+  useEffect(() => {
+    if (!api) return;
+    
+    api.on('select', onSelect);
+    
+    return () => {
+      api.off('select', onSelect);
+    };
+  }, [api, onSelect]);
 
   return (
     <section className="py-16 bg-white">
@@ -79,7 +95,7 @@ const ScreenshotGallery = () => {
               align: "center",
             }}
             className="w-full"
-            onSlideChanged={handleSlideChange}
+            setApi={setApi}
           >
             <CarouselContent>
               {screenshots.map((screenshot, index) => (
@@ -104,7 +120,7 @@ const ScreenshotGallery = () => {
               {screenshots.map((_, index) => (
                 <button
                   key={index}
-                  onClick={() => setActiveIndex(index)}
+                  onClick={() => api?.scrollTo(index)}
                   className={cn(
                     'w-3 h-3 rounded-full transition-colors duration-200',
                     index === activeIndex ? 'bg-primary' : 'bg-gray-300 hover:bg-gray-400'
