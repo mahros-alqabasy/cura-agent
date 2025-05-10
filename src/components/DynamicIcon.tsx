@@ -1,14 +1,21 @@
-import { Suspense, lazy } from 'react';
 
-function DynamicIcon({ iconName, ...rest }) {
-    const IconComponent = lazy(() =>
+import { Suspense, lazy } from 'react';
+import { LucideIcon } from 'lucide-react';
+
+interface DynamicIconProps {
+  iconName: string;
+  [key: string]: any;
+}
+
+function DynamicIcon({ iconName, ...rest }: DynamicIconProps) {
+    const IconComponent = lazy<LucideIcon>(() =>
         import('lucide-react').then(module => ({
-            default: module[iconName] || (() => <span>Invalid icon</span>)
+            default: module[iconName as keyof typeof module] || (() => <span>Invalid icon</span>)
         }))
     );
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="w-4 h-4 animate-pulse bg-gray-200 rounded"></div>}>
             <IconComponent {...rest} />
         </Suspense>
     );

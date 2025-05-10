@@ -1,3 +1,4 @@
+
 [
     {
         "title": "Remove Registration Page",
@@ -13,9 +14,9 @@
     },
     {
         "title": "App Screens Showcase Slider",
-        "description": "A responsive image slider section on the landing page that showcases app screens using Glide.js, enhancing user engagement by providing a visual preview of the application's interface.",
-        "status": "Planned",
-        "icon": "clock"
+        "description": "A responsive image slider section on the landing page that showcases app screens using Embla Carousel, enhancing user engagement by providing a visual preview of the application's interface.",
+        "status": "Completed",
+        "icon": "check"
     },
     {}
 ]

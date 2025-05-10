@@ -1,8 +1,16 @@
+
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-
-
+// Import all screenshots
 import adminDashboardImage from '/screenshots/admin-dashboard.png';
 import aiAssistantImage from '/screenshots/ai-assistatn.png';
 import appointmentsImage from '/screenshots/appointments.png';
@@ -20,7 +28,6 @@ import settingsImage from '/screenshots/settings.png';
 import signinPageImage from '/screenshots/signin-page.png';
 import signinImage from '/screenshots/signin.png';
 import signupImage from '/screenshots/signup-page.png';
-
 
 interface Screenshot {
   src: string;
@@ -51,12 +58,8 @@ const screenshots: Screenshot[] = [
 const ScreenshotGallery = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const goToPrev = () => {
-    setActiveIndex(prev => (prev === 0 ? screenshots.length - 1 : prev - 1));
-  };
-
-  const goToNext = () => {
-    setActiveIndex(prev => (prev === screenshots.length - 1 ? 0 : prev + 1));
+  const handleSlideChange = (index: number) => {
+    setActiveIndex(index);
   };
 
   return (
@@ -69,59 +72,56 @@ const ScreenshotGallery = () => {
           </p>
         </div>
 
-        <div className="relative overflow-hidden rounded-lg shadow-xl">
-          <div
-            className="flex transition-transform duration-700 ease-in-out"
-            style={{ transform: `translateX(-${activeIndex * 100}%)`, width: `${screenshots.length * 100}%` }}
+        <div className="relative">
+          <Carousel 
+            opts={{
+              loop: true,
+              align: "center",
+            }}
+            className="w-full"
+            onSlideChanged={handleSlideChange}
           >
-            {screenshots.map((screenshot, index) => (
-              <div key={index} className="w-full flex-shrink-0 flex items-center justify-center">
-                <div className="relative w-full h-[600px] px-4">
-                  <img
-                    src={screenshot.src}
-                    alt={screenshot.alt}
-                    className="w-full h-full object-contain rounded-lg"
-                  />
-                  <div className="absolute bottom-6 left-6 bg-white/90 px-6 py-3 rounded-lg shadow-md">
-                    <h3 className="font-semibold text-gray-900 text-lg">{screenshot.title}</h3>
+            <CarouselContent>
+              {screenshots.map((screenshot, index) => (
+                <CarouselItem key={index} className="md:basis-3/4 lg:basis-2/3">
+                  <div className="relative h-[500px] w-full p-1">
+                    <div className="overflow-hidden rounded-lg shadow-xl transition-all duration-300 hover:shadow-2xl h-full flex items-center justify-center bg-white">
+                      <img
+                        src={screenshot.src}
+                        alt={screenshot.alt}
+                        className="w-full h-full object-contain rounded-lg"
+                      />
+                      <div className="absolute bottom-6 left-6 bg-white/90 px-6 py-3 rounded-lg shadow-md animate-fade-in">
+                        <h3 className="font-semibold text-gray-900 text-lg">{screenshot.title}</h3>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Dots */}
-          <div className="flex justify-center gap-2 mt-6">
-            {screenshots.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveIndex(index)}
-                className={cn(
-                  'w-3 h-3 rounded-full transition-colors duration-200',
-                  index === activeIndex ? 'bg-primary' : 'bg-gray-300 hover:bg-gray-400'
-                )}
-              />
-            ))}
-          </div>
-
-          {/* Navigation */}
-          <button
-            onClick={goToPrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
-          <button
-            onClick={goToNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            
+            <div className="absolute left-1/2 bottom-4 -translate-x-1/2 flex justify-center gap-2 mt-4">
+              {screenshots.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  className={cn(
+                    'w-3 h-3 rounded-full transition-colors duration-200',
+                    index === activeIndex ? 'bg-primary' : 'bg-gray-300 hover:bg-gray-400'
+                  )}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+            
+            <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 shadow h-10 w-10">
+              <ChevronLeft className="h-6 w-6" />
+            </CarouselPrevious>
+            
+            <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 shadow h-10 w-10">
+              <ChevronRight className="h-6 w-6" />
+            </CarouselNext>
+          </Carousel>
         </div>
       </div>
     </section>
