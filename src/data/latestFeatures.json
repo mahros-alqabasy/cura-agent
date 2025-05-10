@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Global Form Submit Shortcut",
+    "description": "Submit any form with Ctrl+Enter from anywhere in the app.",
+    "icon": "check",
+    "badge": "New",
+    "link": "/patients"
+  },
+  {
+    "title": "Keyboard Shortcuts Guide",
+    "description": "View all available keyboard shortcuts in one place.",
+    "icon": "lightbulb",
+    "badge": "Improved",
+    "link": "/help/keyboard-shortcuts"
+  }
+]

@@ -1,6 +1,5 @@
-
 import { ReactNode } from "react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from '@/features/auth/AuthContext';
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 

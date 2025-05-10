@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from '@/features/auth/AuthContext';
 import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -47,7 +46,7 @@ const Profile = () => {
             <TabsTrigger value="personal">Personal Information</TabsTrigger>
             <TabsTrigger value="security">Security</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="personal" className="space-y-6 mt-6">
             <Card>
               <CardHeader>
@@ -71,78 +70,78 @@ const Profile = () => {
                       </span>
                     )}
                   </div>
-                  
+
                   <div className="flex-1 space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="firstName">First Name</Label>
-                        <Input 
-                          id="firstName" 
-                          name="firstName" 
+                        <Input
+                          id="firstName"
+                          name="firstName"
                           value={profileData.firstName}
                           onChange={handleInputChange}
                         />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="lastName">Last Name</Label>
-                        <Input 
-                          id="lastName" 
-                          name="lastName" 
+                        <Input
+                          id="lastName"
+                          name="lastName"
                           value={profileData.lastName}
                           onChange={handleInputChange}
                         />
                       </div>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
-                      <Input 
-                        id="email" 
-                        name="email" 
-                        type="email" 
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
                         value={profileData.email}
                         onChange={handleInputChange}
                       />
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="mobile">Mobile Number</Label>
-                        <Input 
-                          id="mobile" 
-                          name="mobile" 
-                          type="tel" 
+                        <Input
+                          id="mobile"
+                          name="mobile"
+                          type="tel"
                           value={profileData.mobile}
                           onChange={handleInputChange}
                         />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="nationalId">National ID</Label>
-                        <Input 
-                          id="nationalId" 
-                          name="nationalId" 
+                        <Input
+                          id="nationalId"
+                          name="nationalId"
                           value={profileData.nationalId}
                           onChange={handleInputChange}
                         />
                       </div>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="address">Address</Label>
-                      <Input 
-                        id="address" 
-                        name="address" 
+                      <Input
+                        id="address"
+                        name="address"
                         value={profileData.address}
                         onChange={handleInputChange}
                       />
                     </div>
-                    
+
                     {user?.role === "doctor" && (
                       <div className="space-y-2">
                         <Label htmlFor="specialty">Specialty</Label>
-                        <Input 
-                          id="specialty" 
-                          name="specialty" 
+                        <Input
+                          id="specialty"
+                          name="specialty"
                           value={profileData.specialty}
                           onChange={handleInputChange}
                         />
@@ -156,7 +155,7 @@ const Profile = () => {
               </CardFooter>
             </Card>
           </TabsContent>
-          
+
           <TabsContent value="security" className="space-y-6 mt-6">
             <Card>
               <CardHeader>
@@ -183,7 +182,7 @@ const Profile = () => {
                 <Button onClick={handleChangePassword}>Change Password</Button>
               </CardFooter>
             </Card>
-            
+
             <Card>
               <CardHeader>
                 <CardTitle>Two-Factor Authentication</CardTitle>

@@ -1,8 +1,7 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -181,8 +180,8 @@ const Login = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="method">Login Method</Label>
-                <Select 
-                  value={method} 
+                <Select
+                  value={method}
                   onValueChange={(value) => {
                     setMethod(value as LoginMethod);
                     setCredential(''); // Clear credential when changing method

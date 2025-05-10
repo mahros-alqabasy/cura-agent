@@ -1,7 +1,6 @@
-
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/AuthContext';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import { useKeyboardShortcuts } from '@/utils/keyboardShortcuts';

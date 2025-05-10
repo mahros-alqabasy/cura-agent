@@ -1,0 +1,14 @@
+[
+    {
+        "title": "Remove Registration Page",
+        "description": "Remove the public registration page to restrict sign-ups.",
+        "status": "Planned",
+        "icon": "clock"
+    },
+    {
+        "title": "Patient doesn't have id but a code instead.",
+        "description": "Switch patient identification from a numeric ID to a unique code.",
+        "status": "Planned",
+        "icon": "clock"
+    }
+]

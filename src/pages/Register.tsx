@@ -1,10 +1,9 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/AuthContext';
 import AppIcon from '@/components/AppIcon';
-import RegisterForm, { RegisterFormData } from '@/components/register/RegisterForm';
-import SecurityNotice from '@/components/register/SecurityNotice';
+import RegisterForm, { RegisterFormData } from '@/features/auth/components/RegisterForm';
+import SecurityNotice from '@/features/auth/components/SecurityNotice';
 
 const Register = () => {
   const { register } = useAuth();

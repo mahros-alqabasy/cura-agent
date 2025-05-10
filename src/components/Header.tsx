@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/AuthContext';
 import { Bell, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -126,7 +125,7 @@ const Header = () => {
 
   const handleNotificationClick = (notification: Notification) => {
     markAsRead(notification.id);
-    
+
     // Navigate based on notification type for patients
     if (user?.role?.toLowerCase() === 'patient' && notification.type) {
       switch (notification.type) {

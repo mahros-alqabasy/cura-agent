@@ -1,10 +1,9 @@
-
 import { useState, useRef, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/AuthContext';
 import { Bot, Send, Mic, FileText, User, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { chatService } from '@/services/api';
+import { chatService } from '@/features/chat/services';
 import { toast } from '@/components/ui/sonner';
 
 interface Message {

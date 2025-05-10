@@ -1,4 +1,3 @@
-
 import MainLayout from "@/components/layouts/MainLayout";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import AIAssistant from "@/pages/AIAssistant";
@@ -19,13 +18,14 @@ import Settings from "@/pages/Settings";
 import Help from "@/pages/Help";
 import KeyboardShortcuts from "@/pages/KeyboardShortcuts";
 import Profile from "@/pages/Profile";
-import Doctors from "@/pages/users/Doctors";
-import Patients from "@/pages/users/Patients";
-import Nurses from "@/pages/users/Nurses";
-import Receptionists from "@/pages/users/Receptionists";
+import Doctors from "@/features/users/pages/Doctors";
+import Patients from "@/features/users/pages/Patients";
+import Nurses from "@/features/users/pages/Nurses";
+import Receptionists from "@/features/users/pages/Receptionists";
 import Logs from "@/pages/Logs";
 import Messages from "@/pages/Messages";
 import Departments from "@/pages/Departments";
+import FeaturesBacklog from "@/pages/FeaturesBacklog";
 
 function AppRoutes() {
   return <Routes>
@@ -36,6 +36,9 @@ function AppRoutes() {
 
     {/* any one can access this public chat bot */}
     <Route path="/chat-bot" element={<ChatBot />} />
+
+
+    <Route path="/features-backlog" element={<FeaturesBacklog />} />
 
     {/* Protected routes using MainLayout */}
     <Route

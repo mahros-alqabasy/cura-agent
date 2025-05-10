@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/AuthContext';
 import {
   ArrowRight,
   RefreshCw,
@@ -30,13 +30,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Checkbox } from '@/components/ui/checkbox';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from '@/components/ui/table';
 
 // Mock data for doctor dashboard appointments
@@ -134,7 +134,7 @@ const doctorTasks = [
 // Mock data for patient dashboard
 // Patient appointments
 const patientAppointments = [
-  { 
+  {
     id: '1',
     doctorName: 'Dr. Ahmed Hassan',
     specialty: 'Cardiology',
@@ -724,7 +724,7 @@ const PatientDashboard = () => {
         <CardContent className="p-4 flex items-center">
           <AlertCircle className="h-5 w-5 text-yellow-500 mr-2" />
           <p className="text-sm text-yellow-700">
-            Please complete your profile information to help us provide better care. 
+            Please complete your profile information to help us provide better care.
             <Button variant="link" className="text-primary p-0 h-auto ml-1">Complete Profile</Button>
           </p>
         </CardContent>
@@ -764,13 +764,12 @@ const PatientDashboard = () => {
                           </div>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <span className={`text-xs px-2 py-1 rounded-full ${
-                            appointment.status === 'Confirmed' 
-                              ? 'bg-green-50 text-green-700' 
-                              : appointment.status === 'Pending'
-                                ? 'bg-yellow-50 text-yellow-700'
-                                : 'bg-gray-50 text-gray-700'
-                          }`}>
+                          <span className={`text-xs px-2 py-1 rounded-full ${appointment.status === 'Confirmed'
+                            ? 'bg-green-50 text-green-700'
+                            : appointment.status === 'Pending'
+                              ? 'bg-yellow-50 text-yellow-700'
+                              : 'bg-gray-50 text-gray-700'
+                            }`}>
                             {appointment.status}
                           </span>
                           <DropdownMenu>
@@ -918,38 +917,38 @@ const PatientDashboard = () => {
                 {patientPrescriptions
                   .filter(prescription => prescription.active)
                   .map((prescription) => (
-                  <div key={prescription.id} className="border-b last:border-0 pb-4 last:pb-0">
-                    <div className="flex">
-                      <div className="mr-4">
-                        <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center mr-4 text-green-500">
-                          <Pill className="h-5 w-5" />
+                    <div key={prescription.id} className="border-b last:border-0 pb-4 last:pb-0">
+                      <div className="flex">
+                        <div className="mr-4">
+                          <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center mr-4 text-green-500">
+                            <Pill className="h-5 w-5" />
+                          </div>
                         </div>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-900">{prescription.medication}</h4>
-                        <p className="text-sm text-gray-500 mt-1">
-                          {prescription.dosage} - {prescription.instructions}
-                        </p>
-                        <div className="flex items-center mt-1">
-                          <Clock className="h-3.5 w-3.5 text-gray-400 mr-1" />
-                          <span className="text-xs text-gray-500">
-                            Until {prescription.endDate}
-                          </span>
-                        </div>
-                        <div className="mt-2 flex space-x-2">
-                          <Button variant="outline" size="sm" className="text-xs">
-                            <Download className="h-3.5 w-3.5 mr-1" /> Download
-                          </Button>
-                          {prescription.refill && (
+                        <div>
+                          <h4 className="font-medium text-gray-900">{prescription.medication}</h4>
+                          <p className="text-sm text-gray-500 mt-1">
+                            {prescription.dosage} - {prescription.instructions}
+                          </p>
+                          <div className="flex items-center mt-1">
+                            <Clock className="h-3.5 w-3.5 text-gray-400 mr-1" />
+                            <span className="text-xs text-gray-500">
+                              Until {prescription.endDate}
+                            </span>
+                          </div>
+                          <div className="mt-2 flex space-x-2">
                             <Button variant="outline" size="sm" className="text-xs">
-                              Request Refill
+                              <Download className="h-3.5 w-3.5 mr-1" /> Download
                             </Button>
-                          )}
+                            {prescription.refill && (
+                              <Button variant="outline" size="sm" className="text-xs">
+                                Request Refill
+                              </Button>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
               <div className="mt-4 text-center">
                 <Link to="/prescriptions" className="text-primary hover:underline inline-flex items-center text-sm font-medium">
@@ -1058,12 +1057,12 @@ const PatientDashboard = () => {
 
 const Dashboard = () => {
   const { user } = useAuth();
-  
+
   // Render different dashboards based on user role
   if (user?.role === 'patient') {
     return <PatientDashboard />;
   }
-  
+
   // Default to doctor dashboard for other roles
   return <DoctorDashboard />;
 };

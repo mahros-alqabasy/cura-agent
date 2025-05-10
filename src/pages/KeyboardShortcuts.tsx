@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import PageLayout from "@/components/PageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { useKeyboardShortcuts } from '@/utils/keyboardShortcuts';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/features/auth/AuthContext';
 
 const KeyboardShortcuts = () => {
   const [pressedKeys, setPressedKeys] = useState<string[]>([]);

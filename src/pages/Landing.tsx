@@ -22,7 +22,7 @@ import {
 import { format } from 'date-fns';
 import { CalendarIcon, Bot } from 'lucide-react';
 import { toast } from '@/components/ui/sonner';
-import { appointmentService } from '@/services/api';
+import { appointmentService } from '@/features/appointments/services';
 import isDevelopment from '@/conf/Conf';
 import { cn } from '@/lib/utils';
 import { z } from 'zod';
@@ -123,10 +123,10 @@ const Landing = () => {
             <span className="text-xl font-semibold">Cura Agent</span>
           </div>
           <nav className="hidden md:flex space-x-8">
-            <Link to="/" className="text-gray-700 hover:text-primary">Home</Link>
-            <Link to="/authors" className="text-gray-700 hover:text-primary">Authors</Link>
+            <Link to="/features-backlog" className="text-gray-700 font-medium text-primary hover:text-primary hover:underline hover:bg-primary/10 rounded-md px-2 py-1">Features Backlog</Link>
+            {/* <Link to="/" className="text-gray-700 hover:text-primary">Home</Link>
             <Link to="/team" className="text-gray-700 hover:text-primary">Team</Link>
-            <Link to="/docs" className="text-gray-700 hover:text-primary">Docs</Link>
+            <Link to="/docs" className="text-gray-700 hover:text-primary">Docs</Link> */}
           </nav>
           <div className="flex items-center space-x-4">
             <Button variant="ghost" asChild>

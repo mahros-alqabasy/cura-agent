@@ -31,13 +31,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { Popover,
+import {
+  Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
@@ -55,7 +56,7 @@ import {
 } from '@/components/ui/form';
 import { cn } from "@/lib/utils"
 
-import { departmentService } from '@/services/api';
+import { departmentService } from '@/features/departments/services';
 import isDevelopment from '@/conf/Conf';
 
 // Types
@@ -158,7 +159,7 @@ const Departments = () => {
   const [currentDepartment, setCurrentDepartment] = useState<Department | null>(null);
   const [selectedDoctors, setSelectedDoctors] = useState<Doctor[]>([]);
   const [openDoctorSelect, setOpenDoctorSelect] = useState(false);
-  
+
   // Initialize the form with react-hook-form
   const form = useForm<DepartmentFormValues>({
     resolver: zodResolver(departmentFormSchema),
@@ -197,7 +198,7 @@ const Departments = () => {
     fetchData();
   }, []);
 
-  const filteredDepartments = departments.filter(department => 
+  const filteredDepartments = departments.filter(department =>
     department.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -223,23 +224,23 @@ const Departments = () => {
 
   const handleDeleteDepartment = async (departmentId: string) => {
     if (!confirm('Are you sure you want to delete this department?')) return;
-    
+
     try {
       setIsLoading(true);
-      
+
       if (isDevelopment) {
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 500));
-        setDepartments(prevDepartments => 
+        setDepartments(prevDepartments =>
           prevDepartments.filter(dep => dep.id !== departmentId)
         );
       } else {
         await departmentService.deleteDepartment(departmentId);
-        setDepartments(prevDepartments => 
+        setDepartments(prevDepartments =>
           prevDepartments.filter(dep => dep.id !== departmentId)
         );
       }
-      
+
       toast.success('Department deleted successfully');
     } catch (error) {
       console.error('Failed to delete department:', error);
@@ -252,15 +253,15 @@ const Departments = () => {
   const toggleDoctorSelection = (doctorId: string) => {
     const currentValues = form.getValues('doctorIds');
     const isSelected = currentValues.includes(doctorId);
-    
+
     if (isSelected) {
       form.setValue('doctorIds', currentValues.filter(id => id !== doctorId));
     } else {
       form.setValue('doctorIds', [...currentValues, doctorId]);
     }
-    
+
     // Update the UI
-    const updatedDoctors = doctors.filter(doc => 
+    const updatedDoctors = doctors.filter(doc =>
       form.getValues('doctorIds').includes(doc.id)
     );
     setSelectedDoctors(updatedDoctors);
@@ -269,10 +270,10 @@ const Departments = () => {
   const onSubmit = async (data: DepartmentFormValues) => {
     try {
       setIsLoading(true);
-      
+
       // Get the selected doctors based on IDs
       const selectedDoctors = doctors.filter(doc => data.doctorIds.includes(doc.id));
-      
+
       // Create the department object
       const departmentData = {
         name: data.name,
@@ -283,20 +284,20 @@ const Departments = () => {
       if (isDevelopment) {
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 800));
-        
+
         if (currentDepartment) {
           // Update existing department
           const updatedDepartment = {
             ...currentDepartment,
             ...departmentData
           };
-          
-          setDepartments(prevDepartments => 
-            prevDepartments.map(dep => 
+
+          setDepartments(prevDepartments =>
+            prevDepartments.map(dep =>
               dep.id === currentDepartment.id ? updatedDepartment : dep
             )
           );
-          
+
           toast.success(`Department "${data.name}" updated successfully`);
         } else {
           // Create new department
@@ -304,7 +305,7 @@ const Departments = () => {
             id: `dep_${Date.now()}`, // Generate a mock ID
             ...departmentData
           };
-          
+
           setDepartments(prevDepartments => [...prevDepartments, newDepartment]);
           toast.success(`Department "${data.name}" created successfully`);
         }
@@ -312,28 +313,28 @@ const Departments = () => {
         if (currentDepartment) {
           // Update existing department
           await departmentService.updateDepartment(currentDepartment.id, departmentData);
-          
+
           // Refresh departments list
           const updatedDepartments = await departmentService.getAllDepartments();
           setDepartments(updatedDepartments);
-          
+
           toast.success(`Department "${data.name}" updated successfully`);
         } else {
           // Create new department
           await departmentService.createDepartment(departmentData);
-          
+
           // Refresh departments list
           const updatedDepartments = await departmentService.getAllDepartments();
           setDepartments(updatedDepartments);
-          
+
           toast.success(`Department "${data.name}" created successfully`);
         }
       }
-      
+
       // Close dialog and reset form
       setIsDialogOpen(false);
       form.reset();
-      
+
     } catch (error) {
       console.error('Failed to save department:', error);
       toast.error('Failed to save department. Please try again.');
@@ -468,7 +469,7 @@ const Departments = () => {
                 : 'Enter details for the new department and assign doctors.'}
             </DialogDescription>
           </DialogHeader>
-          
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 py-2">
               <FormField
@@ -484,7 +485,7 @@ const Departments = () => {
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="description"
@@ -503,7 +504,7 @@ const Departments = () => {
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="doctorIds"
@@ -572,7 +573,7 @@ const Departments = () => {
                   </div>
                 </div>
               )}
-              
+
               <DialogFooter>
                 <Button
                   type="button"
@@ -583,10 +584,10 @@ const Departments = () => {
                   Cancel
                 </Button>
                 <Button type="submit" disabled={isLoading}>
-                  {isLoading 
-                    ? 'Saving...' 
-                    : currentDepartment 
-                      ? 'Update Department' 
+                  {isLoading
+                    ? 'Saving...'
+                    : currentDepartment
+                      ? 'Update Department'
                       : 'Create Department'
                   }
                 </Button>
