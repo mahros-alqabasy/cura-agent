@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 
-const GlobalFormShortcut = () => {
+const GlobalShortcuts = () => {
     useEffect(() => {
         function handler(e) {
             if (e.ctrlKey && e.key === "Enter") {
-                // Find the closest form to the active element
                 const active = document.activeElement;
                 const form = active && active.closest && active.closest("form");
                 if (form) {
@@ -19,4 +18,4 @@ const GlobalFormShortcut = () => {
     return null;
 }
 
-export default GlobalFormShortcut;
+export default GlobalShortcuts;

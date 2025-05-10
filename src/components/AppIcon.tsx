@@ -1,11 +1,26 @@
+import { FC, HTMLProps } from 'react';
+import appIcon from '/favicons/web/icons8-hospital-apple-sf-regular-filled-96.png'
 
-import { Bot, Hospital, HospitalIcon, LucideHospital } from 'lucide-react';
-// import appIcon from '/icons/app-icon.png'
-
-function AppIcon() {
-  // return <img className="w-8 h-8 rounded-2" src={appIcon} alt="User" />
-  return <HospitalIcon className="h-6 w-6" />
+interface AppIconProps {
+  size?: 'default' | 'small' | 'large';
+  background?: 'default' | 'trans'
 }
 
+const AppIcon: FC<AppIconProps> = ({ size = 'default', ...props }) => {
+  const dimension = {
+    'default': 'w-8 h-8 rounded rounded-2 bg-white',
+    'small': 'w-5 h-5 rounded rounded-2 bg-white',
+    'large': 'w-12 h-12 rounded rounded-2 bg-white',
+  }[size];
+
+  const background = {
+    'default': 'white',
+    'trans': 'transparent'
+  }[props["background"]]
+
+  return (
+    <img className={dimension} src={appIcon} alt="User" {...props} style={{ backgroundColor: background }} />
+  );
+};
 
 export default AppIcon;

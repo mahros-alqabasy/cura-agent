@@ -1,18 +1,18 @@
+
+
 import { useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/features/auth/AuthContext';
 import { toast } from "sonner";
 
-// Define shortcut interfaces
 export interface Shortcut {
   key: string;
   description: string;
   action: () => void | boolean;
   scope: 'global' | 'sidebar' | 'form' | 'modal';
-  roles?: string[]; // Optional: Only specific roles can use this shortcut
+  roles?: string[];
 }
 
-// Helper function to parse key combinations
 const parseKeyCombination = (combination: string): { key: string; ctrl: boolean; shift: boolean; alt: boolean } => {
   const parts = combination.split('+').map(part => part.trim().toLowerCase());
 
@@ -24,12 +24,10 @@ const parseKeyCombination = (combination: string): { key: string; ctrl: boolean;
   };
 };
 
-// Create hook for managing keyboard shortcuts
 export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  // Define the shortcut configurations
   const getShortcuts = useCallback((): Record<string, Shortcut> => {
     return {
       'Ctrl+B': {
@@ -57,7 +55,7 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
           const searchInput = document.querySelector('input[placeholder="Search..."]') as HTMLInputElement;
           if (searchInput) {
             searchInput.focus();
-            return true; // Prevent default browser search
+            return true;
           }
           return false;
         },
@@ -68,9 +66,8 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
         description: 'Create new appointment',
         action: () => {
           navigate('/appointments');
-          // This would open the new appointment modal, to be implemented
           toast.info("New appointment shortcut triggered");
-          return true; // Prevent browser default
+          return true;
         },
         scope: 'global',
       },
@@ -119,7 +116,6 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
         key: 'Ctrl+Alt+L',
         description: 'Log out',
         action: () => {
-          // This would call the logout function
           toast.info("Logout shortcut triggered");
           return true;
         },
@@ -129,7 +125,6 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
         key: 'Escape',
         description: 'Close modals/popups',
         action: () => {
-          // This would close active modals
           const closeBtn = document.querySelector('[data-dialog-close="true"]') as HTMLButtonElement;
           if (closeBtn) {
             closeBtn.click();
@@ -157,38 +152,44 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
         },
         scope: 'form',
       },
+      'Ctrl+Shift+H': {
+        key: 'Ctrl+Shift+H',
+        description: 'Go to landing page',
+        action: () => navigate('/'),
+        scope: 'global',
+      },
+      'Ctrl+D': {
+        key: 'Ctrl+D',
+        description: 'Open Dashboard',
+        action: () => navigate('/dashboard'),
+        scope: 'global',
+      },
     };
   }, [navigate, toggleSidebar]);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    // Don't process shortcuts when focus is in an input, textarea, or select
     if (
       ['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as Element).tagName) &&
       !((e.target as HTMLInputElement).readOnly)
     ) {
       return;
     }
-
     const shortcuts = getShortcuts();
 
     for (const shortcut of Object.values(shortcuts)) {
       const { key, ctrl, shift, alt } = parseKeyCombination(shortcut.key);
 
-      // Check if the key combination matches
       if (
         e.key.toLowerCase() === key.toLowerCase() &&
         e.ctrlKey === ctrl &&
         e.shiftKey === shift &&
         e.altKey === alt
       ) {
-        // Check role restrictions
         if (shortcut.roles && !shortcut.roles.includes(user?.role || '')) {
           continue;
         }
 
-        // Execute action and prevent default if needed
         const result = shortcut.action();
-        // Fix for the TS2367 error - check if result is explicitly false
         if (result !== false) {
           e.preventDefault();
         }
@@ -197,7 +198,6 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
     }
   }, [getShortcuts, user]);
 
-  // Get all shortcuts for the current user's role
   const getAllShortcuts = useCallback(() => {
     const shortcuts = getShortcuts();
 
@@ -206,7 +206,6 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
     );
   }, [getShortcuts, user]);
 
-  // Initialize keyboard listener
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
 

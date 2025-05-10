@@ -983,7 +983,7 @@ const PatientDashboard = () => {
                           <MessageSquare className="h-4 w-4" />
                         </div>
                       </div>
-                      <div className="flex-1">
+                      <div className="flex-1 " style={{ overflow: "hidden" }}>
                         <div className="flex items-center justify-between">
                           <h4 className="font-medium text-gray-900">{message.from}</h4>
                           <span className="text-xs text-gray-500">{message.date}</span>

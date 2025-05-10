@@ -33,7 +33,7 @@ const BacklogForm = ({ open, onOpenChange, onSubmit, editData }: BacklogFormProp
     }
   );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -53,12 +53,12 @@ const BacklogForm = ({ open, onOpenChange, onSubmit, editData }: BacklogFormProp
             Create new Backlog
           </DialogTitle>
           <DialogDescription>
-            `Enter the feature details below, your suggession will be supposed`
+            Enter the feature details below, your suggestion will be considered
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <div className="space-y-2">
               <Label htmlFor="title">Title</Label>
               <Input
@@ -73,19 +73,18 @@ const BacklogForm = ({ open, onOpenChange, onSubmit, editData }: BacklogFormProp
 
             <div className="space-y-2">
               <Label htmlFor="description">Description</Label>
-              <Input
+              <textarea
                 id="description"
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
                 required
-                placeholder="Descriotion"
+                rows={8}
+                placeholder="Description"
+                className="w-full p-2 border rounded"
               />
             </div>
           </div>
-
-
-
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
@@ -101,4 +100,5 @@ const BacklogForm = ({ open, onOpenChange, onSubmit, editData }: BacklogFormProp
   );
 };
 
-export default BacklogForm; 
+export default BacklogForm;
+

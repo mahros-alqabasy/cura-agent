@@ -6,11 +6,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/features/auth/AuthContext";
 
 import AppRoutes from "./routes/AppRoutes";
-import GlobalFormShortcut from "./utils/GlobalFormShortcut";
-// import Doctors from "@/features/users/pages/Doctors";
-// import Patients from "@/features/users/pages/Patients";
-// import Nurses from "@/features/users/pages/Nurses";
-// import Receptionists from "@/features/users/pages/Receptionists";
+import GlobalFormShortcut from "./utils/GlobalShortcuts";
+
 
 const queryClient = new QueryClient();
 

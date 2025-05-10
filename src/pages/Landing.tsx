@@ -1,3 +1,4 @@
+import AppLogo from '@/components/AppLogo'
 import assistantSectionImage from '/ed714da9-8a46-465a-b959-38edef80c14f.png'
 import heroSectionImage from '/4bd34475-5b10-4931-b67d-055fc45cfb0c.png'
 import { useState } from 'react';
@@ -116,18 +117,11 @@ const Landing = () => {
     <div className="min-h-screen flex flex-col">
       {/* Header */}
       <header className="bg-white py-4 px-6 border-b">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center">
-            <div className="cura-logo text-white text-lg font-bold mr-2">
-              <AppIcon />
-            </div>
-            <span className="text-xl font-semibold">Cura Agent</span>
-          </div>
+        <div className="container mx-auto flex justify-between items-center text-center">
+          <AppLogo />
           <nav className="hidden md:flex space-x-8">
             <Link to="/features-backlog" className="text-gray-700 font-medium text-primary hover:text-primary hover:underline hover:bg-primary/10 rounded-md px-2 py-1">Features Backlog</Link>
-            {/* <Link to="/" className="text-gray-700 hover:text-primary">Home</Link>
-            <Link to="/team" className="text-gray-700 hover:text-primary">Team</Link>
-            <Link to="/docs" className="text-gray-700 hover:text-primary">Docs</Link> */}
+
           </nav>
           <div className="flex items-center space-x-4">
             <Button variant="ghost" asChild>
@@ -547,12 +541,9 @@ const Landing = () => {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <div className="flex items-center mb-4">
-                <div className="cura-logo text-white text-lg font-bold mr-2">
-                  <AppIcon />
-                </div>
-                <span className="text-xl font-semibold">Cura Agent</span>
-              </div>
+
+              <AppLogo />
+
               <p className="text-gray-600 mb-4">
                 Transforming healthcare with intelligent AI solutions.
               </p>
@@ -574,7 +565,7 @@ const Landing = () => {
             <div>
               <h3 className="font-semibold text-gray-900 mb-4">Product</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-600 hover:text-primary">Features</a></li>
+                <li><Link to='/features-backlog' className="text-gray-600 hover:text-primary">Features</Link></li>
                 <li><a href="#" className="text-gray-600 hover:text-primary">Pricing</a></li>
                 <li><a href="#" className="text-gray-600 hover:text-primary">Case Studies</a></li>
                 <li><a href="#" className="text-gray-600 hover:text-primary">Reviews</a></li>
