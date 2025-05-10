@@ -30,11 +30,27 @@ export default function FeaturesBacklog() {
         const { name, value } = e.target;
         setNewFeature((prev) => ({ ...prev, [name]: value }));
     };
+    const formatMessageForWhatsApp = (features: { title: string; description: string }[]) => {
+        if (features.length === 0) return "No suggestions submitted.";
+
+        return features
+            .map((f, idx) => `#${idx + 1} ${f.title}\n    ${f.description}`)
+            .join("\n\n");
+    };
+    const sendSuggestionsViaWhatsApp = () => {
+        const phoneNumber = "+201015888272"; // your WhatsApp number with country code
+        const message = formatMessageForWhatsApp(suggestedFeatures);
+        const encodedMessage = encodeURIComponent(message);
+
+        const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+        window.open(url, "_blank");
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (newFeature.title && newFeature.description) {
             setSuggestedFeatures((prev) => [...prev, newFeature]);
+
             setNewFeature({ title: "", description: "" });
         }
     };
@@ -117,7 +133,21 @@ export default function FeaturesBacklog() {
                 {/* Suggest a Feature */}
                 <Card className="shadow-md">
                     <CardHeader>
-                        <CardTitle>Suggest a New Feature</CardTitle>
+
+                        <CardTitle className="flex justify-center justify-between">
+                            <span>Suggest a New Feature</span>
+
+                            {suggestedFeatures.length > 0 && (
+
+                                <button
+                                    onClick={sendSuggestionsViaWhatsApp}
+                                    className="p-2 py-2 border text-white text-m rounded bg-primary"
+                                >
+                                    Send
+                                </button>
+
+                            )}
+                        </CardTitle>
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit} className="space-y-4">
@@ -136,6 +166,7 @@ export default function FeaturesBacklog() {
                                 required
                             />
                             <Button type="submit">Submit Suggestion</Button>
+
                         </form>
 
                         {suggestedFeatures.length > 0 && (
@@ -153,6 +184,6 @@ export default function FeaturesBacklog() {
                 </Card>
 
             </div>
-        </div>
+        </div >
     );
 }
