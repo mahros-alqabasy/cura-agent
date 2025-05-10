@@ -1,0 +1,45 @@
+name: Deploy Release to Versioned Path
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Get version from tag
+        id: get_version
+        run: |
+          echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Deploy to gh-pages under /releases/<version>/
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git clone --depth 1 --branch gh-pages https://github.com/${{ github.repository }} gh-pages
+          cd gh-pages
+          mkdir -p releases/${{ steps.get_version.outputs.version }}
+          rm -rf releases/${{ steps.get_version.outputs.version }}/*
+          cp -r ../dist/* releases/${{ steps.get_version.outputs.version }}/
+          touch .nojekyll
+          git add releases/${{ steps.get_version.outputs.version }}
+          git commit -m "Deploy release ${{ steps.get_version.outputs.version }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
