@@ -1,14 +1,15 @@
 
 import { useEffect } from "react";
-import { useShortcuts } from "./shortcuts/ShortcutsContext";
+import { useKeyboardShortcuts } from "./shortcuts";
 
 /**
  * Global keyboard shortcuts handler component
  * This component registers global keyboard event listeners to handle shortcuts
  */
 const GlobalShortcuts = () => {
-    // Use the shortcuts context
-    const { handleKeyDown } = useShortcuts();
+    // Pass an empty function as toggleSidebar since this component doesn't actually toggle the sidebar
+    // The MainLayout component will handle that
+    const { handleKeyDown } = useKeyboardShortcuts(() => {});
     
     useEffect(() => {
         // Setup global keyboard event handler

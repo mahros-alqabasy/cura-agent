@@ -24,7 +24,7 @@ import { format } from 'date-fns';
 import { CalendarIcon, Bot } from 'lucide-react';
 import { toast } from '@/components/ui/sonner';
 import { appointmentService } from '@/features/appointments/services';
-import { isDevelopment } from '@/conf/Conf';
+import isDevelopment from '@/conf/Conf';
 import { cn } from '@/lib/utils';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';

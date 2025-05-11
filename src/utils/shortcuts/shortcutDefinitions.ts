@@ -72,7 +72,7 @@ export const getSidebarShortcuts = (toggleSidebar: () => void): Shortcut[] => {
       key: 'Ctrl+B',
       description: 'Toggle sidebar collapse/expand',
       action: () => toggleSidebar(),
-      scope: 'global',
+      scope: 'sidebar',
     },
   ];
 };

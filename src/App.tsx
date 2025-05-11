@@ -1,36 +1,30 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider } from "@/features/auth/AuthContext";
+import { AuthProvider, useAuth } from "@/features/auth/AuthContext";
 
 import AppRoutes from "./routes/AppRoutes";
-import GlobalShortcuts from "./utils/GlobalShortcuts";
-import { ShortcutsProvider } from "./utils/shortcuts/ShortcutsContext";
-import { BASENAME } from "./conf/Conf";
+import GlobalFormShortcut from "./utils/GlobalShortcuts";
+
 
 const queryClient = new QueryClient();
 
-
-
 const App = () => {
   // GitHub Pages basename configuration
-  const basename = BASENAME();
-  console.log(basename)
+  const basename = "/cura-agent/";
+
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter basename={basename}>
         <AuthProvider>
-          <ShortcutsProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <AppRoutes />
-              <GlobalShortcuts />
-            </TooltipProvider>
-          </ShortcutsProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <AppRoutes />
+            <GlobalFormShortcut />
+          </TooltipProvider>
         </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>

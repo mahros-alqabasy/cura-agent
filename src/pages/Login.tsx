@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { EyeIcon, EyeOffIcon, InfoIcon } from 'lucide-react';
 import AppIcon from '@/components/AppIcon';
-import { isDevelopment } from '@/conf/Conf';
+import isDevelopment from '@/conf/Conf';
 
 type LoginMethod = 'email' | 'nationalId' | 'phone';
 

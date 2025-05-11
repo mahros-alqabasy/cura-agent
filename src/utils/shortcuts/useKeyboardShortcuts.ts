@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/features/auth/AuthContext';
 import { Shortcut, ShortcutScope } from './types';
 import { parseKeyCombination, isInputField } from './keyboardUtils';
-import {
+import { 
   getNavigationShortcuts,
   getSidebarShortcuts,
   getFormShortcuts,
@@ -41,7 +41,7 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
     if (isInputField(e.target)) {
       return;
     }
-
+    
     const shortcuts = getShortcuts();
 
     for (const shortcut of shortcuts) {
@@ -49,7 +49,7 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
       if (activeScope && shortcut.scope !== activeScope && shortcut.scope !== 'global') {
         continue;
       }
-
+      
       const { key, ctrl, shift, alt } = parseKeyCombination(shortcut.key);
 
       if (
@@ -80,14 +80,14 @@ export const useKeyboardShortcuts = (toggleSidebar: () => void) => {
    */
   const getShortcutsByScope = useCallback((scope?: ShortcutScope): Shortcut[] => {
     const shortcuts = getShortcuts();
-
-    return shortcuts.filter(shortcut =>
+    
+    return shortcuts.filter(shortcut => 
       (!shortcut.roles || shortcut.roles.includes(user?.role || '')) &&
       (!scope || shortcut.scope === scope || shortcut.scope === 'global')
     );
   }, [getShortcuts, user]);
 
-  return {
+  return { 
     shortcuts: getShortcutsByScope(),
     getShortcutsByScope,
     handleKeyDown

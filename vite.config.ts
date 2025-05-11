@@ -6,14 +6,10 @@ import { componentTagger } from "lovable-tagger";
 
 
 const isDev = true;
-const basename = process.env.VITE_APP_DOMAIN === 'mahros-alqabasy.github.io' ? "/cura-agent/" : "/";
-
-
-
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: basename,
+  base: '/cura-agent/',
   server: {
     watch: isDev ? { usePolling: true } : undefined,
     host: "::",
