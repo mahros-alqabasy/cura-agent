@@ -57,7 +57,7 @@ import {
 import { cn } from "@/lib/utils"
 
 import { departmentService } from '@/features/departments/services';
-import isDevelopment from '@/conf/Conf';
+import {isDevelopment} from '@/conf/Conf';
 
 // Types
 interface Doctor {

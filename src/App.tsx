@@ -9,13 +9,16 @@ import { AuthProvider } from "@/features/auth/AuthContext";
 import AppRoutes from "./routes/AppRoutes";
 import GlobalShortcuts from "./utils/GlobalShortcuts";
 import { ShortcutsProvider } from "./utils/shortcuts/ShortcutsContext";
+import { BASENAME } from "./conf/Conf";
 
 const queryClient = new QueryClient();
 
+
+
 const App = () => {
   // GitHub Pages basename configuration
-  const basename = "/cura-agent/";
-
+  const basename = BASENAME();
+  console.log(basename)
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter basename={basename}>

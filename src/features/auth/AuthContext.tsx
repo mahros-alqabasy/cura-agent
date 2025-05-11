@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { useNavigate } from 'react-router-dom';
 import { authService, mockAuthService } from './services';
 import { toast } from '@/components/ui/sonner';
-import isDevelopment from '@/conf/Conf';
+import {isDevelopment} from '@/conf/Conf';
 
 // Use mock service in development, real service in production
 const authProvider = !isDevelopment ? authService : mockAuthService;
