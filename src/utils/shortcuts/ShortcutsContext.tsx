@@ -21,7 +21,7 @@ const ShortcutsContext = createContext<ShortcutsContextType | undefined>(undefin
  * ShortcutsProvider component that provides shortcut functionality throughout the app
  */
 export const ShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // State for UI elements controlled by shortcuts
+  // State for UI elements controlled by shortcuts - set to true by default to ensure sidebar is expanded on app load
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
   
   // Toggle sidebar function that will be available throughout the app
