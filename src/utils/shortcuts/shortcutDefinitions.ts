@@ -11,25 +11,37 @@ export const getNavigationShortcuts = (navigate: NavigateFunction): Shortcut[] =
     {
       key: 'Ctrl+1',
       description: 'Open Dashboard',
-      action: () => navigate('/dashboard'),
+      action: () => {
+        navigate('/dashboard');
+        return true;
+      },
       scope: 'navigation',
     },
     {
       key: 'Ctrl+2',
       description: 'Open Appointments',
-      action: () => navigate('/appointments'),
+      action: () => {
+        navigate('/appointments');
+        return true;
+      },
       scope: 'navigation',
     },
     {
       key: 'Ctrl+D',
       description: 'Open Dashboard',
-      action: () => navigate('/dashboard'),
+      action: () => {
+        navigate('/dashboard');
+        return true;
+      },
       scope: 'global',
     },
     {
       key: 'Ctrl+Shift+H',
       description: 'Go to landing page',
-      action: () => navigate('/'),
+      action: () => {
+        navigate('/');
+        return true;
+      },
       scope: 'global',
     },
     {
@@ -71,7 +83,10 @@ export const getSidebarShortcuts = (toggleSidebar: () => void): Shortcut[] => {
     {
       key: 'Ctrl+B',
       description: 'Toggle sidebar collapse/expand',
-      action: () => toggleSidebar(),
+      action: () => {
+        toggleSidebar();
+        return true;
+      },
       scope: 'sidebar',
     },
   ];
@@ -170,6 +185,12 @@ export const getUIShortcuts = (navigate: NavigateFunction): Shortcut[] => {
       description: 'Log out',
       action: () => {
         toast.info("Logout shortcut triggered");
+        // Actual logout will be handled by the auth context consumer
+        const logoutBtn = document.querySelector('button[data-logout="true"]') as HTMLButtonElement;
+        if (logoutBtn) {
+          logoutBtn.click();
+          return true;
+        }
         return true;
       },
       scope: 'global',

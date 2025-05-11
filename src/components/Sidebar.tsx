@@ -1,7 +1,8 @@
 import AppIcon from '@/components/AppIcon'
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/features/auth/AuthContext';
+import { useShortcuts } from '@/utils/shortcuts';
 import { cn } from '@/lib/utils';
 
 import {
@@ -81,9 +82,11 @@ const getNavItems = (role) => {
   return [...baseItems, ...(roleItems[role.toLowerCase()] || [])];
 };
 
-const Sidebar = ({ expanded, setExpanded }) => {
+const Sidebar = ({ expanded }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { sidebarExpanded, toggleSidebar } = useShortcuts();
+  
   const [openSubmenus, setOpenSubmenus] = useState({});
   const [unreadMessageCount, setUnreadMessageCount] = useState(0);
 
@@ -113,15 +116,23 @@ const Sidebar = ({ expanded, setExpanded }) => {
     }));
   };
 
+  // Set sidebar state based on context
+  useEffect(() => {
+    // This ensures the sidebar state respects the global context
+    if (expanded !== sidebarExpanded) {
+      toggleSidebar();
+    }
+  }, []);
+
   // Collapse sidebar on mobile/tablet screen sizes
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 768px)'); // Tailwind md breakpoint
 
     const handleResize = () => {
-      if (mediaQuery.matches) {
-        setExpanded(false);
-      } else {
-        setExpanded(true);
+      if (mediaQuery.matches && sidebarExpanded) {
+        toggleSidebar();
+      } else if (!mediaQuery.matches && !sidebarExpanded) {
+        toggleSidebar();
       }
     };
 
@@ -129,31 +140,31 @@ const Sidebar = ({ expanded, setExpanded }) => {
     mediaQuery.addEventListener('change', handleResize);
 
     return () => mediaQuery.removeEventListener('change', handleResize);
-  }, [setExpanded]);
+  }, [toggleSidebar, sidebarExpanded]);
 
   return (
     <div className={cn(
       "bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ease-in-out h-screen",
-      expanded ? "w-64" : "w-[70px]"
+      sidebarExpanded ? "w-64" : "w-[70px]"
     )}>
       {/* Logo and App Name */}
       <div className={cn(
         "h-16 flex items-center px-4",
-        expanded ? "justify-start" : "justify-center"
+        sidebarExpanded ? "justify-start" : "justify-center"
       )}>
         <NavLink to="/dashboard" className="flex items-center">
           <div className="cura-logo text-white text-lg font-bold">
             <AppIcon />
           </div>
-          {expanded && (
+          {sidebarExpanded && (
             <span className="ml-2 text-lg font-semibold">Cura Agent</span>
           )}
         </NavLink>
         <button
-          onClick={() => setExpanded(!expanded)}
+          onClick={toggleSidebar}
           className={cn(
             "w-6 h-6 rounded-full flex items-center justify-center",
-            expanded ? "ml-auto" : "hidden"
+            sidebarExpanded ? "ml-auto" : "hidden"
           )}
         >
           <span className="sr-only">Toggle sidebar</span>
@@ -174,7 +185,7 @@ const Sidebar = ({ expanded, setExpanded }) => {
       </div>
 
       {/* User Profile */}
-      {expanded && (
+      {sidebarExpanded && (
         <div className="px-4 py-3 border-b border-gray-200">
           <div className="flex items-center">
             <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
@@ -299,14 +310,10 @@ const Sidebar = ({ expanded, setExpanded }) => {
             </li>
           ))}
         </ul>
-
-
       </nav>
 
       <div className="px-2 border-t border-gray-200 pt-4">
         <div className="space-y-1">
-
-
           {/* Help */}
           <NavLink
             to="/help"
@@ -337,7 +344,6 @@ const Sidebar = ({ expanded, setExpanded }) => {
             {expanded && <span className="ml-3">Profile</span>}
           </NavLink>
 
-
           {/* Settings */}
           <NavLink
             to="/settings"
@@ -352,11 +358,9 @@ const Sidebar = ({ expanded, setExpanded }) => {
             <Settings className="h-5 w-5" />
             {expanded && <span className="ml-3">Settings</span>}
           </NavLink>
-
         </div>
 
-
-        {expanded && <hr className="my-4 border-t border-gray-200" />}
+        {sidebarExpanded && <hr className="my-4 border-t border-gray-200" />}
         {/* Logout button */}
         <div className="mt-4 pb-4">
           <Button
@@ -364,11 +368,12 @@ const Sidebar = ({ expanded, setExpanded }) => {
             onClick={handleLogout}
             className={cn(
               "flex items-center text-red-500 hover:bg-red-50 hover:text-red-600 w-full justify-start",
-              !expanded && "justify-center"
+              !sidebarExpanded && "justify-center"
             )}
+            data-logout="true"
           >
             <LogOut className="h-5 w-5" />
-            {expanded && <span className="ml-2">Sign Out</span>}
+            {sidebarExpanded && <span className="ml-2">Sign Out</span>}
           </Button>
         </div>
       </div>

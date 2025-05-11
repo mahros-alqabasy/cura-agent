@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
+
+import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/features/auth/AuthContext';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
-import { useKeyboardShortcuts } from '@/utils/shortcuts';
+import { useShortcuts } from '@/utils/shortcuts';
 
 const MainLayout = () => {
   const { user, isAuthenticated, loading } = useAuth();
   const navigate = useNavigate();
-  const [sidebarExpanded, setSidebarExpanded] = useState(true);
+  const { sidebarExpanded, handleKeyDown } = useShortcuts();
   const sidebarWidth = sidebarExpanded ? '240px' : '80px';
   const headerHeight = '64px';
 
@@ -17,14 +18,6 @@ const MainLayout = () => {
       navigate('/login');
     }
   }, [isAuthenticated, loading, navigate]);
-
-  // Toggle sidebar function for shortcut
-  const toggleSidebar = () => {
-    setSidebarExpanded(prev => !prev);
-  };
-
-  // Initialize keyboard shortcuts with sidebar scope
-  const { handleKeyDown } = useKeyboardShortcuts(toggleSidebar);
 
   // Add keyboard event listener specifically for sidebar shortcuts
   useEffect(() => {
@@ -59,18 +52,18 @@ const MainLayout = () => {
 
       {/* Sidebar: Fixed to the left, full height */}
       <div className="sticky top-0 left-0 h-screen z-40 transition-all duration-300 ease-in-out">
-        <Sidebar expanded={sidebarExpanded} setExpanded={setSidebarExpanded} />
+        <Sidebar expanded={sidebarExpanded} setExpanded={() => {}} />
       </div>
 
       {/* Content area: margin-left to make room for the fixed sidebar */}
-      <div className="flex flex-col flex-1 ml-[<SIDEBAR_WIDTH>]">
+      <div className={`flex flex-col flex-1 ml-[${sidebarWidth}]`}>
         {/* Header: Fixed to the top */}
-        <div className="sticky top-0 left-[<SIDEBAR_WIDTH>] right-0 z-30">
+        <div className={`sticky top-0 left-[${sidebarWidth}] right-0 z-30`}>
           <Header />
         </div>
 
         {/* Scrollable content: padding-top to offset fixed header */}
-        <main className="flex-1 overflow-y-auto p-6 pt-[<HEADER_HEIGHT>]">
+        <main className={`flex-1 overflow-y-auto p-6 pt-[${headerHeight}]`}>
           <Outlet />
         </main>
       </div>
