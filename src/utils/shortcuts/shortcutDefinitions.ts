@@ -1,3 +1,4 @@
+
 import { Shortcut, ShortcutScope } from './types';
 import { NavigateFunction } from 'react-router-dom';
 import { toast } from "sonner";
@@ -70,10 +71,7 @@ export const getSidebarShortcuts = (toggleSidebar: () => void): Shortcut[] => {
     {
       key: 'Ctrl+B',
       description: 'Toggle sidebar collapse/expand',
-      action: () => {
-        toggleSidebar();
-        return true; // Return true to indicate event was handled and prevent default
-      },
+      action: () => toggleSidebar(),
       scope: 'global',
     },
   ];

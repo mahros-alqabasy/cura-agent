@@ -59,14 +59,14 @@ const MainLayout = () => {
       </div>
 
       {/* Content area: margin-left to make room for the fixed sidebar */}
-      <div className="flex flex-col flex-1" style={{ marginLeft: sidebarWidth }}>
+      <div className="flex flex-col flex-1 ml-[<SIDEBAR_WIDTH>]">
         {/* Header: Fixed to the top */}
-        <div className="sticky top-0 right-0 z-30" style={{ left: sidebarWidth }}>
+        <div className="sticky top-0 left-[<SIDEBAR_WIDTH>] right-0 z-30">
           <Header />
         </div>
 
         {/* Scrollable content: padding-top to offset fixed header */}
-        <main className="flex-1 overflow-y-auto p-6" style={{ paddingTop: `calc(${headerHeight} + 1.5rem)` }}>
+        <main className="flex-1 overflow-y-auto p-6 pt-[<HEADER_HEIGHT>]">
           <Outlet />
         </main>
       </div>

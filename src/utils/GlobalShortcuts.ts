@@ -13,8 +13,7 @@ const GlobalShortcuts = () => {
     useEffect(() => {
         // Setup global keyboard event handler
         const keyboardHandler = (e: KeyboardEvent) => {
-            // Handle global shortcuts
-            handleKeyDown(e, 'global');
+            handleKeyDown(e);
         };
         
         window.addEventListener("keydown", keyboardHandler);
