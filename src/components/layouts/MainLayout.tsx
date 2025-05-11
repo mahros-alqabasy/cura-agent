@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
+
+import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/features/auth/AuthContext';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
-import { useKeyboardShortcuts } from '@/utils/shortcuts';
+import { useShortcuts } from '@/utils/shortcuts/ShortcutsContext';
 
 const MainLayout = () => {
   const { user, isAuthenticated, loading } = useAuth();
   const navigate = useNavigate();
-  const [sidebarExpanded, setSidebarExpanded] = useState(true);
+  
+  // Use the shortcuts context instead of managing state directly
+  const { sidebarExpanded, toggleSidebar, handleKeyDown } = useShortcuts();
+  
   const sidebarWidth = sidebarExpanded ? '240px' : '80px';
   const headerHeight = '64px';
 
@@ -17,14 +21,6 @@ const MainLayout = () => {
       navigate('/login');
     }
   }, [isAuthenticated, loading, navigate]);
-
-  // Toggle sidebar function for shortcut
-  const toggleSidebar = () => {
-    setSidebarExpanded(prev => !prev);
-  };
-
-  // Initialize keyboard shortcuts with sidebar scope
-  const { handleKeyDown } = useKeyboardShortcuts(toggleSidebar);
 
   // Add keyboard event listener specifically for sidebar shortcuts
   useEffect(() => {
@@ -59,7 +55,7 @@ const MainLayout = () => {
 
       {/* Sidebar: Fixed to the left, full height */}
       <div className="sticky top-0 left-0 h-screen z-40 transition-all duration-300 ease-in-out">
-        <Sidebar expanded={sidebarExpanded} setExpanded={setSidebarExpanded} />
+        <Sidebar expanded={sidebarExpanded} setExpanded={toggleSidebar} />
       </div>
 
       {/* Content area: margin-left to make room for the fixed sidebar */}

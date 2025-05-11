@@ -4,16 +4,18 @@ import PageLayout from "@/components/PageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ShortcutScope, useKeyboardShortcuts } from '@/utils/shortcuts';
+import { ShortcutScope } from '@/utils/shortcuts';
 import { useAuth } from '@/features/auth/AuthContext';
 import { Keyboard, Command } from 'lucide-react';
+import { useShortcuts } from '@/utils/shortcuts/ShortcutsContext';
 
 const KeyboardShortcuts = () => {
   const [pressedKeys, setPressedKeys] = useState<string[]>([]);
   const { user } = useAuth();
-
-  // This is just for the toggleSidebar parameter; in this component we don't actually use it
-  const { shortcuts, getShortcutsByScope } = useKeyboardShortcuts(() => { });
+  
+  // Use the shortcuts context
+  const { getShortcutsByScope } = useShortcuts();
+  const shortcuts = getShortcutsByScope();
 
   // Set of all scopes used in shortcuts
   const scopeSet = new Set<ShortcutScope>(shortcuts.map(shortcut => shortcut.scope));
