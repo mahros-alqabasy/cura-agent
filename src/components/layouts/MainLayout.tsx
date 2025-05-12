@@ -52,7 +52,7 @@ const MainLayout = () => {
 
       {/* Sidebar: Fixed to the left, full height */}
       <div className="sticky top-0 left-0 h-screen z-40 transition-all duration-300 ease-in-out">
-        <Sidebar expanded={sidebarExpanded} setExpanded={() => {}} />
+        <Sidebar expanded={sidebarExpanded} />
       </div>
 
       {/* Content area: margin-left to make room for the fixed sidebar */}
