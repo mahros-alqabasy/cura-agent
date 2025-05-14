@@ -1,9 +1,8 @@
-
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { useAuth } from '@/features/auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { ShortcutScope, Shortcut } from './types';
-import { 
+import {
   getNavigationShortcuts,
   getSidebarShortcuts,
   getFormShortcuts,
@@ -17,6 +16,7 @@ interface ShortcutsContextType {
   handleKeyDown: (e: KeyboardEvent, activeScope?: ShortcutScope) => void;
   shortcuts: Shortcut[];
   getShortcutsByScope: (scope?: ShortcutScope) => Shortcut[];
+  registerShortcuts: (newShortcuts: Shortcut[]) => void;
 }
 
 const ShortcutsContext = createContext<ShortcutsContextType | undefined>(undefined);
@@ -25,7 +25,7 @@ export const ShortcutsProvider: React.FC<{ children: ReactNode }> = ({ children 
   const [sidebarExpanded, setSidebarExpanded] = useState<boolean>(true);
   const navigate = useNavigate();
   const { user } = useAuth();
-  
+
   /**
    * Toggle sidebar expanded state
    */
@@ -55,8 +55,8 @@ export const ShortcutsProvider: React.FC<{ children: ReactNode }> = ({ children 
   const getShortcutsByScope = useCallback((scope?: ShortcutScope): Shortcut[] => {
     const shortcuts = getShortcuts();
     const userRole = user?.role?.toLowerCase() || '';
-    
-    return shortcuts.filter(shortcut => 
+
+    return shortcuts.filter(shortcut =>
       // Filter by role if roles are specified
       (!shortcut.roles || shortcut.roles.includes(userRole)) &&
       // Filter by scope if specified
@@ -69,10 +69,10 @@ export const ShortcutsProvider: React.FC<{ children: ReactNode }> = ({ children 
    */
   const handleKeyDown = useCallback((e: KeyboardEvent, activeScope?: ShortcutScope) => {
     if (!user) return; // Don't process shortcuts if user is not authenticated
-    
+
     // Get shortcuts that match the user's role
     const availableShortcuts = getShortcutsByScope(activeScope);
-    
+
     for (const shortcut of availableShortcuts) {
       // Parse the key combination
       const keyParts = shortcut.key.split('+').map(part => part.trim().toLowerCase());
@@ -80,7 +80,7 @@ export const ShortcutsProvider: React.FC<{ children: ReactNode }> = ({ children 
       const needsCtrl = keyParts.includes('ctrl');
       const needsShift = keyParts.includes('shift');
       const needsAlt = keyParts.includes('alt');
-      
+
       // Check if the pressed combination matches the shortcut
       if (
         e.key.toLowerCase() === key.toLowerCase() &&
@@ -96,7 +96,7 @@ export const ShortcutsProvider: React.FC<{ children: ReactNode }> = ({ children 
         ) {
           continue;
         }
-        
+
         // Execute the shortcut action
         const result = shortcut.action();
         if (result !== false) {
@@ -107,12 +107,19 @@ export const ShortcutsProvider: React.FC<{ children: ReactNode }> = ({ children 
     }
   }, [getShortcutsByScope, user]);
 
+  const registerShortcuts = useCallback((newShortcuts: Shortcut[]) => {
+    // This function can be used to dynamically add shortcuts
+    // For now, it simply logs the shortcuts to the console
+    console.log("Registering shortcuts:", newShortcuts);
+  }, []);
+
   const value = {
     sidebarExpanded,
     toggleSidebar,
     handleKeyDown,
     shortcuts: getShortcutsByScope(),
     getShortcutsByScope,
+    registerShortcuts,
   };
 
   return (

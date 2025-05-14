@@ -1,4 +1,3 @@
-
 import { Shortcut, ShortcutScope } from './types';
 import { NavigateFunction } from 'react-router-dom';
 import { toast } from "sonner";
@@ -84,10 +83,10 @@ export const getSidebarShortcuts = (toggleSidebar: () => void): Shortcut[] => {
       key: 'Ctrl+B',
       description: 'Toggle sidebar collapse/expand',
       action: () => {
-        toggleSidebar();
+        setTimeout(() => toggleSidebar(), 50); // Add a slight delay to prevent rapid toggling
         return true;
       },
-      scope: 'sidebar',
+      scope: 'global',
     },
   ];
 };

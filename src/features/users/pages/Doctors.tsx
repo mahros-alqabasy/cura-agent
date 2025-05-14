@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
-import UserList from "../components/UserList";
-import UserForm from "../components/UserForm";
+import UserList from "@/features/users/components/UserList";
+import UserForm from "@/features/users/components/UserForm";
 
 // Mock data for doctors
 const initialDoctors = [
@@ -55,8 +55,8 @@ const Doctors = () => {
 
   const handleUpdateDoctor = (id: string, doctorData: any) => {
     // In a real application, you would call an API to update the doctor
-    setDoctors(doctors.map(doctor => 
-      doctor.id === id ? {...doctor, ...doctorData} : doctor
+    setDoctors(doctors.map(doctor =>
+      doctor.id === id ? { ...doctor, ...doctorData } : doctor
     ));
   };
 
@@ -108,4 +108,4 @@ const Doctors = () => {
   );
 };
 
-export default Doctors; 
+export default Doctors;

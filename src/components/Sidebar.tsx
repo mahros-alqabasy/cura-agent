@@ -87,7 +87,7 @@ const Sidebar = ({ expanded }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { sidebarExpanded, toggleSidebar } = useShortcuts();
-  
+
   const [openSubmenus, setOpenSubmenus] = useState({});
   const [unreadMessageCount, setUnreadMessageCount] = useState(0);
 
@@ -123,7 +123,7 @@ const Sidebar = ({ expanded }) => {
     if (expanded !== sidebarExpanded) {
       toggleSidebar();
     }
-  }, []);
+  }, [expanded, sidebarExpanded, toggleSidebar]);
 
   // Collapse sidebar on mobile/tablet screen sizes
   useEffect(() => {
@@ -141,7 +141,7 @@ const Sidebar = ({ expanded }) => {
     mediaQuery.addEventListener('change', handleResize);
 
     return () => mediaQuery.removeEventListener('change', handleResize);
-  }, [toggleSidebar, sidebarExpanded]);
+  }, [toggleSidebar]);
 
   return (
     <div className={cn(

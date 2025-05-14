@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import PageLayout from "@/components/PageLayout";
 import { Beaker, Plus, Eye, Pencil, Trash, MoreVertical } from "lucide-react";
@@ -280,130 +279,130 @@ const LabResults = () => {
           </DialogHeader>
 
           <FormProvider {...form}>
-
-
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-2 gap-4">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="patientName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Patient Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter patient name" {...field} />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="patientId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Patient ID</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter patient ID" {...field} />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                   <FormField
                     control={form.control}
-                    name="patientName"
+                    name="testType"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Patient Name</FormLabel>
+                        <FormLabel>Test Type</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter patient name" {...field} />
+                          <Input placeholder="Enter test type" {...field} />
                         </FormControl>
                       </FormItem>
                     )}
                   />
                   <FormField
                     control={form.control}
-                    name="patientId"
+                    name="resultDate"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Patient ID</FormLabel>
+                        <FormLabel>Result Date</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter patient ID" {...field} />
+                          <Input type="date" {...field} />
                         </FormControl>
                       </FormItem>
                     )}
                   />
-                </div>
-                <FormField
-                  control={form.control}
-                  name="testType"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Test Type</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter test type" {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="resultDate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Result Date</FormLabel>
-                      <FormControl>
-                        <Input type="date" {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="result"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Result</FormLabel>
+                          <FormControl>
+                            <select
+                              className="w-full border border-gray-200 rounded-md h-10 px-3"
+                              {...field}
+                            >
+                              <option value="">Select result</option>
+                              <option value="Normal">Normal</option>
+                              <option value="Abnormal">Abnormal</option>
+                              <option value="Inconclusive">Inconclusive</option>
+                            </select>
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="orderedBy"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Ordered By</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter doctor name" {...field} />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                   <FormField
                     control={form.control}
-                    name="result"
+                    name="referenceRange"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Result</FormLabel>
+                        <FormLabel>Reference Range</FormLabel>
                         <FormControl>
-                          <select
-                            className="w-full border border-gray-200 rounded-md h-10 px-3"
+                          <Input placeholder="Enter reference range" {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="notes"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Notes</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Additional notes about the results"
                             {...field}
-                          >
-                            <option value="">Select result</option>
-                            <option value="Normal">Normal</option>
-                            <option value="Abnormal">Abnormal</option>
-                            <option value="Inconclusive">Inconclusive</option>
-                          </select>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="orderedBy"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Ordered By</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter doctor name" {...field} />
+                            className="min-h-[100px]"
+                          />
                         </FormControl>
                       </FormItem>
                     )}
                   />
                 </div>
-                <FormField
-                  control={form.control}
-                  name="referenceRange"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Reference Range</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter reference range" {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="notes"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Notes</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Additional notes about the results"
-                          {...field}
-                          className="min-h-[100px]"
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <DialogFooter>
-                <Button type="button" variant="outline" onClick={() => setIsFormOpen(false)}>
-                  Cancel
-                </Button>
-                <Button type="submit">Save</Button>
-              </DialogFooter>
-            </form>
+                <DialogFooter>
+                  <Button type="button" variant="outline" onClick={() => setIsFormOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button type="submit">Save</Button>
+                </DialogFooter>
+              </form>
+            </Form>
           </FormProvider>
         </DialogContent>
       </Dialog>

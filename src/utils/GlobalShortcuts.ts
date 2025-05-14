@@ -1,30 +1,50 @@
 
+import { toast } from "@/components/ui/sonner";
 import { useEffect } from "react";
-import { useShortcuts } from "./shortcuts/ShortcutsContext";
+import { useNavigate, useLocation } from "react-router-dom";
 
-/**
- * Global keyboard shortcuts handler component
- * This component registers global keyboard event listeners to handle shortcuts
- */
-const GlobalShortcuts = () => {
-    const { handleKeyDown } = useShortcuts();
-    
-    useEffect(() => {
-        // Setup global keyboard event handler
-        const keyboardHandler = (e: KeyboardEvent) => {
-            handleKeyDown(e, 'global');
-        };
-        
-        window.addEventListener("keydown", keyboardHandler);
-        
-        // Clean up event listeners on unmount
-        return () => {
-            window.removeEventListener("keydown", keyboardHandler);
-        };
-    }, [handleKeyDown]);
-    
-    // This component doesn't render anything
-    return null;
-}
+export const useGlobalShortcuts = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-export default GlobalShortcuts;
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Only handle keyboard shortcuts if ctrl/cmd key is pressed
+      if (!(event.ctrlKey || event.metaKey)) {
+        return;
+      }
+
+      // Documentation shortcuts
+      if (event.key === "d") {
+        event.preventDefault();
+        navigate("/docs");
+        toast.success("Navigated to documentation");
+      }
+
+      // Dashboard shortcut
+      if (event.key === "h") {
+        event.preventDefault();
+        navigate("/dashboard");
+        toast.success("Navigated to dashboard");
+      }
+
+      // Search docs shortcut - only when already in docs section
+      if (event.key === "k" && location.pathname.startsWith("/docs")) {
+        event.preventDefault();
+        // In a real app, this would trigger the search UI
+        toast.info("Documentation search activated");
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [navigate, location]);
+};
+
+export const documentationShortcuts = [
+  { key: "Ctrl + D", description: "Navigate to Documentation" },
+  { key: "Ctrl + H", description: "Navigate to Dashboard" },
+  { key: "Ctrl + K", description: "Search Documentation (when in docs section)" },
+];

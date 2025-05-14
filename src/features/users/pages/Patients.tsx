@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
-import UserList from "../components/UserList";
-import UserForm from "../components/UserForm";
+import UserList from "@/features/users/components/UserList";
+import UserForm from "@/features/users/components/UserForm";
 
 // Mock data for patients
 const initialPatients = [
@@ -104,4 +104,4 @@ const Patients = () => {
     );
 };
 
-export default Patients; 
+export default Patients;

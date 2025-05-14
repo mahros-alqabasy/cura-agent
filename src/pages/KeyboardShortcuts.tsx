@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import PageLayout from "@/components/PageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,13 +13,10 @@ const KeyboardShortcuts = () => {
   const { user } = useAuth();
   const { shortcuts, getShortcutsByScope } = useShortcuts();
 
-  // Set of all scopes used in shortcuts
-  const scopeSet = new Set<ShortcutScope>(shortcuts.map(shortcut => shortcut.scope));
-  const scopes = Array.from(scopeSet);
+  const uniqueShortcuts = Array.from(new Map(shortcuts.map(shortcut => [shortcut.key, shortcut])).values());
 
-  // Sort scopes in a logical order
   const sortedScopes: ShortcutScope[] = ['global', 'navigation', 'sidebar', 'form', 'modal', 'page'].filter(
-    scope => scopeSet.has(scope as ShortcutScope)
+    scope => uniqueShortcuts.some(shortcut => shortcut.scope === scope)
   ) as ShortcutScope[];
 
   // For real-time key display feature
@@ -108,11 +104,10 @@ const KeyboardShortcuts = () => {
             )}
 
             {sortedScopes.map((scope) => {
-              const shortcutList = getShortcutsByScope(scope);
-              
-              // Skip empty scopes
+              const shortcutList = uniqueShortcuts.filter(shortcut => shortcut.scope === scope);
+
               if (shortcutList.length === 0) return null;
-              
+
               return (
                 <div key={scope} className="mb-8">
                   <div className="flex items-center gap-2 mb-4">

@@ -1,4 +1,3 @@
-
 # Cura Agent - Medical Dashboard
 
 ## Project Overview
@@ -15,6 +14,26 @@ Cura Agent is a modern medical dashboard application designed for healthcare pro
 - **Responsive Design**: Works seamlessly across desktop and mobile devices
 - **Protected Routes**: Secure access to authorized areas only
 - **Professional UI**: Clean, modern interface designed specifically for healthcare contexts
+
+### Appointments
+- Schedule new appointments.
+- View and edit existing appointments.
+- Filter appointments by date, patient, or status.
+
+### Prescriptions
+- Create and manage prescriptions.
+- View detailed prescription information.
+- Search and filter prescriptions.
+
+### Patient Records
+- Maintain comprehensive patient profiles.
+- Add, edit, and delete patient information.
+
+### Keyboard Shortcuts
+- Quickly navigate and perform actions using shortcuts.
+- Fully customizable via the `ShortcutManager` component.
+
+---
 
 ## Technology Stack
 
@@ -89,9 +108,65 @@ This project is configured for deployment to GitHub Pages. The router uses a bas
 npm run build
 ```
 
+## Theming and Styling
+
+### Tailwind CSS
+- Tailwind CSS is used for styling.
+- Custom themes are defined in `tailwind.config.ts`.
+
+### Custom Components
+- Reusable components are located in `src/components/ui/`.
+- Follow the existing structure for consistency.
+
+---
+
+## Keyboard Shortcuts
+
+| Shortcut | Action                  |
+|----------|-------------------------|
+| Ctrl + B | Toggle Sidebar          |
+| Ctrl + N | Create New Appointment  |
+| Ctrl + P | Open Prescriptions Page |
+
+---
+
+## API Documentation
+
+### Endpoints
+- **GET /appointments**: Fetch all appointments.
+- **POST /appointments**: Create a new appointment.
+- **GET /prescriptions**: Fetch all prescriptions.
+- **POST /prescriptions**: Create a new prescription.
+
+### Example Request
+```bash
+curl -X POST http://localhost:3000/api/appointments \
+  -H 'Content-Type: application/json' \
+  -d '{ "patientName": "John Doe", "date": "2025-05-10" }'
+```
+
+---
+
+## Troubleshooting
+
+### Common Issues
+- **App not starting**: Ensure all dependencies are installed and the correct Node.js version is used.
+- **Styling issues**: Check the Tailwind CSS configuration.
+
+---
+
+## Contributing
+
+### Guidelines
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix.
+3. Submit a pull request with a detailed description.
+
+---
+
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License. See the `LICENSE` file for details.
 
 ## Authors
 

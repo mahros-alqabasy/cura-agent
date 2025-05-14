@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
-import UserList from "../components/UserList";
-import UserForm from "../components/UserForm";
+import UserList from "@/features/users/components/UserList";
+import UserForm from "@/features/users/components/UserForm";
 
 // Mock data for receptionists
 const initialReceptionists = [
@@ -52,8 +52,8 @@ const Receptionists = () => {
 
   const handleUpdateReceptionist = (id: string, receptionistData: any) => {
     // In a real application, you would call an API to update the receptionist
-    setReceptionists(receptionists.map(receptionist => 
-      receptionist.id === id ? {...receptionist, ...receptionistData} : receptionist
+    setReceptionists(receptionists.map(receptionist =>
+      receptionist.id === id ? { ...receptionist, ...receptionistData } : receptionist
     ));
   };
 
@@ -104,4 +104,4 @@ const Receptionists = () => {
   );
 };
 
-export default Receptionists; 
+export default Receptionists;

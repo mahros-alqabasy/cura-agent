@@ -150,7 +150,7 @@ const Landing = () => {
               </p>
               <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                 <Button size="lg" asChild>
-                  <Link to="/register">Get Started</Link>
+                  <Link to="/docs">Get Started</Link>
                 </Button>
                 <Button
                   size="lg"

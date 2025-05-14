@@ -48,46 +48,19 @@ const MOCK_USERS = [
     }
 ];
 
-// Mock auth service
+import mockApi from "@/lib/mockApi";
+
+// Extend mockAuthService to use mockApi for authentication
 export const mockAuthService = {
-    login: async (credential: string, password: string, method: LoginMethod = 'email') => {
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 800));
+    login: async (credential: string, password: string, method: LoginMethod = "email") => {
+        // Use mockApi's authenticate method
+        const response = await mockApi.authenticate(credential, password, method);
 
-        let user;
+        // Store tokens and user data in localStorage
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("user", JSON.stringify({ credential, method }));
 
-        // Find user based on provided credential type
-        switch (method) {
-            case 'email':
-                user = MOCK_USERS.find(u => u.email === credential);
-                break;
-            case 'nationalId':
-                user = MOCK_USERS.find(u => u.nationalId === credential);
-                break;
-            case 'phone':
-                user = MOCK_USERS.find(u => u.phone === credential);
-                break;
-            default:
-                throw new Error("Invalid authentication method");
-        }
-
-        if (!user || user.password !== password) {
-            throw new Error("Invalid credentials");
-        }
-
-        // Remove password from returned user object
-        const { password: _, ...userWithoutPassword } = user;
-
-        // Store in localStorage to persist login
-        localStorage.setItem('token', 'mock-jwt-token');
-        localStorage.setItem('refreshToken', 'mock-refresh-token');
-        localStorage.setItem('user', JSON.stringify(userWithoutPassword));
-
-        return {
-            access: 'mock-jwt-token',
-            refresh: 'mock-refresh-token',
-            user: userWithoutPassword
-        };
+        return response;
     },
 
     register: async (userData: any) => {
@@ -104,21 +77,16 @@ export const mockAuthService = {
     },
 
     logout: async () => {
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
+        // Clear localStorage
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
 
         return { success: true };
     },
 
     getCurrentUser: async () => {
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 700));
-
-        const storedUser = localStorage.getItem('user');
+        // Retrieve user data from localStorage
+        const storedUser = localStorage.getItem("user");
         if (!storedUser) {
             throw new Error("User not found");
         }
@@ -137,4 +105,4 @@ export const mockAuthService = {
 
         return { valid: true };
     }
-}; 
+};
